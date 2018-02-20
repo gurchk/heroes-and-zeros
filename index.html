@@ -3,6 +3,7 @@
 <html>
 <head>
   <title>Heroes And Zeroes</title>
+  <meta charset="utf-8">
   <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
   <script>
     // Initialize Firebase
@@ -16,8 +17,11 @@
     };
     firebase.initializeApp(config);
   </script>
+  <script src="js/auth.js"></script>
 </head>
 <body>
-  <button id="loginFacebook">Login With Facebook</button>
+  <button id="btnSignInFacebook">Sign In With Facebook</button>
+  <button id="btnSignOut" disabled="true">Sign Out</button>
+  <div id ="displayCurrentUser"></div>
 </body>
 </html>
