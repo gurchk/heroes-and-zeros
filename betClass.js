@@ -6,7 +6,7 @@ class Bet {
     this.endTime = endTime; // Visual time only
     this.lastBetTime = lastBetTime;
   }
-  startTimer(seconds = this.lastBetTime, container = "") { // Add container of bet
+  startTimer(seconds = this.lastBetTime, container = "") { // Add container of bet time
     var now, m, s, startTime, timer, obj, ms = seconds * 1000,
       display = document.getElementById(container);
     obj = {};
@@ -29,12 +29,23 @@ class Bet {
     obj.resume();
     return obj;
   }
+  join(){
+    // Joins the bet, deposits credits...
+    // Once joined one cannot simply leav.
+  }
+  remove(){
+    // Removes the whole bet and returns bettings.
+    // Cant be done after lastBetTime is set.
+  }
   onComplete(){
     // Play some cool sound
+    // var audio = new Audio('audio_file.mp3');
+    // audio.play();
+
     // Calculate the winner
     // Update some statistics
     // Set player points
-    // Draw palyer points
+    // Draw player points
   }
 }
 // let myNewBet = new Bet(title, description, points, endTime, lastBetTime);
