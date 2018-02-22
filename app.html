@@ -4,7 +4,7 @@
   <title>Heroes And Zeroes</title>
   <meta charset="utf-8">
   <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
-  <script src="js/login.js"></script>
+  <script src="js/auth.js"></script>
 </head>
 <body>
   <script>
@@ -25,6 +25,7 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-  <button id="btnSignInFacebook">Sign In With Facebook</button>
+  <div id ="displayCurrentUser"></div>
+  <button id="btnSignOut">Sign Out</button>
 </body>
 </html>

@@ -1,61 +1,47 @@
 window.addEventListener("load", () => {
   
-  //variable declaration
-  let providerFb = new firebase.auth.FacebookAuthProvider();
-  let btnSignInFacebook = document.getElementById("btnSignInFacebook");
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyD46CxE-8uJDebx5ErANO9SOMOGuTxZiVQ",
+    authDomain: "heroesand0s.firebaseapp.com",
+    databaseURL: "https://heroesand0s.firebaseio.com",
+    projectId: "heroesand0s",
+    storageBucket: "heroesand0s.appspot.com",
+    messagingSenderId: "146002108416"
+  };
+  firebase.initializeApp(config);
+  
+  
+  //Variable declaration
   let btnSignOut = document.getElementById("btnSignOut");
   let displayCurrentUser = document.getElementById("displayCurrentUser");
-  var user;
-  
-  btnSignInFacebook.addEventListener("click", popUp => {          
-    firebase.auth().signInWithPopup(providerFb).then( result => {            
-      
-      //disable login, enable logout
-      btnSignInFacebook.disabled = true;
-      btnSignOut.disabled = false;
-      
-      //show div
-      //displayCurrentUser.style.display = "block";
-      
-      //store user data
-      user = result.user;
 
-      //add h3 
-      let h3UserName = document.createElement("h3");
-      h3UserName.innerHTML = "Signed in as: " + user.displayName;
-      displayCurrentUser.appendChild(h3UserName);
+  firebase.auth().onAuthStateChanged( user => {
+    if (user) {
+      //User is signed in.  
+      
+      //Add h3 
+      let h3DisplayName = document.createElement("h3");
+      h3DisplayName.innerHTML = "Signed in as: " + user.displayName;
+      h3DisplayName.id="h3UserName";
+      displayCurrentUser.appendChild(h3DisplayName);
 
-      //add img
+      //Add img
       let imgUserPhoto = document.createElement("img");
       imgUserPhoto.setAttribute("src", user.photoURL);
+      imgUserPhoto.id="imgUserPhoto";
       displayCurrentUser.appendChild(imgUserPhoto);
-
-      console.log("Sign in success!");
-    }).catch( fail => {
-      console.log("Sign in failed");
-    })
+    } else {
+      //User is signed out.
+      location.href = "index.html";
+    }
   });
-
+  
   btnSignOut.addEventListener("click", outlog => {
     firebase.auth().signOut().then( result => {
-      
-      //enable login and disable logout
-      btnSignInFacebook.disabled = false;
-      btnSignOut.disabled = true;
-      
-      //remove userdata by setting to null
-      user = null;
-      
-      //hide div 
-      //displayCurrentUser.style.display = "none";
-      
-      //remove h3UserName and imgUserPhoto
-      displayCurrentUser.removeChild(document.getElementsByTagName("h3")[0])
-      displayCurrentUser.removeChild(document.getElementsByTagName("img")[0])
-
       console.log("Sign out success!");
-    }).catch( err => {
+    }).catch( fail => {
       console.log("Sign out failed");
     })        
-  });   
+  });
 });
