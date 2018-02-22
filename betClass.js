@@ -1,10 +1,12 @@
 class Bet {
-  constructor(title, description, points, endTime, lastBetTime){
+  constructor(title, description, points, endTime, lastBetTime, optionsObj){
     this.title = title;
     this.description = description;
     this.points = points;
     this.endTime = endTime; // Visual time only
     this.lastBetTime = lastBetTime;
+    this.creator = null; // Get the person who created it
+    this.options = optionsObj
   }
   startTimer(seconds = this.lastBetTime, container = "") { // Add container of bet time
     var now, m, s, startTime, timer, obj, ms = seconds * 1000,
@@ -48,4 +50,4 @@ class Bet {
     // Draw player points
   }
 }
-// let myNewBet = new Bet(title, description, points, endTime, lastBetTime);
+// let myNewBet = new Bet(title, description, points, endTime, lastBetTime, optionsObj);
