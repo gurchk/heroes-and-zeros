@@ -1,9 +1,10 @@
+
 class Bet {
   constructor(title, description, points, endTime, lastBetTime, optionsObj){
     this.title = title;
     this.description = description;
     this.points = points;
-    this.endTime = endTime; // Visual time only
+    this.endTi = endTime; // Visual time only
     this.lastBetTime = lastBetTime;
     this.creator = null; // Get the person who created it
     this.options = optionsObj
@@ -51,3 +52,4 @@ class Bet {
   }
 }
 // let myNewBet = new Bet(title, description, points, endTime, lastBetTime, optionsObj);
+console.log("Loaded");

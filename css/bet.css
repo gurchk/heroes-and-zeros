@@ -1,57 +1,84 @@
-
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
-.acme {
-  font-family: 'Acme', sans-serif;
-}
+
 .text-dark {
   color: #3b3b3b;
   font-family: 'Roboto', sans-serif;
+  position: relative;
 }
+
 .text-light {
   color: #8b8b8b;
   font-family: 'Roboto', sans-serif;
+  position: relative;
 }
+
 .size-24 {
   font-size: 24px;
 }
+
 .size-14 {
   font-size: 14px;
 }
 
-
-/* Specific classes */
-.bet {
- box-shadow: -1px 4px 3px 1px #d6d6d6;
-   width: 344px;
-   margin-left: 100px; /* Temp */
-   margin-top: 40px; /* Temp */
-   border: 0;
+.acme {
+  font-family: 'Acme', sans-serif;
+  font-weight: 400;
 }
+
+.relative-wrapper {
+  position: relative;
+}
+
+.material-icons {
+  color: #3b3b3b;
+}
+.mdc-button {
+  text-transform: uppercase;
+  color: #3b3b3b;
+}
+/* Specific classes */
+
+.bet {
+  box-shadow: -1px 4px 3px 1px #d6d6d6;
+  width: 344px;
+  margin-left: 100px;
+  /* Temp */
+  margin-top: 40px;
+  /* Temp */
+  border: 0;
+}
+
 .alternative {
   height: 55px;
   width: 100%;
   position: relative;
   background-color: #ebebeb;
 }
-.alternative:nth-child(even){
+
+.alternative:nth-child(even) {
   background-color: #d6d6d6;
 }
+
 .bet-top {
   height: 79px;
   width: 100%;
   background-color: #f9f9f9;
   position: relative;
 }
-.bet-top > .inf { /* Title and created by ... */
+
+.bet-top>.inf {
+  /* Title and created by ... */
   position: absolute;
   top: 22px;
   left: 70px;
 }
-.bet-top > p { /* End date ... */
+
+.bet-top>p {
+  /* End date ... */
   position: absolute;
   bottom: 4px;
   right: 4px;
@@ -62,17 +89,58 @@
   width: 100%;
   position: relative;
 }
+
 .bet-bottom {
   background-color: #f9f9f9;
   width: 100%;
   position: relative;
   min-height: 139px;
+  padding: 4px;
 }
-.bet-bottom > p { /* Betting closes in ... */
+
+.peeps {
   position: absolute;
-  bottom: 4px;
+  right: 4px;
+  top: 4px;
+}
+
+.peeps p {
+  position: absolute;
+  right: 26px;
+  top: 1px;
+}
+
+.peeps i {
+  position: absolute;
+  right: 0;
+}
+
+.bet-bottom>p {
+  /* Betting closes in ... */
+  position: absolute;
+  bottom: 0px;
   left: 4px;
 }
-.userImage {
 
+.bet-bottom>.inf>h1 {
+  /* Bet title */
+  position: relative;
+  max-width: 290px;
+  font-weight: 500;
 }
+.bet-bottom>.inf>div *{
+  /* Coin and icon */
+  display: inline-block;
+}
+.bet-bottom>.inf>div i {
+/* HQ icon in bet */
+  position: absolute;
+  top: -1px;
+  color: #ff5d55;
+}
+.bet-bottom>.buts {
+  position: absolute;
+  bottom: 12px;
+  right: 4px;
+}
+.userImage {}
