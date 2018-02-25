@@ -1,6 +1,12 @@
+window.addEventListener('load', function() {
+  var btns = document.querySelectorAll('.mdc-button');
+  for (var i = 0, btn; btn = btns[i]; i++) {
+    mdc.ripple.MDCRipple.attachTo(btn);
+  }
+});
 
 class Bet {
-  constructor(title, description, points, endTime, lastBetTime, optionsObj){
+  constructor(title, description, points, endTime, lastBetTime, optionsObj) {
     this.title = title;
     this.description = description;
     this.points = points;
@@ -32,15 +38,15 @@ class Bet {
     obj.resume();
     return obj;
   }
-  join(){
+  join() {
     // Joins the bet, deposits credits...
     // Once joined one cannot simply leav.
   }
-  remove(){
+  remove() {
     // Removes the whole bet and returns bettings.
     // Cant be done after lastBetTime is set.
   }
-  onComplete(){
+  onComplete() {
     // Play some cool sound
     // var audio = new Audio('audio_file.mp3');
     // audio.play();

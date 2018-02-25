@@ -38,7 +38,10 @@
 }
 .mdc-button {
   text-transform: uppercase;
-  color: #3b3b3b;
+  --mdc-theme-primary: #3b3b3b;
+}
+.activeBtn {
+  color: #ff5d55 !important;
 }
 /* Specific classes */
 
