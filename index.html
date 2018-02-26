@@ -1,35 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Heroes And Zeroes</title>
-  <meta charset="utf-8">
-  <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
-  <script src="js/auth.js"></script>
+    <title>Heroes And Zeroes</title>
+    <meta charset="utf-8">
+    <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
+    <script src="js/auth.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId            : '221780665034112',
-      autoLogAppEvents : true,
-      xfbml            : true,
-      version          : 'v2.12'
-    });
-  };
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+            appId            : '221780665034112',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v2.12'
+            });
+        };
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
-  <div id="loginDiv">
-    <button id="btnSignInFacebook">Sign In With Facebook</button>
-  </div>
-  <div id ="displayCurrentUser">
-    <button id="btnSignOut">Sign Out</button>
-  </div>
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
+    <div class="loginWrapper">
+        <div class="signUpWrapper">
+            <div class="becomeAnAddict">
+                <h2 class="header">Become a betting addict</h2>
+                <p class="subHeader">Get a start bonus of 5.000 Hero Qoins</p>
+                <div class="addictParagraph">
+                    <p>This is very addicting, you will never be able to escape. One click today might change your world, 
+                    probably not to the better. but if you are one of the lucky one percent who actually manage to make an 
+                    income out of this shit, gz!
+                    </p>
+                </div>
+                <button id="signIn">Bet with your friends now</button>
+                <!--<div class="triangleWrapper">
+                    <div class="triangle-down"></div>
+                </div>-->
+            </div>
+            <div class="howToPlay">
+                <div class="triangle-down"></div>
+                <div class="item">
+                    <h2 class="htpText">1</h2>
+                    <p class="htpText">Sign in</p>
+                    <p class="htpText">The first thing you're going to need to do is sign in. Simply click the button above and choose your prefered sign-in provider.
+                    </p>
+                </div>
+                <div class="item">
+                    <h2 class="htpText">2</h2>
+                    <p class="htpText">Place bet</p>
+                    <p class="htpText">After you have signed in, it's easy as a cake. All you have to do is find a bet you think you know the outcome to, and place a bet!
+                    </p>
+                </div>
+                <div class="item">
+                    <h2 class="htpText">3</h2>
+                    <p class="htpText">Get rich</p>
+                    <p class="htpText">Now just wait, and then reap your rewards! It's as easy as that, 1-2-3.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cover hidden"></div>
+        <div class="loginModal hidden">
+            <h3>Sign in through Facebook</h2>
+            <p>Facebook is our most popular login option. Other options are available if you choose.</p>
+            <button id="signInWithRedirectFB">Sign in with facebook</button>      
+        </div>
+    </div>
+
+    <div class="contentWrapper hidden">
+        <div class="header">
+            <p>You are signed in.</p>
+        </div>
+
+        <div id ="displayCurrentUser">
+            <button id="btnSignOut">Sign Out</button>
+        </div>
+    </div>
 </body>
 </html>
