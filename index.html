@@ -3,9 +3,9 @@
 <head>
     <title>Heroes And Zeroes</title>
     <meta charset="utf-8">
-    <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
     <script src="js/auth.js"></script>
-
+    
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
 
@@ -31,24 +31,21 @@
             js.src = "https://connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-    </script>
+    </script>-
 
 
-    <div class="loginWrapper">
+    <div id="loginWrapper" class="loginWrapper hidden">
         <div class="signUpWrapper">
             <div class="becomeAnAddict">
                 <h2 class="header">Become a betting addict</h2>
-                <p class="subHeader">Get a start bonus of 5.000 Hero Qoins</p>
+                <p class="subHeader">Get a starting bonus of 5.000 Hero Qoins</p>
                 <div class="addictParagraph">
                     <p>This is very addicting, you will never be able to escape. One click today might change your world, 
                     probably not to the better. but if you are one of the lucky one percent who actually manage to make an 
                     income out of this shit, gz!
                     </p>
                 </div>
-                <button id="signIn">Bet with your friends now</button>
-                <!--<div class="triangleWrapper">
-                    <div class="triangle-down"></div>
-                </div>-->
+                <button id="openModalBtn">Start Betting</button>
             </div>
             <div class="howToPlay">
                 <div class="triangle-down"></div>
@@ -73,21 +70,32 @@
             </div>
         </div>
 
-        <div class="cover hidden"></div>
-        <div class="loginModal hidden">
+        <div id="cover" class="cover hidden"></div>
+        <div id="loginModal" class="loginModal hidden">
             <h3>Sign in through Facebook</h2>
             <p>Facebook is our most popular login option. Other options are available if you choose.</p>
-            <button id="signInWithRedirectFB">Sign in with facebook</button>      
+            <button id="btnSignInWithRedirectFB">Sign In</button>      
         </div>
     </div>
 
-    <div class="contentWrapper hidden">
-        <div class="header">
-            <p>You are signed in.</p>
-        </div>
-
-        <div id ="displayCurrentUser">
-            <button id="btnSignOut">Sign Out</button>
+    <div id="contentWrapper" class="contentWrapper">
+        <div class="userArea">
+            <div class="profile">
+                <div class="avatarWrapper">
+                    <img id="avatar" class="avatar" alt="Avatar" src="images/avatar.png" />
+                </div>
+                <div class="userInfo">
+                    <div class="userWrapper">
+                        <p id="user" class="user">Welcome, <span id="username" class="username"></span></p>
+                    </div>
+                    <div class="coinWrapper">
+                        <p id="coins" class="coins"></p>
+                    </div>
+                </div>
+                <div class="signOut">
+                    <a id="btnSignOut" class="btnSignOut" href="">Sign Out</a>
+                </div>
+            </div>
         </div>
     </div>
 </body>

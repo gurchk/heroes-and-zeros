@@ -31,6 +31,15 @@ p {
     color: #8b8b8b;
 }
 
+a {
+    color: #aedd94;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #94ddb9;
+}
+
 .loginWrapper {
     background: rgb(220, 220, 220);
     bottom: 0;
@@ -46,36 +55,6 @@ p {
     border-image: linear-gradient(45deg,#aedd94, #94ddb9) 1 round;
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-@media screen and (min-width: 1080px) {  
-    .signUpWrapper {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 60%;
-    }
-
-    .howToPlay .item {
-        flex: 0 0 30% !IMPORTANT;
-    }
-
-    .loginWrapper {
-        background: url(../images/bg.png);
-        background-position: center;
-        background-size: cover;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        top: 0;
-        overflow: auto;
-        position: fixed;
-    }
-
-    .loginModal {
-        width: 80%;
-    }
 }
 
 .triangle-down {
@@ -154,19 +133,19 @@ p {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border-top: 3px solid;
-    border-image: linear-gradient(45deg,#aedd94, #94ddb9) 1 round;
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     background: white; 
-    width: 40%;
     padding: 2em;
+    min-width: 50%;
 
-    z-index: 1001;
+    z-index: 1005;
 }
 
 .loginModal h3 {
     margin-bottom: 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 button {
@@ -192,4 +171,84 @@ button:hover {
     transform: translateY(-1px);
     background: linear-gradient(45deg, #c7ffaa, #aaffd4);
     cursor: pointer;
+}
+
+.contentWrapper {
+    width: 80%;
+    margin-left: 10%;
+}
+
+@media screen and (min-width: 1080px) {  
+    .signUpWrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60%;
+    }
+
+    .howToPlay .item {
+        flex: 0 0 30% !IMPORTANT;
+    }
+
+    .loginWrapper {
+        background: url(../images/bg.png);
+        background-position: center;
+        background-size: cover;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        overflow: auto;
+        position: fixed;
+    }
+
+    .loginModal {
+        min-width: 0%;
+    }
+}
+
+.userArea {
+    width: 300px;
+    padding: 2em;
+    background: rgb(231, 231, 231);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    border-top: 3px solid;
+    border-image: linear-gradient(45deg,#aedd94, #94ddb9) 1 round;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
+}
+
+.username {
+    color: #aedd94;
+}
+
+.coins {
+    color: #aedd94;
+}
+
+.avatarWrapper {
+    flex: 0 0 auto;
+}
+
+.userInfo {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.profile {
+    display: flex;
+    flex-direction: row;
+}
+
+.signOut {
+    margin-left: 20px;
+    align-self: center;
 }
