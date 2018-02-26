@@ -1,6 +1,10 @@
 window.addEventListener('load', function() {
-  var btns = document.querySelectorAll('.mdc-button');
-  for (var i = 0, btn; btn = btns[i]; i++) {
+  let btns = document.querySelectorAll('.mdc-button');
+  let fabs = document.querySelectorAll('.mdc-fab');
+  for (let i = 0, btn; btn = btns[i]; i++) {
+    mdc.ripple.MDCRipple.attachTo(btn);
+  }
+  for (let i = 0, btn; btn = fabs[i]; i++) {
     mdc.ripple.MDCRipple.attachTo(btn);
   }
 });

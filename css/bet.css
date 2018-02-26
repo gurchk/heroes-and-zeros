@@ -23,14 +23,29 @@
 .size-14 {
   font-size: 14px;
 }
-
+.w700 {
+  font-weight: 700;
+}
 .acme {
   font-family: 'Acme', sans-serif;
   font-weight: 400;
 }
-
+/*#ff5d55*/
 .relative-wrapper {
   position: relative;
+}
+.mdc-fab {
+  background-color: #aedd94;
+  position: absolute;
+  right: 13px;
+  top: 12px;
+}
+.mdc-fab--mini {
+  width: 30px;
+  height: 30px;
+}
+.mdc-fab__icon{
+  color: #3b3b3b;
 }
 
 .material-icons {
@@ -61,7 +76,16 @@
   position: relative;
   background-color: #ebebeb;
 }
-
+.alternative > span{
+  /* Alternative number */
+  position: absolute;
+  left: 13px;
+  top: 13px;
+}
+.alternative > p {
+  top: 19px;
+  left: 69px;
+}
 .alternative:nth-child(even) {
   background-color: #d6d6d6;
 }
