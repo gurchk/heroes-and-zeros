@@ -13,6 +13,7 @@ window.addEventListener("load", () => {
   
   
   //Variable declaration
+  const db = firebase.database();
   let providerFb = new firebase.auth.FacebookAuthProvider();
   let btnSignInFacebook = document.getElementById("btnSignInFacebook");
   let loginDiv = document.getElementById("loginDiv");
@@ -39,6 +40,23 @@ window.addEventListener("load", () => {
       imgUserPhoto.setAttribute("src", user.photoURL);
       imgUserPhoto.id="imgUserPhoto";
       displayCurrentUser.appendChild(imgUserPhoto);
+
+      db.ref("users/").orderByKey().once("value", snap => { 
+         
+        //if user.uid does not exist in db/users 
+        if (snap.val()[user.uid] == undefined) {
+         //add the user to the db
+         console.log("user not found, adding user to database...")
+         db.ref("users/").child(user.uid).set({
+           displayImage: user.photoURL,
+           email: user.email,
+           name: user.displayName
+         })
+        } else {
+         console.log("user already exists");
+        } 
+      });
+  
     } else {
       //User is signed out.
       loginDiv.style.display = "block";
