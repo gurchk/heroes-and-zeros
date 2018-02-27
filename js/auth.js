@@ -11,7 +11,6 @@ window.addEventListener("load", () => {
   };
   firebase.initializeApp(config);
   
-  
   //Variable declaration
   const db = firebase.database();
   let providerFb = new firebase.auth.FacebookAuthProvider();
@@ -21,52 +20,48 @@ window.addEventListener("load", () => {
   let displayCurrentUser = document.getElementById("displayCurrentUser");
 
   //When user is logged in or logged out
-  firebase.auth().onAuthStateChanged( user => {
-    if (user) {
-      //User is signed in.
-      loginDiv.style.display = "none";
-      
-      //TODO: show rest of page, add this when adding the html structure
-      displayCurrentUser.style = "block";
-      
-      //Add h3 
+  firebase.auth().onAuthStateChanged(user => {
+    //create the tags used in the displayCurrentUser div, the name and img properties varies if its the first time the user logs in, or they logged in before. 
+    let createDisplayTags = (userToDisplay, nameProp, imgProp) => {
+      //Create h3 
       let h3DisplayName = document.createElement("h3");
-      h3DisplayName.innerHTML = "Signed in as: " + user.displayName;
+      h3DisplayName.innerHTML = userToDisplay[nameProp];
       h3DisplayName.id="h3DisplayName";
       displayCurrentUser.appendChild(h3DisplayName);
-
+      
       //Add img
       let imgUserPhoto = document.createElement("img");
-      imgUserPhoto.setAttribute("src", user.photoURL);
+      imgUserPhoto.setAttribute("src", userToDisplay[imgProp]);
       imgUserPhoto.id="imgUserPhoto";
       displayCurrentUser.appendChild(imgUserPhoto);
-
+    };
+    
+    if (user) {
+      //user is signed in
       db.ref("users/").orderByKey().once("value", snap => { 
-         
         //if user.uid does not exist in db/users 
         if (snap.val()[user.uid] == undefined) {
-         //add the user to the db
-         console.log("user not found, adding user to database...")
-         db.ref("users/").child(user.uid).set({
-           displayImage: user.photoURL,
-           email: user.email,
-           name: user.displayName
-         })
+          //add the user to the db
+          console.log("user not found, adding user to database...")
+          db.ref("users/").child(user.uid).set({
+            displayImage: user.photoURL,
+            email: user.email,
+            name: user.displayName
+          });
+          createDisplayTags(user, "displayName", "photoURL")
         } else {
-         console.log("user already exists");
-        } 
+          console.log("user already exists");
+          createDisplayTags(snap.val()[user.uid], "name", "displayImage");   
+        }
       });
-  
     } else {
-      //User is signed out.
-      loginDiv.style.display = "block";
-      
-      displayCurrentUser.removeChild(document.getElementById("h3DisplayName"));
-      displayCurrentUser.removeChild(document.getElementById("imgUserPhoto"));
-      
-      //TODO hide rest of page, add this when adding the html structure
-      displayCurrentUser.style.display = "none";
-
+      //user is signed out
+      //If the displayCurrentUser div isn´t empty
+      if (displayCurrentUser.firstElementChild != null) {
+        //remove the displayTags
+        displayCurrentUser.removeChild(document.getElementById("h3DisplayName"));
+        displayCurrentUser.removeChild(document.getElementById("imgUserPhoto"));
+      }
     }
   });
   
