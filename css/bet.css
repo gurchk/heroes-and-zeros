@@ -23,50 +23,72 @@
 .size-14 {
   font-size: 14px;
 }
+
 .w700 {
   font-weight: 700;
 }
+
 .acme {
   font-family: 'Acme', sans-serif;
   font-weight: 400;
 }
+
 /*#ff5d55*/
+
 .relative-wrapper {
   position: relative;
 }
+
 .mdc-fab {
   background-color: #aedd94;
   position: absolute;
   right: 13px;
   top: 12px;
 }
+
 .mdc-fab--mini {
   width: 30px;
   height: 30px;
 }
-.mdc-fab__icon{
+
+.mdc-fab__icon {
   color: #3b3b3b;
 }
 
 .material-icons {
   color: #3b3b3b;
 }
+
 .mdc-button {
   text-transform: uppercase;
   --mdc-theme-primary: #3b3b3b;
 }
+
 .activeBtn {
   color: #ff5d55 !important;
 }
+
+.selected {
+  box-shadow: 7px 0 1px 0 #ff5d55;
+  z-index: 1;
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  width: 80%;
+  grid-gap: 37px;
+  margin: 0 auto;
+  grid-template-columns: repeat(4, 1fr);
+}
+
 /* Specific classes */
 
 .bet {
   box-shadow: -1px 4px 3px 1px #d6d6d6;
   width: 344px;
-  margin-left: 100px;
-  /* Temp */
-  margin-top: 40px;
-  /* Temp */
+  justify-self: center;
+  display: inline-block;
   border: 0;
 }
 
@@ -76,16 +98,19 @@
   position: relative;
   background-color: #ebebeb;
 }
-.alternative > span{
+
+.alternative>span {
   /* Alternative number */
   position: absolute;
   left: 13px;
   top: 13px;
 }
-.alternative > p {
+
+.alternative>p {
   top: 19px;
   left: 69px;
 }
+
 .alternative:nth-child(even) {
   background-color: #d6d6d6;
 }
@@ -155,19 +180,28 @@
   max-width: 290px;
   font-weight: 500;
 }
-.bet-bottom>.inf>div *{
+
+.bet-bottom>.inf>div * {
   /* Coin and icon */
   display: inline-block;
 }
+
 .bet-bottom>.inf>div i {
-/* HQ icon in bet */
+  /* HQ icon in bet */
   position: absolute;
   top: -1px;
   color: #ff5d55;
 }
+
 .bet-bottom>.buts {
   position: absolute;
   bottom: 12px;
   right: 4px;
 }
+
 .userImage {}
+@media screen and (max-width: 1502px) {
+  .bet {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
