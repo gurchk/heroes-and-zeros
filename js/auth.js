@@ -69,8 +69,7 @@ window.addEventListener("load", () => {
   firebase.auth().getRedirectResult().then(result => {            
     if (result.credential) {
       console.log("Sign in success!");
-    }     
-      
+    }       
     }).catch(fail => {
       console.log("Sign in failed");
     });
