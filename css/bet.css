@@ -111,8 +111,18 @@
   left: 69px;
 }
 
+/*funkar ej med labels då html strukturen är ändrad*/
 .alternative:nth-child(even) {
   background-color: #d6d6d6;
+}
+
+input[class=radioOption] {
+  display: none;
+}
+
+input[class=radioOption]:checked ~ .alternative {
+  /*Mitt försök till att härma bordern som är i mockupen, vilket är ganska fail, ändra gärna*/
+  box-shadow: 2px 2px 5px  #ff5d55 inset, -2px -2px 5px #ff5d55 inset;
 }
 
 .bet-top {
