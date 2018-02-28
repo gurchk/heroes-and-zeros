@@ -96,7 +96,7 @@ class Bet {
           </button>
         </div>
         <p class="size-14 text-light">
-          Betting closes in: ${this.lastBetTime}
+          Betting closes in: ${this.last}
         </p>
       </div>`
     mainTag.appendChild(betDiv);
