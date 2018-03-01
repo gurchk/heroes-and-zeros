@@ -32,9 +32,6 @@ window.onload = function() {
               name: user.displayName,
               displayImage: user.photoURL
             };
-            //User is signed in. Hide login page and show the rest of the page.
-            loginWrapper.classList.add("hidden");
-            contentWrapper.classList.remove("hidden");
 
             db.ref("users/" + user.uid).once("value", snapshot => {
                 if(!snapshot.val()) {
@@ -59,38 +56,35 @@ window.onload = function() {
 
                     fetch("https://hooks.slack.com/services/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", { method: "POST", body: JSON.stringify(data) });
 
-                    document.getElementById("username").innerText = user.displayName;
-                    document.getElementById("avatar").setAttribute("src", user.photoURL);
-                    document.getElementById("coins").innerText = "5000";
+                    //User is signed in. Hide login page and show the rest of the page.
+                    updateUI(user.displayName, user.photoURL, "5000");
                 }
                 else {
                     // User exists in database
                     db.ref("users/" + user.uid).once("value", snapshot => {
                         let data = snapshot.val();
 
-                        document.getElementById("username").innerText = data.name;
-                        document.getElementById("avatar").setAttribute("src", data.displayImage);
-                        document.getElementById("coins").innerText = data.coins;
+                        //User is signed in. Hide login page and show the rest of the page.
+                        updateUI(data.name, data.displayImage, data.coins);
                     });
                 }
-
-                loginFinished();
             });
         } else {
             //User is signed out.
             loginWrapper.classList.remove("hidden");
             contentWrapper.classList.add("hidden");
+            showLoadingScreen();
         }
     });
 
-    firebase.auth().getRedirectResult()
+    /*firebase.auth().getRedirectResult()
     .then(result => {
         if (result.credential) {
             console.log("Sign in success!");
         }
     }).catch(err => {
         console.log("Sign in failed, error: ", err.message);
-    });
+    });*/
 
     btnSignInWithRedirectFB.addEventListener("click", () => {
         firebase.auth().signInWithRedirect(facebookProvider);
@@ -103,7 +97,7 @@ window.onload = function() {
             console.log("Sign out success!");
         }).catch( () => {
             console.log("Sign out failed");
-        })
+        });
     });
 
     openModalBtn.addEventListener("click", () => {
