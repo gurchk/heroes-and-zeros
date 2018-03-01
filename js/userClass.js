@@ -17,21 +17,20 @@ class User {
       // Logout and delete the user from db;
     },
     changeName(name) {
-      if (name != String || name.length > 30 || name.length < 3) {
-        alert("Your name can't be longer then 30chars nor be less then 3. Are you even a String ?");
+      if (typeof(name) != "string"  || name.length > 30 || name.length < 3) {
+        alert("Your name can't be longer then 30chars nor less then 3. Do you even String ?");
       } else {
         this.name = name;
         // save to db;
       }
     },
-    changeLimit(limit){
-      if (limit != Number || limit.length > 6 || limit.length < 2){
+    changeLimit(limit) {
+      if (typeof(limit) != "number" || limit.length > 6 || limit.length < 2) {
         alert("Limit you must, between the length of 6 and 2 a Number should do.")
       } else {
         this.bettingLimit = limit;
         // save to db;
       }
     }
-
 }
 // let user = newUser();
