@@ -6,6 +6,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "Roboto", sans-serif;
+
+    color: #3b3b3b;
 }
 
 .hidden {
@@ -52,7 +54,7 @@ a:hover {
 
 .signUpWrapper {
     border-top: 3px solid;
-    border-image: linear-gradient(45deg,#aedd94, #94ddb9) 1 round;
+    border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -92,7 +94,7 @@ a:hover {
 }
 
 .howToPlay {
-    background: linear-gradient(45deg,hsl(99, 52%, 52%), hsl(150, 52%, 52%));
+    background: linear-gradient(45deg, hsl(99, 52%, 52%), hsl(150, 52%, 52%));
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -173,11 +175,6 @@ button:hover {
     cursor: pointer;
 }
 
-.contentWrapper {
-    width: 80%;
-    margin-left: 10%;
-}
-
 @media screen and (min-width: 1080px) {  
     .signUpWrapper {
         position: absolute;
@@ -211,10 +208,9 @@ button:hover {
 .userArea {
     width: 300px;
     padding: 2em;
-    background: rgb(231, 231, 231);
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     border-top: 3px solid;
-    border-image: linear-gradient(45deg,#aedd94, #94ddb9) 1 round;
+    border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
 }
 
 .avatar {
@@ -251,4 +247,44 @@ button:hover {
 .signOut {
     margin-left: 20px;
     align-self: center;
+}
+
+
+.createBet {
+    width: 100%;
+    margin-top: 2em;
+    border-top: 4px solid;
+    border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.createBet form {
+    padding: 2em;
+}
+
+.createBetHeader {
+    background: linear-gradient(45deg, #aedd94, #94ddb9);
+    padding: 2em;
+}
+
+input {
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    padding: .5em 1em;
+    font-size: 16px;
+    line-height: 1.5;
+    background: rgb(247, 247, 247);
+    border: 1px solid rgba(0, 0, 0, 0);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid;
+    border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
+}
+
+.subLabel {
+    font-size: 13px;
+    color: #8b8b8b;
 }

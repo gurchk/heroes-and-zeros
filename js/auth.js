@@ -36,7 +36,12 @@ window.onload = function() {
                         displayImage: user.photoURL,
                         email: user.email,
                         name: user.displayName,
-                        coins: 5000
+                        coins: 5000,
+                        games: 0,
+                        wins: 0,
+                        losses: 0,
+                        totalCoinsPlaced: 0,
+                        totalCoinsWon: 0
                     });
 
                     // Send message in our Slack channel

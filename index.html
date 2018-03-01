@@ -31,7 +31,7 @@
             js.src = "https://connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-    </script>-
+    </script>
 
 
     <div id="loginWrapper" class="loginWrapper hidden">
@@ -72,7 +72,7 @@
 
         <div id="cover" class="cover hidden"></div>
         <div id="loginModal" class="loginModal hidden">
-            <h3>Sign in through Facebook</h2>
+            <h3>Sign in through Facebook</h3>
             <p>Facebook is our most popular login option. Other options are available if you choose.</p>
             <button id="btnSignInWithRedirectFB">Sign In</button>      
         </div>
@@ -96,6 +96,30 @@
                     <a id="btnSignOut" class="btnSignOut" href="">Sign Out</a>
                 </div>
             </div>
+        </div>
+
+        <div class="createBet">
+            <div class="createBetHeader">
+                <h2>Create a Bet</h2>
+            </div>
+            <form>
+                <label for="title">Give your bet a short title</label><br>
+                <input id="title" type="text" placeholder="Ex. Election 2020"><br><br>
+
+                <label for="question">What is your bet question?</label><br>
+                <input id="question" type="text" placeholder="Ex. Who will win the Election in 2020?"><br><br>
+
+                <label for="betAmount">How many coins should players bet?</label><br>
+                <label for="betAmount" class="subLabel">Min 1, Max 50000</label><br>
+                <input id="betAmount" type="text" placeholder="Ex. 50"><br><br>
+
+                <!-- TODO: Set min-date to the same day (ex: 1 hour later). -->
+                <label for="endtime">When is the bet end date?</label><br>
+                <input id="endtime" type="date"><br><br>
+
+                <label for="lastbet">When can users no longer place a bet?</label><br>
+                <input id="lastbet" type="date"><br><br>
+            </form>
         </div>
     </div>
 </body>
