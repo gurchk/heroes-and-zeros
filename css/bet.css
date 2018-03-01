@@ -46,18 +46,17 @@
   top: 12px;
 }
 
-.mdc-fab--mini {
-  width: 30px;
-  height: 30px;
-}
+
 
 .mdc-fab__icon {
   color: #3b3b3b;
+  font-family: 'Material Icons' !important;
 }
 
 .material-icons {
   color: #3b3b3b;
 }
+
 
 .mdc-button {
   text-transform: uppercase;
@@ -191,8 +190,9 @@ input[class=radioOption]:checked ~ .alternative {
 .bet-bottom>.inf>h1 {
   /* Bet title */
   position: relative;
-  max-width: 290px;
+  max-width: 280px;
   font-weight: 500;
+  overflow-wrap: break-word;
 }
 
 .bet-bottom>.inf>div * {
@@ -211,9 +211,30 @@ input[class=radioOption]:checked ~ .alternative {
   position: absolute;
   bottom: 12px;
   right: 4px;
+  margin-bottom: 9px
 }
 
-.userImage {}
+.userImage {
+  position: absolute;
+  top: 17px;
+  left: 11px;
+}
+.inputOptionsDiv {
+  position: relative;
+}
+.addOption {
+  color: red !important;
+  top: inherit !important;
+  right: 100px !important;
+  bottom: 2px !important;
+}
+.voteBtn {
+    border-radius: 4px;
+    background: linear-gradient(45deg, #aedd94, #94ddb9);
+
+    box-shadow: 0px 3px 2px rgba(75, 95, 64, 0.35);
+}
+
 @media screen and (max-width: 1840px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
@@ -229,3 +250,4 @@ input[class=radioOption]:checked ~ .alternative {
     grid-template-columns: 1fr;
   }
 }
+/*Hej*/
