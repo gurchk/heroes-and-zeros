@@ -20,8 +20,6 @@ window.addEventListener('load', function() {
   });
 });
 
-
-
 class Bet {
   constructor(title, question, coins, endTime, lastBetTime, optionsObj) {
     this.title = title;
@@ -47,32 +45,25 @@ class Bet {
           </p>
         </div>
         <p class="size-14 text-light">
-          End date: ${endTime}
+          End date: ${this.endTime}
         </p>
       </div>
-      <div class="bet-middle">
-        <div class="alternative">
-          <span class="size-24 text-dark w700">1</span>
-          <p class="size-14 text-dark">Trump</p> <!-- mdc-fab--exited for hidden -->
-          <button class="mdc-fab material-icons mdc-fab--mini" aria-label="Favorite">
-            <span class="mdc-fab__icon">add</span>
-          </button>
-        </div>
-        <div class="alternative">
-          <span class="size-24 text-dark w700">2</span>
-          <p class="size-14 text-dark">Trump</p> <!-- mdc-fab--exited for hidden -->
-          <button class="mdc-fab material-icons mdc-fab--mini" aria-label="Favorite">
-            <span class="mdc-fab__icon">add</span>
-          </button>
-        </div>
-        <div class="alternative">
-          <span class="size-24 text-dark w700">3</span>
-          <p class="size-14 text-dark">Trump</p> <!-- mdc-fab--exited for hidden -->
-          <button class="mdc-fab material-icons mdc-fab--mini" aria-label="Favorite">
-            <span class="mdc-fab__icon">add</span>
-          </button>
-        </div>
-      </div>
+      <div class="bet-middle">`;
+    for (let option in this.options) {
+      let numberOfOptions = 1;
+      betDiv.innerHTML += `<label for="${option}">
+        <input class="radioOption" type="radio" name="${this.title}" id="${option}">
+          <div class="alternative">          
+            <span class="size-24 text-dark w700">${numberOfOptions}</span>
+            <p class="size-14 text-dark">${this.options[option].name}</p> <!-- mdc-fab--exited for hidden -->
+            <button class="mdc-fab material-icons mdc-fab--mini" aria-label="Favorite">
+              <span class="mdc-fab__icon">add</span>
+            </button>
+          </div>
+        </label>`
+      numberOfOptions++;
+    }
+    betDiv.innerHTML += `</div>
       <div class="bet-bottom">
         <div class="inf">
           <h1 class="size-24 text-dark">${this.question}</h1>
