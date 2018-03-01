@@ -97,6 +97,7 @@
   width: 100%;
   position: relative;
   background-color: #ebebeb;
+  display: block;
 }
 
 .alternative>span {
@@ -109,8 +110,11 @@
 .alternative>p {
   top: 19px;
   left: 69px;
+  width: 50%;
 }
-
+.label {
+  z-index: 2;
+}
 /*funkar ej med labels då html strukturen är ändrad*/
 .alternative:nth-child(even) {
   background-color: #d6d6d6;
@@ -121,8 +125,8 @@ input[class=radioOption] {
 }
 
 input[class=radioOption]:checked ~ .alternative {
-  /*Mitt försök till att härma bordern som är i mockupen, vilket är ganska fail, ändra gärna*/
-  box-shadow: 2px 2px 5px  #ff5d55 inset, -2px -2px 5px #ff5d55 inset;
+  box-shadow: 5px 0px 1.5px 2px #FF5D55 inset;
+
 }
 
 .bet-top {
