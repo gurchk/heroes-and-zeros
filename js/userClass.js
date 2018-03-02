@@ -30,7 +30,7 @@ class User {
 
         let popupAgree = document.getElementById("popupAgree");
         let popupDecline = document.getElementById("popupDecline");
-        
+
         popupAgree.addEventListener("click", function() {
             firebase.auth().signOut()
             .then( () => {
