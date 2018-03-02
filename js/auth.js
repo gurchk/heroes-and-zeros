@@ -1,3 +1,5 @@
+let userObj;
+
 window.onload = function() {
     // Initialize Firebase
     var config = {
@@ -9,7 +11,7 @@ window.onload = function() {
         messagingSenderId: "146002108416"
     };
     firebase.initializeApp(config);
-    
+
     const db = firebase.database();
     let facebookProvider = new firebase.auth.FacebookAuthProvider();
 
@@ -20,16 +22,21 @@ window.onload = function() {
     let cover = document.getElementById("cover");
     let loginModal = document.getElementById("loginModal");
     let openModalBtn = document.getElementById("openModalBtn");
-
+    let btnCastVote = document.getElementById("btnCastVote");
 
     //When user is logged in or logged out
     firebase.auth().onAuthStateChanged( user => {
         if (user) {
+            userObj = {
+              uid: user.uid,
+              name: user.displayName,
+              displayImage: user.photoURL
+            };
             //User is signed in. Hide login page and show the rest of the page.
             loginWrapper.classList.add("hidden");
             contentWrapper.classList.remove("hidden");
 
-            db.ref("users/" + user.uid).once("value", snapshot => { 
+            db.ref("users/" + user.uid).once("value", snapshot => {
                 if(!snapshot.val()) {
                     // User doesn't exist in database yet
                     db.ref("users/" + user.uid).set({
@@ -66,6 +73,8 @@ window.onload = function() {
                         document.getElementById("coins").innerText = data.coins;
                     });
                 }
+
+                loginFinished();
             });
         } else {
             //User is signed out.
@@ -74,9 +83,8 @@ window.onload = function() {
         }
     });
 
-    
     firebase.auth().getRedirectResult()
-    .then(result => {            
+    .then(result => {
         if (result.credential) {
             console.log("Sign in success!");
         }
@@ -84,7 +92,7 @@ window.onload = function() {
         console.log("Sign in failed, error: ", err.message);
     });
 
-    btnSignInWithRedirectFB.addEventListener("click", () => {   
+    btnSignInWithRedirectFB.addEventListener("click", () => {
         firebase.auth().signInWithRedirect(facebookProvider);
     });
 
@@ -95,7 +103,7 @@ window.onload = function() {
             console.log("Sign out success!");
         }).catch( () => {
             console.log("Sign out failed");
-        })        
+        })
     });
 
     openModalBtn.addEventListener("click", () => {

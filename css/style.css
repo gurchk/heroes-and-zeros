@@ -28,7 +28,7 @@
 h1, h2, h3, h4, h5, h6 {
     color: #3b3b3b;
 }
-  
+
 p {
     color: #8b8b8b;
 }
@@ -63,9 +63,9 @@ a:hover {
     margin-top: -1px;
     margin-left: 50%;
     margin-right: 50%;
-    flex: 0 0 0% !IMPORTANT; 
-    width: 0; 
-    height: 0; 
+    flex: 0 0 0% !IMPORTANT;
+    width: 0;
+    height: 0;
     border-left: 30px solid transparent;
     border-right: 30px solid transparent;
     border-top: 30px solid rgb(247, 247, 247);
@@ -137,7 +137,7 @@ a:hover {
     transform: translate(-50%, -50%);
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    background: white; 
+    background: white;
     padding: 2em;
     min-width: 50%;
 
@@ -150,10 +150,10 @@ a:hover {
     letter-spacing: 2px;
 }
 
-button {
+.loginBtns {
     margin: 2em;
     padding: 0.75em 2em;
-    border-radius: 15px;
+    border-radius: 4px;
 
     text-transform: uppercase;
     font-weight: 600;
@@ -169,13 +169,22 @@ button {
     box-shadow: 0px 3px 2px rgba(75, 95, 64, 0.35);
 }
 
-button:hover {
+.loginBtns:hover {
     transform: translateY(-1px);
     background: linear-gradient(45deg, #c7ffaa, #aaffd4);
     cursor: pointer;
 }
+.createBet {
+  margin-top: 5px;
+}
 
-@media screen and (min-width: 1080px) {  
+
+.voteBtn:disabled {
+    background: none;
+    box-shadow: none;
+}
+
+@media screen and (min-width: 1080px) {
     .signUpWrapper {
         position: absolute;
         top: 50%;
@@ -251,11 +260,15 @@ button:hover {
 
 
 .createBet {
-    width: 100%;
-    margin-top: 2em;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
     border-top: 4px solid;
     border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    background: white;
+
+    z-index: 1000;
 }
 
 .createBet form {
@@ -267,9 +280,9 @@ button:hover {
     padding: 2em;
 }
 
-input {
+.createBetInput {
+    display: block;
     margin-top: 0.5em;
-    margin-bottom: 1em;
     padding: .5em 1em;
     font-size: 16px;
     line-height: 1.5;
@@ -278,7 +291,7 @@ input {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-input:focus {
+.createBetInput:focus {
     outline: none;
     border: 1px solid;
     border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
@@ -287,4 +300,20 @@ input:focus {
 .subLabel {
     font-size: 13px;
     color: #8b8b8b;
+}
+
+#errorBox {
+    color: #ff5d55;
+    font-size: 13px;
+}
+
+.createBetForm {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.formColumn {
+    flex: 0 0 29%;
+    margin: 1%;
 }
