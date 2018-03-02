@@ -1,18 +1,6 @@
 let userObj;
 
 window.onload = function() {
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyD46CxE-8uJDebx5ErANO9SOMOGuTxZiVQ",
-        authDomain: "heroesand0s.firebaseapp.com",
-        databaseURL: "https://heroesand0s.firebaseio.com",
-        projectId: "heroesand0s",
-        storageBucket: "heroesand0s.appspot.com",
-        messagingSenderId: "146002108416"
-    };
-    firebase.initializeApp(config);
-
-    const db = firebase.database();
     let facebookProvider = new firebase.auth.FacebookAuthProvider();
 
     let btnSignInWithRedirectFB = document.getElementById("btnSignInWithRedirectFB");
@@ -77,14 +65,14 @@ window.onload = function() {
         }
     });
 
-    /*firebase.auth().getRedirectResult()
+    firebase.auth().getRedirectResult()
     .then(result => {
         if (result.credential) {
             console.log("Sign in success!");
         }
     }).catch(err => {
         console.log("Sign in failed, error: ", err.message);
-    });*/
+    });
 
     btnSignInWithRedirectFB.addEventListener("click", () => {
         firebase.auth().signInWithRedirect(facebookProvider);

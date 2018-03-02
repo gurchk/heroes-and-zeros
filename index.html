@@ -18,6 +18,7 @@
   <link href="node_modules/@material/button/dist/mdc.button.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+
   <link href="css/style.css" rel="stylesheet" />
   <link href="css/bet.css" rel="stylesheet" />
 
@@ -98,187 +99,157 @@
     </div>
   </div>
 
+  <div id="createBetCover" class="createBetCover"></div>
+  <div id="closeMenuCover" class="closeMenuCover hidden"></div>
+
   <div id="contentWrapper" class="contentWrapper hidden">
-    <div class="userArea">
-        <div class="profile">
-            <div class="avatarWrapper">
-                <img id="avatar" class="avatar" alt="Avatar" src="images/avatar.png" />
+      <nav>
+            <button id="openMenu">&#9776;</button>
+            <button id="closeMenu">×</button>
+            <div id="menu">
+                <button></button>
+                <a href="index.html">ALL BETS</a>
+                <div></div>
+                <a href="#">MY BETS</a>
+                <div></div>
+                <a id="menuCreateBet" href="#">CREATE BET</a>
+                <div></div>
+                <a href="#">PROFILE & SETTINGS</a>
+                <div></div>
+                <a id="btnSignOut" href="#">LOGOUT</a>
             </div>
-            <div class="userInfo">
-                <div class="userWrapper">
-                    <p id="user" class="user">Welcome, <span id="username" class="username"></span></p>
+        </nav>
+
+        <div class="userArea">
+            <div class="profile">
+                <div class="avatarWrapper">
+                    <img id="avatar" class="avatar" alt="Avatar" src="images/avatar.png" />
                 </div>
-                <div class="coinWrapper">
-                    <p id="coins" class="coins"></p>
+                <div class="userInfo">
+                    <div class="userWrapper">
+                        <p id="user" class="user text-dark">Welcome, <span id="username" class="text-light"></span></p>
+                    </div>
+                    <div class="relative-wrapper coin-wrapper">
+                        <p id="coins" class="acme text-light"></p>
+                        <img class="coin" src="images/coin.svg" />
+                    </div>
                 </div>
-            </div>
-            <div class="signOut">
-                <a id="btnSignOut" class="btnSignOut" href="">Sign Out</a>
-            </div>
+              </div>
         </div>
-    </div>
-    <div class="createBet">
-        <div class="createBetHeader">
-            <h2>Create a Bet</h2>
+
+        <div id="createBet" class="createBet">
+            <div class="createBetHeader">
+                <h2>Create a Bet</h2>
+                <button id="closeBet">×</button>
+            </div>
+            <form class="createBetForm">
+                <div class="formColumn">
+                    <label for="title">Give your bet a short title</label><br>
+                    <input class="createBetInput" id="title" required maxlength="25" type="text" placeholder="Ex. Election 2020"><br>
+
+                    <label for="question" class="mainLabel">What is your bet question?</label><br>
+                    <input class="createBetInput" id="question" required maxlength="50" type="text" placeholder="Ex. Who will win the Election in 2020?"><br>
+
+                    <label for="betAmount" class="mainLabel">How many coins should players bet?</label><br>
+                    <label for="betAmount" class="subLabel">Min 10, Max 50000</label>
+                    <input class="createBetInput" id="betAmount" min ="10" max="50000" type="number" placeholder="Ex. 50"><br>
+                </div>
+
+                <div class="formColumn">
+                    <label for="endtime">When is the bet end date?</label><br>
+                    <input class="createBetInput" id="endtime" type="date" lang="en"><br>
+                    <label for="lastBet" class="mainLabel">When can users no longer place a bet?</label><br>
+                    <label for="lastBet" class="subLabel">Betting will automatically be disabled once the bet ends if not set.</label><br>
+                    <input class="createBetInput" id="lastBet" type="date" lang="en"><br>
+                </div>
+
+                <div class="formColumn">
+                    <label>What will the betting options be?</label><br>
+                    <div id="inputOptionsDiv" class="inputOptionsDiv">
+                        <p id="optionsError" class='error hidden'>*You must add atleast 2 options.</p>
+                        <input class="createBetInput inputOption" type="text" placeholder="Option">
+                        <input class="createBetInput inputOption" type="text" placeholder="Option">
+                        <button id="addOption" type="button" class="mdc-fab mdc-fab--mini material-icons addOption" aria-label="Favorite">
+                            <span class="mdc-fab__icon">add</span>
+                        </button>
+                    </div>
+                    <p id="errorBox" class="hidden">*You may only have a maximum of 20 options per bet.</p>
+                </div>
+            </form>
+            <div class="createBetBtn-wrapper">
+            <button onclick="createBet(event)" type="button" class="mdc-button createBetBtn">Create Bet</button>
+          </div>
         </div>
-        <form class="createBetForm">
-            <div class="formColumn">
-                <label for="title">Give your bet a short title</label><br>
-                <input class="createBetInput" id="title" maxlength="15" type="text" placeholder="Ex. Election 2020"><br><br>
 
-                <label for="question">What is your bet question?</label><br>
-                <input class="createBetInput" id="question" maxlength="50" type="text" placeholder="Ex. Who will win the Election in 2020?"><br><br>
+        <main class="grid">
+        <!--<div class="bet">
+              <div class="bet-top">
+                <img src="images/avatar.png" class="avatar" alt="an image" />
+                <div class="inf">
+                  <p class="size-14 text-dark">
+                    Valet 2018
+                  </p>
+                  <p class="size-14 text-light">
+                    Created by: John Doe
+                  </p>
+                </div>
+                <p class="size-14 text-light">
+                  End date: 3-12-2018
+                </p>
+              </div>
+              <div class="bet-middle">
+                <label for="optionId1">
+                    <input class="radioOption" type="radio" name="betId1" id="optionId1">
+                    <div class="alternative">
+                      <span class="size-24 text-dark w700">1</span>
+                      <p class="size-14 text-dark">Trump</p>
+                    </div>
+                  </label>
+                <label for="optionId2">
+                    <input class="radioOption" type="radio" name="betId1" id="optionId2">
+                    <div class="alternative">
+                      <span class="size-24 text-dark w700">1</span>
+                      <p class="size-14 text-dark">Trump</p>
+                    </div>
+                  </label>
+                <label for="optionId3">
+                    <input class="radioOption" type="radio" name="betId1" id="optionId3">
+                    <div class="alternative">
+                      <span class="size-24 text-dark w700">1</span>
+                      <p class="size-14 text-dark">Trump</p>
+                    </div>
+                  </label>
+              </div>
+              <div class="bet-bottom">
 
-                <label for="betAmount">How many coins should players bet?</label><br>
-                <label for="betAmount" class="subLabel">Min 10, Max 50000</label><br>
-                <input class="createBetInput" id="betAmount" min ="10" max="50000" type="number" placeholder="Ex. 50"><br><br>
-            </div>
-
-            <div class="formColumn">
-                <label for="endtime">When is the bet end date?</label><br>
-                <input class="createBetInput" id="endtime" type="date" lang="en"><br><br>
-                <label for="lastBet">When can users no longer place a bet?</label><br>
-                <label for="lastBet" class="subLabel">Betting will automatically disable once the bet ends if not set.</label><br>
-                <input class="createBetInput" id="lastBet" type="date" lang="en"><br><br>
-            </div>
-
-            <div class="formColumn">
-                <label>What will the betting options be?</label><br>
-                <div id="inputOptionsDiv" class="inputOptionsDiv">
-                    <input class="createBetInput inputOption" type="text" placeholder="Option">
-                    <input class="createBetInput inputOption" type="text" placeholder="Option">
-                    <button id="addOption" type="button" class="mdc-fab mdc-fab--mini material-icons addOption" aria-label="Favorite">
-                        <span class="mdc-fab__icon">add</span>
+                <div class="inf">
+                  <h1 class="size-24 text-dark">Who wins the whale ?</h1>
+                  <div class="relative-wrapper coin-wrapper">
+                    <p class="text-light acme">100</p>
+                    <img class="coin" src="images/coin.svg" />
+                  </div>
+                </div>
+                <div class="peeps">
+                  <div class="relative-wrapper">
+                    <p class="text-light acme">3541</p>
+                    <i class="material-icons">people</i>
+                  </div>
+                </div>
+                <div class="buts">
+                  <button class="mdc-button voteBtn mdc-ripple-upgraded" disabled>
+                      Vote
+                    </button>
+                  <button class="mdc-button mdc-ripple-upgraded">
+                      Share
                     </button>
                 </div>
-                <p id="errorBox" class="hidden">*You may only have a maximum of 20 options per bet.</p>
-            </div>
-        </form>
-        <button onclick="createBet(event)" type="button" class="mdc-button voteBtn createBet">Create Bet</button>
-    </div>
-    <main class="grid">
-      <div class="bet">
-        <div class="bet-top">
-          <img src="images/avatar.png" class="avatar" alt="an image" />
-          <div class="inf">
-            <p class="size-14 text-dark">
-              Valet 2018
-            </p>
-            <p class="size-14 text-light">
-              Created by: John Doe
-            </p>
-          </div>
-          <p class="size-14 text-light">
-            End date: 3-12-2018
-          </p>
-        </div>
-        <div class="bet-middle">
-          <label for="optionId1">
-              <input class="radioOption" type="radio" name="betId1" id="optionId1">
-              <div class="alternative">
-                <span class="size-24 text-dark w700">1</span>
-                <p class="size-14 text-dark">Trump</p>
+                <p class="size-14 text-light">
+                  Betting closes in: 5 days 3 hours
+                </p>
               </div>
-            </label>
-          <label for="optionId2">
-              <input class="radioOption" type="radio" name="betId1" id="optionId2">
-              <div class="alternative">
-                <span class="size-24 text-dark w700">1</span>
-                <p class="size-14 text-dark">Trump</p>
-              </div>
-            </label>
-          <label for="optionId3">
-              <input class="radioOption" type="radio" name="betId1" id="optionId3">
-              <div class="alternative">
-                <span class="size-24 text-dark w700">1</span>
-                <p class="size-14 text-dark">Trump</p>
-              </div>
-            </label>
-        </div>
-        <div class="bet-bottom">
-          <div class="inf">
-            <h1 class="size-24 text-dark">Who wins the whale ?</h1>
-            <div class="relative-wrapper">
-              <p class="text-light acme">100</p>
-              <i class="material-icons">high_quality</i>
-            </div>
-          </div>
-          <div class="peeps">
-            <div class="relative-wrapper">
-              <p class="text-light acme">3541</p>
-              <i class="material-icons">people</i>
-            </div>
-          </div>
-          <div class="buts">
-            <button class="mdc-button voteBtn">
-                Vote
-              </button>
-            <button class="mdc-button mdc-ripple-upgraded">
-                Share
-              </button>
-          </div>
-          <p class="size-14 text-light">
-            Betting closes in: 5 days 3 hours
-          </p>
-        </div>
-      </div>
-      <div class="bet">
-        <div class="bet-top">
-          <img src="images/avatar.png" class="avatar" alt="img" />
-          <div class="inf">
-            <p class="size-14 text-dark">
-              Valet 2018
-            </p>
-            <p class="size-14 text-light">
-              Created by: John Doe
-            </p>
-          </div>
-          <p class="size-14 text-light">
-            End date: 3-12-2018
-          </p>
-        </div>
-        <div class="bet-middle">
-          <div class="alternative">
-            <span class="size-24 text-dark w700">1</span>
-            <p class="size-14 text-dark">Trump</p>
-          </div>
-          <div class="alternative">
-            <span class="size-24 text-dark w700">1</span>
-            <p class="size-14 text-dark">Trump</p>
-          </div>
-          <div class="alternative">
-            <span class="size-24 text-dark w700">1</span>
-            <p class="size-14 text-dark">Trump</p>
-          </div>
-        </div>
-        <div class="bet-bottom">
-          <div class="inf">
-            <h1 class="size-24 text-dark">Who wins the whale ?</h1>
-            <div class="relative-wrapper">
-              <p class="text-light acme">100</p>
-              <i class="material-icons">high_quality</i>
-            </div>
-          </div>
-          <div class="peeps">
-            <div class="relative-wrapper">
-              <p class="text-light acme">3541</p>
-              <i class="material-icons">people</i>
-            </div>
-          </div>
-          <div class="buts">
-            <button class="mdc-button voteBtn" disabled>
-                Vote
-              </button>
-            <button class="mdc-button mdc-ripple-upgraded">
-                Share
-              </button>
-          </div>
-          <p class="size-14 text-light">
-            Betting closes in: 5 days 3 hours
-          </p>
-        </div>
-      </div>
-      </main>
+            </div>-->
+
+        </main>
     </div>
 </body>
 
