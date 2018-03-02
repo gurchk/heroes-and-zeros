@@ -1,12 +1,3 @@
-body {
-    margin: 0px;
-}
-
-#test{
-    height: 5000px;
-}
-
-
 #closeMenu {
     margin: .3em;
     position: fixed;
@@ -30,11 +21,11 @@ body {
     font-size: 2em;
     background-color: transparent;
     border: none;
-    color: #232323>
+    color: #232323;
 }
 
 #menu {
-    font-family: "Roboto"
+    font-family: "Roboto";
     width: 100%;
     opacity: .9;
     background-color: #232323;
@@ -101,9 +92,8 @@ body {
     }
     
     #footer #socialMedia {
-    margin: 0px;
-    
-}   
+    margin: 0px;  
+    }   
 }
 
 footer {
