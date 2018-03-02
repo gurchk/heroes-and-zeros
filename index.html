@@ -8,14 +8,20 @@
   <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="node_modules/@material/fab/dist/mdc.fab.min.css" rel="stylesheet"/>
+
+  <script src="js/functions.js"></script>
   <script src="js/betClass.js"></script>
   <script src="js/auth.js"></script>
   <script src="node_modules/material-components-web/dist/material-components-web.min.js"></script>
+
+
   <link href="node_modules/@material/button/dist/mdc.button.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet" />
   <link href="css/bet.css" rel="stylesheet" />
+
+  <script src="js/nodep-date-input-polyfill.dist.js"></script>
 </head>
 
 <body>
@@ -41,8 +47,16 @@
     }(document, 'script', 'facebook-jssdk'));
   </script>
 
+    <div id="loadingScreen" class="loadingScreen">
+        <img class="loadingScreenImg" src="images/heroes.svg" alt="Heroes">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
 
-  <div id="loginWrapper" class="loginWrapper">
+  <div id="loginWrapper" class="loginWrapper hidden">
     <div class="signUpWrapper">
       <div class="becomeAnAddict">
         <h2 class="header">Become a betting addict</h2>
@@ -95,18 +109,57 @@
                     <p id="user" class="user">Welcome, <span id="username" class="username"></span></p>
                 </div>
                 <div class="coinWrapper">
-                    <p id="coins" class="coins"></p><i class="material-icons">high_quality</i>
+                    <p id="coins" class="coins"></p>
                 </div>
             </div>
             <div class="signOut">
                 <a id="btnSignOut" class="btnSignOut" href="">Sign Out</a>
             </div>
         </div>
-      </div>
+    </div>
+    <div class="createBet">
+        <div class="createBetHeader">
+            <h2>Create a Bet</h2>
+        </div>
+        <form class="createBetForm">
+            <div class="formColumn">
+                <label for="title">Give your bet a short title</label><br>
+                <input class="createBetInput" id="title" maxlength="15" type="text" placeholder="Ex. Election 2020"><br><br>
+
+                <label for="question">What is your bet question?</label><br>
+                <input class="createBetInput" id="question" maxlength="50" type="text" placeholder="Ex. Who will win the Election in 2020?"><br><br>
+
+                <label for="betAmount">How many coins should players bet?</label><br>
+                <label for="betAmount" class="subLabel">Min 10, Max 50000</label><br>
+                <input class="createBetInput" id="betAmount" min ="10" max="50000" type="number" placeholder="Ex. 50"><br><br>
+            </div>
+
+            <div class="formColumn">
+                <label for="endtime">When is the bet end date?</label><br>
+                <input class="createBetInput" id="endtime" type="date" lang="en"><br><br>
+                <label for="lastBet">When can users no longer place a bet?</label><br>
+                <label for="lastBet" class="subLabel">Betting will automatically disable once the bet ends if not set.</label><br>
+                <input class="createBetInput" id="lastBet" type="date" lang="en"><br><br>
+            </div>
+
+            <div class="formColumn">
+                <label>What will the betting options be?</label><br>
+                <div id="inputOptionsDiv" class="inputOptionsDiv">
+                    <input class="createBetInput inputOption" type="text" placeholder="Option">
+                    <input class="createBetInput inputOption" type="text" placeholder="Option">
+                    <button id="addOption" type="button" class="mdc-fab mdc-fab--mini material-icons addOption" aria-label="Favorite">
+                        <span class="mdc-fab__icon">add</span>
+                    </button>
+                </div>
+                <p id="errorBox" class="hidden">*You may only have a maximum of 20 options per bet.</p>
+            </div>
+        </form>
+        <button onclick="createBet(event)" type="button" class="mdc-button voteBtn createBet">Create Bet</button>
+    </div>
     <main class="grid">
       <div class="bet">
         <div class="bet-top">
-          <img src="" alt="img" />
+          <img src="images/avatar.png" class="avatar" alt="an image" />
           <div class="inf">
             <p class="size-14 text-dark">
               Valet 2018
@@ -171,7 +224,7 @@
       </div>
       <div class="bet">
         <div class="bet-top">
-          <img src="" alt="img" />
+          <img src="images/avatar.png" class="avatar" alt="img" />
           <div class="inf">
             <p class="size-14 text-dark">
               Valet 2018
@@ -225,46 +278,8 @@
           </p>
         </div>
       </div>
-        <div class="createBet">
-            <div class="createBetHeader">
-                <h2>Create a Bet</h2>
-            </div>
-            <form class="createBetForm">
-                <div class="formColumn">
-                    <label for="title">Give your bet a short title</label><br>
-                    <input class="createBetInput" id="title" maxlength="15" type="text" placeholder="Ex. Election 2020"><br><br>
-
-                    <label for="question">What is your bet question?</label><br>
-                    <input class="createBetInput" id="question" maxlength="50" type="text" placeholder="Ex. Who will win the Election in 2020?"><br><br>
-
-                    <label for="betAmount">How many coins should players bet?</label><br>
-                    <label for="betAmount" class="subLabel">Min 10, Max 50000</label><br>
-                    <input class="createBetInput" id="betAmount" min ="10" max="50000" type="number" placeholder="Ex. 50"><br><br>
-                </div>
-
-                <div class="formColumn">
-                    <label for="endtime">When is the bet end date?</label><br>
-                    <input class="createBetInput" id="endtime" type="date"><br><br>
-                    <label for="lastbet">When can users no longer place a bet?</label><br>
-                    <label for="lastBet" class="subLabel">Betting will automatically disable once bet ends if nothing set.</label><br>
-                    <input class="createBetInput" id="lastbet" type="date"><br><br>
-                </div>
-
-                <div class="formColumn">
-                    <label for="inputOptionsDiv">What will the betting options be?</label><br>
-                    <div id="inputOptionsDiv" class="inputOptionsDiv">
-                        <input class="createBetInput inputOption" type="text" placeholder="Option">
-                        <input class="createBetInput inputOption" type="text" placeholder="Option">
-                        <button id="addOption" type="button" class="mdc-fab mdc-fab--mini material-icons addOption" aria-label="Favorite">
-                            <span class="mdc-fab__icon">add</span>
-                        </button>
-                    </div>
-                    <p id="errorBox" class="hidden">*You may only have a maximum of 20 options per bet.</p>
-                </div>
-            </form>
-            <button onclick="createBet(event)" type="button" class="mdc-button voteBtn createBet">Create Bet</button>
-        </div>
-  </div>
+      </main>
+    </div>
 </body>
 
 </html>

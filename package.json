@@ -23,6 +23,7 @@
   "homepage": "https://github.com/gurchk/heroes-and-zeros#readme",
   "dependencies": {
     "@material/button": "^0.31.0",
-    "material-components-web": "^0.31.0"
+    "material-components-web": "^0.31.0",
+    "nodep-date-input-polyfill": "^5.2.0"
   }
 }
