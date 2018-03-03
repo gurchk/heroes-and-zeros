@@ -87,8 +87,6 @@ function createBet(event) {
             pot: 0
         }
 
-        console.log(data);
-
         // TODO: Bettet skapas innan options hinner läggas in eftersom child_added händer direkt. Testa lägga in child_changed också och reloada
         // betten då, då får den med options också.
         db.ref("bets/").push(data).then( snap => {
@@ -106,83 +104,65 @@ function createBet(event) {
 }
 
 class Bet {
-  constructor(title, question, coins, endTime, lastBetTime, creator, numberOfBets, options) {
+  constructor(betId, title, question, coins, endTime, lastBetTime, creator, numberOfBets, options) {
+    this.betId = betId;
     this.title = title;
     this.question = question;
     this.coins = coins;
     this.endTime = endTime;
     this.lastBetTime = lastBetTime;
     this.creator = creator;
-    /*
-        Creator = {
-            name,
-            displayImage,
-            uid
-        }
-    */
     this.numberOfBets = numberOfBets;
     this.options = options;
-    /*
-        options = {
-            optionId: {
-                name: "Trump",
-                placedBets: {
-                    uid: coins
-                }
-            },
-            optionId2: {
-
-            }
-        };
-    */
-
+    this.card = undefined;
+  }
+  createCard() {
     const mainTag = document.getElementsByTagName('main')[0];
-    const betDiv = document.createElement('div');
-    betDiv.setAttribute('class', 'bet');
-    betDiv.innerHTML = `<div class="bet-top">
-        <img class="userImage avatar" src="${this.creator.displayImage}" alt="img" />
+    this.card = document.createElement("div");
+    this.card.setAttribute('class', 'bet');
+    this.card.innerHTML = `
+        <div class="bet-top">
+            <img class="userImage avatar" src="${this.creator.displayImage}" alt="img" />
+            <div class="inf">
+                <p class="size-14 text-dark">${this.title}</p>
+                <p class="size-14 text-light">Created by: ${this.creator.name}</p>
+            </div>
+            <p class="size-14 text-light">End date: ${this.endTime}</p>
+        </div>`;
+      
+    let div = document.createElement("div");
+    div.classList.add("bet-middle");
+
+    this.createOptions(div);
+    this.card.insertAdjacentElement("beforeend", div);
+
+    this.card.insertAdjacentHTML("beforeend", `
+        <div class="bet-bottom">
         <div class="inf">
-          <p class="size-14 text-dark">
-            ${this.title}
-          </p>
-          <p class="size-14 text-light">
-            Created by: ${this.creator.name}
-          </p>
-        </div>
-        <p class="size-14 text-light">
-          End date: ${this.endTime}
-        </p>
-      </div>
-      <div class="bet-middle">
-        ${this.createOptions()}
-      </div>
-      <div class="bet-bottom">
-        <div class="inf">
-          <h1 class="size-24 text-dark">${this.question}</h1>
-          <div class="relative-wrapper coin-wrapper">
-            <p class="text-light acme">${this.coins}</p>
-            <i class="material-icons">high_quality</i>
-          </div>
-        </div>
-        <div class="peeps">
-          <div class="relative-wrapper">
-            <p class="text-light acme">${this.numberOfBets}</p>
-            <i class="material-icons">people</i>
-          </div>
-        </div>
-        <div class="buts">
-        <button class="mdc-button voteBtn mdc-ripple-upgraded" disabled>
-            Vote
-          </button>
-          <button class="mdc-button mdc-ripple-upgraded">
-            Share
-          </button>
-        </div>
-        <p class="size-14 text-light">
-          Betting closes in: ${this.last}
-        </p>
-      </div>`;
-    mainTag.appendChild(betDiv);
+            <h1 class="size-24 text-dark">${this.question}</h1>
+            <div class="relative-wrapper coin-wrapper">
+                <p class="text-light acme">${this.coins}</p>
+                <i class="material-icons">high_quality</i>
+            </div>
+            </div>
+            <div class="peeps">
+                <div class="relative-wrapper">
+                <p class="text-light acme">${this.numberOfBets}</p>
+                <i class="material-icons">people</i>
+                </div>
+            </div>
+            <div class="buts">
+                <button class="mdc-button voteBtn mdc-ripple-upgraded" disabled>Vote</button>
+                <button class="mdc-button mdc-ripple-upgraded shareBtn">Share</button>
+            </div>
+            <p class="size-14 text-light">Betting closes in: ${this.last}</p>
+        </div>`);
+    mainTag.appendChild(this.card);
+
+    let shareButton = this.card.children[2].children[2].children[1];
+    shareButton.addEventListener("click", event => {
+        this.shareBet();
+    });
   }
   startTimer(seconds = this.lastBetTime, container = "") { // Add container of bet time
     var now, m, s, startTime, timer, obj, ms = seconds * 1000,
@@ -207,41 +187,87 @@ class Bet {
     obj.resume();
     return obj;
   }
-  join() {
+  join(selectedOption) {
     // Joins the bet, deposits credits...
-    // Once joined one cannot simply leav.
+    // Once joined one cannot simply leave.
+    let userCoins = userObj.coins;
+
+    if(userCoins < this.betAmount) {
+        // TODO: Display some kind of error message to the user.
+    }
+    else {
+        this.pot += this.betAmount;
+        userCoins 
+    }
   }
   remove() {
     // Removes the whole bet and returns bettings.
     // Cant be done after lastBetTime is set.
   }
-  castVote(){
+  castVote() {
     //Find the checked option
     //let votedOption = document.getElementsByClassName
+    console.log("To be implemented.");
+    // TODO: Grab the current activated input from the Bet and join() bet.
   }
-  createOptions() {
-      let numberOfOptions = 1;
-      let html = "";
-      for (let option in this.options) {
-          let evenOrOdd;
-          if((numberOfOptions%2)==0)
-           evenOrOdd = "evenOption";
-           else
-           evenOrOdd = "oddOption";
+    createOptions(container) {
+        let numberOfOptions = 1;
+        let html = [];
+        for (let option in this.options) {
+            let evenOrOdd;
+            if((numberOfOptions%2)==0)
+            evenOrOdd = "evenOption";
+            else
+            evenOrOdd = "oddOption";
 
-        html += `
-          <label for="${option}">
-              <input class="radioOption" type="radio" name="${this.title}" id="${option}">
-              <div class="alternative ${evenOrOdd}">
-                  <span class="size-24 text-dark w700">${numberOfOptions}</span>
-                  <p class="size-14 text-dark">${this.options[option].name}</p>
-              </div>
-          </label>`
-          numberOfOptions++
-      }
+            let label = document.createElement("label");
+            label.setAttribute("for", option);
 
-      return html;
-  }
+            let input = document.createElement("input");
+            input.classList.add("radioOption");
+            input.setAttribute("name", this.title);
+            input.setAttribute("type", "radio");
+            input.id = option;
+
+            let div = document.createElement("div");
+            div.classList.add("alternative", evenOrOdd);
+
+            let span = document.createElement("span");
+            span.classList.add("size-24", "text-dark", "w700");
+            span.innerHTML = numberOfOptions;
+
+            let p = document.createElement("p");
+            p.classList.add("size-14", "text-dark");
+            p.innerHTML = this.options[option].name;
+
+            input.addEventListener("click", (event) => {
+                this.enableVoteButton();
+            });
+
+            div.appendChild(span);
+            div.appendChild(p);
+            label.appendChild(input);
+            label.appendChild(div);
+
+            container.appendChild(label);
+
+            numberOfOptions++
+        }
+
+        return container;
+    }
+    enableVoteButton() {
+        let voteButton = this.card.querySelectorAll("button")[0];
+        voteButton.disabled = false;
+
+        voteButton.addEventListener("click", () => {
+            this.castVote();
+        });
+    }
+    shareBet() {
+        // Integrate with Facebook API or another API to share the bet.
+        console.log("To be implemented.");
+    }
   onComplete() {
     // Play some cool sound
     // var audio = new Audio('audio_file.mp3');

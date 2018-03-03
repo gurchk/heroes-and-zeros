@@ -1,4 +1,5 @@
-let userObj;
+let user;
+let startTime = Date.now();
 
 window.onload = function() {
     let facebookProvider = new firebase.auth.FacebookAuthProvider();
@@ -13,21 +14,15 @@ window.onload = function() {
     let btnCastVote = document.getElementById("btnCastVote");
 
     //When user is logged in or logged out
-    firebase.auth().onAuthStateChanged( user => {
-        if (user) {
-            userObj = {
-              uid: user.uid,
-              name: user.displayName,
-              displayImage: user.photoURL
-            };
-
-            db.ref("users/" + user.uid).once("value", snapshot => {
+    firebase.auth().onAuthStateChanged( authUser => {
+        if (authUser) {
+            db.ref("users/" + authUser.uid).once("value", snapshot => {
                 if(!snapshot.val()) {
                     // User doesn't exist in database yet
-                    db.ref("users/" + user.uid).set({
-                        displayImage: user.photoURL,
-                        email: user.email,
-                        name: user.displayName,
+                    db.ref("users/" + authUser.uid).set({
+                        displayImage: authUser.photoURL,
+                        email: authUser.email,
+                        name: authUser.displayName,
                         coins: 5000,
                         games: 0,
                         wins: 0,
@@ -36,8 +31,10 @@ window.onload = function() {
                         totalCoinsWon: 0
                     });
 
+                    user = new User(authUser.uid, authUser.photoURL, authUser.email, authUser.displayName, 5000, 0, 0, 0, 0, 0);
+
                     // Send message in our Slack channel
-                    let msg = "*" + user.displayName + " (uid: " + user.uid + ")* has just logged in for the first time!";
+                    let msg = "*" + authUser.displayName + " (uid: " + authUser.uid + ")* has just logged in for the first time!";
                     let data = {
                         "text": msg
                     }
@@ -45,17 +42,21 @@ window.onload = function() {
                     fetch("https://hooks.slack.com/services/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", { method: "POST", body: JSON.stringify(data) });
 
                     //User is signed in. Hide login page and show the rest of the page.
-                    updateUI(user.displayName, user.photoURL, "5000");
+                    updateUI(authUser.displayName, authUser.photoURL, "5000");
+                    user.subscribeToUpdates();
                 }
                 else {
                     // User exists in database
-                    db.ref("users/" + user.uid).once("value", snapshot => {
-                        let data = snapshot.val();
+                    let data = snapshot.val();
 
-                        //User is signed in. Hide login page and show the rest of the page.
-                        updateUI(data.name, data.displayImage, data.coins);
-                    });
+                    user = new User(authUser.uid, data.displayImage, data.email, data.name, data.coins, data.games, data.wins, data.losses, data.totalCoinsPlaced, data.totalCoinsWon);
+                    
+                    //User is signed in. Hide login page and show the rest of the page.
+                    updateUI(data.name, data.displayImage, data.coins);
+                    user.subscribeToUpdates();
                 }
+
+                console.log("Loaded page in", ((Date.now() - startTime) / 1000), "seconds");
             });
         } else {
             //User is signed out.
