@@ -31,29 +31,30 @@ window.onload = function() {
                         totalCoinsWon: 0
                     });
 
+                    // Create a new user object
                     user = new User(authUser.uid, authUser.photoURL, authUser.email, authUser.displayName, 5000, 0, 0, 0, 0, 0);
+                    user.subscribeToUpdates();
+
 
                     // Send message in our Slack channel
                     let msg = "*" + authUser.displayName + " (uid: " + authUser.uid + ")* has just logged in for the first time!";
-                    let data = {
-                        "text": msg
-                    }
-
-                    fetch("https://hooks.slack.com/services/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", { method: "POST", body: JSON.stringify(data) });
+                    fetch("https://hooks.slack.com/services/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", { method: "POST", body: JSON.stringify({"text": msg}) });
 
                     //User is signed in. Hide login page and show the rest of the page.
                     updateUI(authUser.displayName, authUser.photoURL, "5000");
-                    user.subscribeToUpdates();
                 }
                 else {
                     // User exists in database
+
+                    // Grab data from db
                     let data = snapshot.val();
 
+                    // Create a new user object using the data from database
                     user = new User(authUser.uid, data.displayImage, data.email, data.name, data.coins, data.games, data.wins, data.losses, data.totalCoinsPlaced, data.totalCoinsWon);
-                    
+                    user.subscribeToUpdates();
+
                     //User is signed in. Hide login page and show the rest of the page.
                     updateUI(data.name, data.displayImage, data.coins);
-                    user.subscribeToUpdates();
                 }
 
                 console.log("Loaded page in", ((Date.now() - startTime) / 1000), "seconds");
