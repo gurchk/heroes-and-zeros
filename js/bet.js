@@ -117,7 +117,7 @@ class Bet {
     this.card = undefined;
   }
   createCard() {
-    const mainTag = document.getElementsByTagName('main')[0];
+    const grid = document.getElementsByTagName('main')[0];
     this.card = document.createElement("div");
     this.card.setAttribute('class', 'bet');
     this.card.innerHTML = `
@@ -157,7 +157,7 @@ class Bet {
             </div>
             <p class="size-14 text-light">Betting closes in: ${this.last}</p>
         </div>`);
-    mainTag.appendChild(this.card);
+    grid.appendChild(this.card);
 
     let shareButton = this.card.children[2].children[2].children[1];
     shareButton.addEventListener("click", event => {
@@ -204,7 +204,7 @@ class Bet {
     // Removes the whole bet and returns bettings.
     // Cant be done after lastBetTime is set.
   }
-  castVote() {
+  placeBet() {
     //Find the checked option
     //let votedOption = document.getElementsByClassName
     console.log("To be implemented.");

@@ -68,7 +68,7 @@ class User {
             // TODO: Add warning to change name input.
             // alert("Your name cannot be longer than 30 characters nor less than 3. Do you even String?");
         } else {
-            setProperty("name", newName);
+            set("name", newName);
         }
     }
     changeAvatar(url) {
@@ -80,10 +80,10 @@ class User {
             // url is not valid
         }
     }
-    getProperty(property) {
+    get(property) {
         return this[property];
     }
-    setProperty(property, value) {
+    set(property, value) {
         db.ref("users/" + this.uid + "/" + property).set(value);
     }
     incrementProperty(property, value) {

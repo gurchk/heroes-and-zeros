@@ -82,11 +82,32 @@
 /* Specific classes */
 
 .bet {
-  box-shadow: -1px 4px 3px 1px #d6d6d6;
+  /*box-shadow: -1px 4px 3px 1px #d6d6d6;*/
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   width: 344px;
   justify-self: center;
   display: inline-block;
   border: 0;
+  border-top: 3px solid;
+  border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
+}
+
+.bet-top p {
+  margin-right: 10px;
+}
+
+.bet-bottom p {
+  margin-left: 10px;
+  margin-bottom: 5px;
+}
+
+.bet-bottom h1 {
+  margin-left: 10px;
+}
+
+.peeps {
+  margin-right: 10px;
+  margin-top: 4px;
 }
 
 .alternative {
