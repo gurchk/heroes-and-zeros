@@ -30,15 +30,36 @@ function search() {
         }
     }
 }
-
+// on every bet, 
 function filterByQuery(query) {
     db.ref("bets/").on("child_added", snapshot => {
         let bet = snapshot.val();
+        let key = snapshot.key;
+        let listOfBets = document.getElementsByClassName("bet");
         //only show active bets
         if (bet.active) {
+            //if the title of the bet is the same as the query searched for
             if (bet.title == query) {
-                document.getElementsByClassName("bet")[0].classList.remove("hidden");
+                //remove the hidden class from the elements with matching id's
+                for (let i = 0; i<listOfBets.length; i++) {
+                    if (listOfBets[i].dataset.id == key) {
+                        listOfBets[i].classList.remove("hidden");
+                    }
+                }
             };
         }
     });
 };
+
+//let listOfBets = getTagsByAttributes("data-id", "div");
+////Choose attribute and the tag you want to select (optional), if omitted selects all tags
+//function getTagsByAttributes(attribute, tag="*") {
+//    let matchingElements = [];
+//    let chosenElements = document.getElementsByTagName(tag);
+//    for (let i = 0; i<chosenElements.length; i++) {
+//        if (chosenElements[i].getAttribute(attribute) != null) {
+//            matchingElements.push(chosenElements[i]);    
+//        }
+//    }
+//    return matchingElements;
+//}

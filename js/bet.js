@@ -128,6 +128,7 @@ class Bet {
         // Create the bet card and all its components, add their classes etc.
         this.card = document.createElement("div");
         this.card.classList.add("bet");
+        this.card.classList.add("hidden");
         this.card.setAttribute("data-id", this.id);
 
         let betTop = document.createElement("div");
