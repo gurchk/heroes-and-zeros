@@ -126,6 +126,8 @@ function fetchBetsFromDB() {
               mdc.ripple.MDCRipple.attachTo(fab);
             }
         }
+    //call this to start search.js
+    search();
     });
 }
 

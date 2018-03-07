@@ -139,6 +139,7 @@ class Bet {
     const mainTag = document.getElementsByTagName('main')[0];
     const betDiv = document.createElement('div');
     betDiv.setAttribute('class', 'bet');
+    betDiv.classList.add('hidden');
     betDiv.innerHTML = `<div class="bet-top">
         <img class="userImage avatar" src="${this.creator.displayImage}" alt="img" />
         <div class="inf">
