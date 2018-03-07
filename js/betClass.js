@@ -172,7 +172,7 @@ class Bet {
         </div>
         <div class="buts">
         <button class="mdc-button voteBtn mdc-ripple-upgraded" disabled>
-            Vote
+            PLACE BET
           </button>
           <button class="mdc-button mdc-ripple-upgraded">
             Share
@@ -253,4 +253,41 @@ class Bet {
     // Draw player coins
   }
 }
+
+
+let placeBet = function (betId, betOption) {
+    let db = firebase.database();
+    db.ref(`users/${userObj.uid}/currentTime`).set(firebase.database.ServerValue.TIMESTAMP);
+    
+    let timeNow;
+    
+    db.ref(`users/${userObj.uid}/currentTime`).once("value", function(snapshot){
+        timeNow = snapshot.val();
+    });
+    
+    if(!timeNow /*> bet.endTime.val()*/){
+                
+        //bla bla last bet time har passerat.
+        
+    }else{
+        
+        
+        //PLACE BET IN DB
+        db.ref(`bets/${betId}/placedBets/${uId}`).set(betOption);
+        
+
+        //REMOVE COINS FROM USER
+        db.ref(`users/${userObj.uid}/coins`).once("value", function(snapshot){
+            db.ref(`users/${userObj.uid}/coins`).set(snapshot.val() - betId.betAmount);
+            db.ref(`users/${userObj.uid}/totalCoinsPlaced`).set(betId.betAmount)
+            
+            updateUI(userObj.displayName, userObj.photoUrl, snapshot.val() - betId.betAmount);
+        });
+        
+       
+    }
+    
+    
+}
+
 // let myNewBet = new Bet(title, question, coins, endTime, lastBetTime, options);
