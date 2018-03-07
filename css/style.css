@@ -13,10 +13,6 @@
   display: none !important;
 }
 
-.contentWrapper {
-    margin-bottom: 5em;
-}
-
 .cover {
   bottom: 0;
   left: 0;
@@ -528,7 +524,7 @@ a:hover {
   background-color: transparent;
   border: none;
   color: #232323;
-  z-index: 2002;
+  z-index: 2001;
   cursor: pointer;
 }
 

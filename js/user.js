@@ -1,15 +1,15 @@
 class User {
-  constructor(uid, displayImage, email, name, coins, games, wins, losses, totalCoinsPlaced, totalCoinsWon) {
-      this.uid = uid;
-      this.displayImage = displayImage; // Fetch image from facebook objekt
-      this.email = email;
-      this.name = name; // Fetch name from facebook objekt
-      this.coins = coins; //fetch from db || 5000;
-      this.games = games;
-      this.wins = wins;
-      this.losses = losses;
-      this.totalCoinsPlaced = totalCoinsPlaced;
-      this.totalCoinsWon = totalCoinsWon;
+    constructor(uid, displayImage, email, name, coins, games, wins, losses, totalCoinsPlaced, totalCoinsWon) {
+        this.uid = uid;
+        this.displayImage = displayImage; // Fetch image from facebook objekt
+        this.email = email;
+        this.name = name; // Fetch name from facebook objekt
+        this.coins = coins; //fetch from db || 5000;
+        this.games = games;
+        this.wins = wins;
+        this.losses = losses;
+        this.totalCoinsPlaced = totalCoinsPlaced;
+        this.totalCoinsWon = totalCoinsWon;
     }
     subscribeToUpdates() {
         console.log("Subscribing to user updates");
@@ -94,4 +94,4 @@ class User {
             return (val + value);
         });
     }
-}
+  }

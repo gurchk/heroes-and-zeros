@@ -35,13 +35,12 @@ window.onload = function() {
                     user = new User(authUser.uid, authUser.photoURL, authUser.email, authUser.displayName, 5000, 0, 0, 0, 0, 0);
                     user.subscribeToUpdates();
 
+                   // Send message in our Slack channel
+                   let msg = "*" + authUser.displayName + " (uid: " + authUser.uid + ")* has just logged in for the first time!";
+                   fetch("https://hooks.slack.com/services/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", { method: "POST", body: JSON.stringify({"text": msg}) });
 
-                    // Send message in our Slack channel
-                    let msg = "*" + authUser.displayName + " (uid: " + authUser.uid + ")* has just logged in for the first time!";
-                    fetch("https://hooks.slack.com/services/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", { method: "POST", body: JSON.stringify({"text": msg}) });
-
-                    //User is signed in. Hide login page and show the rest of the page.
-                    updateUI(authUser.displayName, authUser.photoURL, "5000");
+                   //User is signed in. Hide login page and show the rest of the page.
+                   updateUI();
                 }
                 else {
                     // User exists in database
@@ -54,7 +53,7 @@ window.onload = function() {
                     user.subscribeToUpdates();
 
                     //User is signed in. Hide login page and show the rest of the page.
-                    updateUI(data.name, data.displayImage, data.coins);
+                    updateUI();
                 }
 
                 console.log("Loaded page in", ((Date.now() - startTime) / 1000), "seconds");
@@ -67,14 +66,14 @@ window.onload = function() {
         }
     });
 
-    firebase.auth().getRedirectResult()
+    /*firebase.auth().getRedirectResult()
     .then(result => {
         if (result.credential) {
             console.log("Sign in success!");
         }
     }).catch(err => {
         console.log("Sign in failed, error: ", err.message);
-    });
+    });*/
 
     btnSignInWithRedirectFB.addEventListener("click", () => {
         firebase.auth().signInWithRedirect(facebookProvider);

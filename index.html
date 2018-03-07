@@ -2,27 +2,33 @@
 <html lang="en">
 
 <head>
-    <title>Heroes And Zeroes</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="node_modules/@material/fab/dist/mdc.fab.min.css" rel="stylesheet"/>
+  <meta name="description" content="Betting for everyone | fun with friends " />
+  <meta name="keywords" content="betting, simple, money, rich, free, fun" />
+  <meta name="author" content="Heroes and zeroes dev">
+  <meta name="robots" content="index, follow">
+  <meta name="revisit-after" content="1 month">
+  <title>Heroes and zeroes</title>
+  <!-- betting, money, free -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="node_modules/@material/fab/dist/mdc.fab.min.css" rel="stylesheet" />
+  <script src="node_modules/material-components-web/dist/material-components-web.min.js"></script>
+  <script src="js/nodep-date-input-polyfill.dist.js"></script>
 
-    <script src="js/functions.js"></script>
-    <script src="js/bet.js"></script>
-    <script src="js/user.js"></script>
+  <link href="node_modules/@material/button/dist/mdc.button.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
 
-    <script src="js/auth.js"></script>
-    <script src="node_modules/material-components-web/dist/material-components-web.min.js"></script>
+  <script src="js/functions.js"></script>
+  <script src="js/bet.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/user.js"></script>
 
-    <link href="node_modules/@material/button/dist/mdc.button.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet" />
-    <link href="css/bet.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/bet.css" rel="stylesheet" />
 
-    <script src="js/nodep-date-input-polyfill.dist.js"></script>
 </head>
 
 <body>
@@ -48,14 +54,14 @@
     }(document, 'script', 'facebook-jssdk'));
   </script>
 
-    <div id="loadingScreen" class="loadingScreen">
-        <img class="loadingScreenImg" src="images/heroes.svg" alt="Heroes">
-        <div class="spinner">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-        </div>
+  <div id="loadingScreen" class="loadingScreen">
+    <img class="loadingScreenImg" src="images/heroes.svg" alt="Heroes">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
     </div>
+  </div>
 
   <div id="loginWrapper" class="loginWrapper hidden">
     <div class="signUpWrapper">
@@ -103,86 +109,86 @@
   <div id="closeMenuCover" class="closeMenuCover hidden"></div>
 
   <div id="contentWrapper" class="contentWrapper hidden">
-      <nav>
-            <button id="openMenu">&#9776;</button>
-            <button id="closeMenu">×</button>
-            <div id="menu">
-                <button></button>
-                <a href="index.html">ALL BETS</a>
-                <div></div>
-                <a href="#">MY BETS</a>
-                <div></div>
-                <a id="menuCreateBet" href="#">CREATE BET</a>
-                <div></div>
-                <a href="#">PROFILE & SETTINGS</a>
-                <div></div>
-                <a id="btnSignOut" href="#">LOGOUT</a>
-            </div>
-        </nav>
+    <nav>
+      <button id="openMenu">&#9776;</button>
+      <button id="closeMenu">×</button>
+      <div id="menu">
+        <button></button>
+        <a href="index.html">ALL BETS</a>
+        <div></div>
+        <a href="#">MY BETS</a>
+        <div></div>
+        <a id="menuCreateBet" href="#">CREATE BET</a>
+        <div></div>
+        <a href="#">PROFILE & SETTINGS</a>
+        <div></div>
+        <a id="btnSignOut" href="#">LOGOUT</a>
+      </div>
+    </nav>
 
-        <div class="userArea">
-            <div class="profile">
-                <div class="avatarWrapper">
-                    <img id="avatar" class="avatar" alt="Avatar" src="images/avatar.png" />
-                </div>
-                <div class="userInfo">
-                    <div class="userWrapper">
-                        <p id="user" class="user text-dark">Welcome, <span id="username" class="text-light"></span></p>
-                    </div>
-                    <div class="relative-wrapper coin-wrapper">
-                        <p id="coins" class="acme text-light"></p>
-                        <img class="coin" src="images/coin.svg" />
-                    </div>
-                </div>
-              </div>
+    <div class="userArea">
+      <div class="profile">
+        <div class="avatarWrapper">
+          <img id="avatar" class="avatar" alt="Avatar" src="images/avatar.png" />
         </div>
-
-        <div id="createBet" class="createBet">
-            <div class="createBetHeader">
-                <h2>Create a Bet</h2>
-                <button id="closeBet">×</button>
-            </div>
-            <form class="createBetForm">
-                <div class="formColumn">
-                    <label for="title">Give your bet a short title</label><br>
-                    <input class="createBetInput" id="title" required maxlength="25" type="text" placeholder="Ex. Election 2020"><br>
-
-                    <label for="question" class="mainLabel">What is your bet question?</label><br>
-                    <input class="createBetInput" id="question" required maxlength="50" type="text" placeholder="Ex. Who will win the Election in 2020?"><br>
-
-                    <label for="betAmount" class="mainLabel">How many coins should players bet?</label><br>
-                    <label for="betAmount" class="subLabel">Min 10, Max 50000</label>
-                    <input class="createBetInput" id="betAmount" min ="10" max="50000" type="number" placeholder="Ex. 50"><br>
-                </div>
-
-                <div class="formColumn">
-                    <label for="endtime">When is the bet end date?</label><br>
-                    <input class="createBetInput" id="endtime" type="date" lang="en"><br>
-                    <label for="lastBet" class="mainLabel">When can users no longer place a bet?</label><br>
-                    <label for="lastBet" class="subLabel">Betting will automatically be disabled once the bet ends if not set.</label><br>
-                    <input class="createBetInput" id="lastBet" type="date" lang="en"><br>
-                </div>
-
-                <div class="formColumn">
-                    <label>What will the betting options be?</label><br>
-                    <div id="inputOptionsDiv" class="inputOptionsDiv">
-                        <p id="optionsError" class='error hidden'>*You must add atleast 2 options.</p>
-                        <input class="createBetInput inputOption" type="text" placeholder="Option">
-                        <input class="createBetInput inputOption" type="text" placeholder="Option">
-                        <button id="addOption" type="button" class="mdc-fab mdc-fab--mini material-icons addOption" aria-label="Favorite">
-                            <span class="mdc-fab__icon">add</span>
-                        </button>
-                    </div>
-                    <p id="errorBox" class="hidden">*You may only have a maximum of 20 options per bet.</p>
-                </div>
-            </form>
-            <div class="createBetBtn-wrapper">
-            <button onclick="createBet(event)" type="button" class="mdc-button createBetBtn">Create Bet</button>
+        <div class="userInfo">
+          <div class="userWrapper">
+            <p id="user" class="user text-dark">Welcome, <span id="username" class="text-light"></span></p>
+          </div>
+          <div class="relative-wrapper coin-wrapper">
+            <p id="coins" class="acme text-light"></p>
+            <img class="coin" src="images/coin.svg" />
           </div>
         </div>
+      </div>
+    </div>
 
-        <main class="grid">
-        <!--<div class="bet">
+    <div id="createBet" class="createBet">
+      <div class="createBetHeader">
+        <h2>Create a Bet</h2>
+        <button id="closeBet">×</button>
+      </div>
+      <form class="createBetForm">
+        <div class="formColumn">
+          <label for="title">Give your bet a short title</label><br>
+          <input class="createBetInput" id="title" required maxlength="25" type="text" placeholder="Ex. Election 2020"><br>
+
+          <label for="question" class="mainLabel">What is your bet question?</label><br>
+          <input class="createBetInput" id="question" required maxlength="50" type="text" placeholder="Ex. Who will win the Election in 2020?"><br>
+
+          <label for="betAmount" class="mainLabel">How many coins should players bet?</label><br>
+          <label for="betAmount" class="subLabel">Min 10, Max 50000</label>
+          <input class="createBetInput" id="betAmount" min="10" max="50000" type="number" placeholder="Ex. 50"><br>
+        </div>
+
+        <div class="formColumn">
+          <label for="endtime">When is the bet end date?</label><br>
+          <input class="createBetInput" id="endtime" type="date" lang="en"><br>
+          <label for="lastBet" class="mainLabel">When can users no longer place a bet?</label><br>
+          <label for="lastBet" class="subLabel">Betting will automatically be disabled once the bet ends if not set.</label><br>
+          <input class="createBetInput" id="lastBet" type="date" lang="en"><br>
+        </div>
+
+        <div class="formColumn">
+          <label>What will the betting options be?</label><br>
+          <div id="inputOptionsDiv" class="inputOptionsDiv">
+            <p id="optionsError" class='error hidden'>*You must add atleast 2 options.</p>
+            <input class="createBetInput inputOption" type="text" placeholder="Option">
+            <input class="createBetInput inputOption" type="text" placeholder="Option">
+            <button id="addOption" type="button" class="mdc-fab mdc-fab--mini material-icons addOption" aria-label="Favorite">
+                            <span class="mdc-fab__icon">add</span>
+                        </button>
+          </div>
+          <p id="errorBox" class="hidden">*You may only have a maximum of 20 options per bet.</p>
+        </div>
+      </form>
+      <div class="createBetBtn-wrapper">
+        <button onclick="createBet(event)" type="button" class="mdc-button createBetBtn">Create Bet</button>
+      </div>
+    </div>
+
+    <main class="grid">
+      <!--<div class="bet">
               <div class="bet-top">
                 <img src="images/avatar.png" class="avatar" alt="an image" />
                 <div class="inf">
@@ -249,48 +255,8 @@
               </div>
             </div>-->
 
-        </main>
-    </div>
-
-
-    <nav>
-        <button id="openMenu">&#9776;</button>
-        <button id="closeMenu">×</button>
-        <div id="menu">
-            <button></button>
-            <button>ALL BETS</button>
-            <div></div>
-            <button>MY BETS</button>
-            <div></div>
-            <button>CREATE BET</button>
-            <div></div>
-            <button>PROFILE & SETTINGS</button>
-            <div></div>
-            <button>LOGOUT</button>
-        </div>
-    </nav>
-
-    <footer class="hidden">
-        <div id="footer">
-            <div>
-                <img id="logo" src="images/heroes.svg"/>
-                <div id="links">
-                    <div><p>| lorem ipsum</p></div>
-                    <div><p>| lorem ipsum</p></div>
-                    <div><p>| lorem ipsum</p></div>
-                    <div><p>| lorem ipsum</p></div>
-                </div>
-            </div>
-            <div id="socialMedia">
-                <p>Social Media:</p>
-                <div>
-                    <div><img src="resources/fb.png"/></div>
-                    <div><img src="resources/ig.png"/></div>
-                    <div><img src="resources/in.png"/></div>
-                </div>    
-            </div>
-        </div>
-    </footer>
+    </main>
+  </div>
 </body>
 
 </html>

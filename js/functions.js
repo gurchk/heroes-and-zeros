@@ -21,10 +21,10 @@ function showLoadingScreen() {
     loadingScreen.classList.remove("hidden");
 }
 
-function updateUI(name, avatar, coins) {
-    document.getElementById("username").innerText = name;
-    document.getElementById("avatar").setAttribute("src", avatar);
-    document.getElementById("coins").innerText = coins;
+function updateUI() {
+    document.getElementById("username").innerText = user.name;
+    document.getElementById("avatar").setAttribute("src", user.displayImage);
+    document.getElementById("coins").innerText = user.coins;
 
     loginWrapper.classList.add("hidden");
     contentWrapper.classList.remove("hidden");
@@ -34,15 +34,7 @@ function updateUI(name, avatar, coins) {
 
     fetchBetsFromDB();
 
-
-    let createBetCover = document.getElementById("createBetCover");
-    let createBet = document.getElementById("createBet");
-    let closeBet = document.getElementById('closeBet');
-    let menuCreateBet = document.getElementById("menuCreateBet");
-    let closeMenuCover = document.getElementById("closeMenuCover");
-
     document.getElementById("openMenu").addEventListener("click", function() {
-        console.log("Hello?");
         closeMenuCover.classList.remove("hidden");
         this.style.zIndex = "-1";
         this.style.display = "none";
@@ -50,7 +42,6 @@ function updateUI(name, avatar, coins) {
         document.getElementById("closeMenu").style.display = "inline";
         document.getElementById("menu").style.transform = "translateX(0)";
     });
-
     document.getElementById("closeMenu").addEventListener("click", function() {
         this.style.zIndex = "-1";
         this.style.display = "none";
@@ -58,6 +49,11 @@ function updateUI(name, avatar, coins) {
         document.getElementById("openMenu").style.display = "inline";
         document.getElementById("menu").style.transform = "translateX(100%)";
     });
+
+    let createBetCover = document.getElementById("createBetCover");
+    let createBet = document.getElementById("createBet");
+    let closeBet = document.getElementById('closeBet');
+    let menuCreateBet = document.getElementById("menuCreateBet");
 
     menuCreateBet.addEventListener("click", () => {
         fadeIn(createBet);
@@ -74,6 +70,7 @@ function updateUI(name, avatar, coins) {
         fadeOut(createBetCover);
     });
 
+    let closeMenuCover = document.getElementById("closeMenuCover");
     closeMenuCover.addEventListener("click", function() {
         document.getElementById("closeMenu").style.zIndex = "-1";
         document.getElementById("closeMenu").style.display = "none";
@@ -85,7 +82,6 @@ function updateUI(name, avatar, coins) {
     });
 }
 
-// fade out
 function fadeOut(el){
   el.style.opacity = 1;
 
@@ -97,7 +93,9 @@ function fadeOut(el){
     }
   })();
 }
+
 // fade in
+
 function fadeIn(el, display){
   el.style.opacity = 0;
   el.style.display = display || "block";
@@ -109,17 +107,17 @@ function fadeIn(el, display){
       requestAnimationFrame(fade);
     }
   })();
-}   
+}
 
 function fetchBetsFromDB() {
     db.ref("bets/").on("child_added", snapshot => {
         let data = snapshot.val();
         let key = snapshot.key;
 
-        if(data.active) {
-            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options);
+        if(data.active && data.options) {
+            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
             bet.createCard();
-            
+
             // Add ripple effect to buttons
             let btns = document.querySelectorAll('.mdc-button');
             let fabs = document.querySelectorAll('.mdc-fab');
@@ -130,14 +128,23 @@ function fetchBetsFromDB() {
               mdc.ripple.MDCRipple.attachTo(fab);
             }
         }
+    });
 
-        // Enable share buttons
-        /*let shareButtons = document.querySelectorAll(".shareBtn");
-        for(let i = 0; i < shareButtons.length; i++) {
-            shareButtons[i].addEventListener("click", function(event) {
-                console.log(event);
-            });
-        }*/
+    db.ref("bets/").on("child_changed", snapshot => {
+        let data = snapshot.val();
+        let key = snapshot.key;
+
+        if(Object.keys(data.options).length === data.numberOfOptions) {
+
+            // If the element already exists on the page, remove it
+            let changedElement = document.querySelectorAll("data-id=" + key);
+            if(changedElement) {
+                changedElement.parentNode.removeChild(changedElement);
+            }
+
+            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
+            bet.createCard();
+        }
     });
 }
 

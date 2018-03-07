@@ -84,11 +84,10 @@ function createBet(event) {
             active: true,
             numberOfBets: 0,
             winningOption: "",
-            pot: 0
+            pot: 0,
+            numberOfOptions: optionCount
         }
 
-        // TODO: Bettet skapas innan options hinner läggas in eftersom child_added händer direkt. Testa lägga in child_changed också och reloada
-        // betten då, då får den med options också.
         db.ref("bets/").push(data).then( snap => {
             let betKey = snap.key;
             optionValues.forEach(option => {
@@ -100,119 +99,187 @@ function createBet(event) {
         inputs.forEach(function(input) {
           input.value = "";
         });
+
+        // Hide the create bet window
+        fadeOut(document.getElementById("createBet"), "block");
+        fadeOut(document.getElementById("createBetCover"));
     }
 }
 
 class Bet {
-  constructor(betId, title, question, coins, endTime, lastBetTime, creator, numberOfBets, options) {
-    this.betId = betId;
-    this.title = title;
-    this.question = question;
-    this.coins = coins;
-    this.endTime = endTime;
-    this.lastBetTime = lastBetTime;
-    this.creator = creator;
-    this.numberOfBets = numberOfBets;
-    this.options = options;
-    this.card = undefined;
-  }
-  createCard() {
-    const grid = document.getElementsByTagName('main')[0];
-    this.card = document.createElement("div");
-    this.card.setAttribute('class', 'bet');
-    this.card.innerHTML = `
-        <div class="bet-top">
-            <img class="userImage avatar" src="${this.creator.displayImage}" alt="img" />
-            <div class="inf">
-                <p class="size-14 text-dark">${this.title}</p>
-                <p class="size-14 text-light">Created by: ${this.creator.name}</p>
-            </div>
-            <p class="size-14 text-light">End date: ${this.endTime}</p>
-        </div>`;
-      
-    let div = document.createElement("div");
-    div.classList.add("bet-middle");
-
-    this.createOptions(div);
-    this.card.insertAdjacentElement("beforeend", div);
-
-    this.card.insertAdjacentHTML("beforeend", `
-        <div class="bet-bottom">
-        <div class="inf">
-            <h1 class="size-24 text-dark">${this.question}</h1>
-            <div class="relative-wrapper coin-wrapper">
-                <p class="text-light acme">${this.coins}</p>
-                <i class="material-icons">high_quality</i>
-            </div>
-            </div>
-            <div class="peeps">
-                <div class="relative-wrapper">
-                <p class="text-light acme">${this.numberOfBets}</p>
-                <i class="material-icons">people</i>
-                </div>
-            </div>
-            <div class="buts">
-                <button class="mdc-button voteBtn mdc-ripple-upgraded" disabled>Vote</button>
-                <button class="mdc-button mdc-ripple-upgraded shareBtn">Share</button>
-            </div>
-            <p class="size-14 text-light">Betting closes in: ${this.last}</p>
-        </div>`);
-    grid.appendChild(this.card);
-
-    let shareButton = this.card.children[2].children[2].children[1];
-    shareButton.addEventListener("click", event => {
-        this.shareBet();
-    });
-  }
-  startTimer(seconds = this.lastBetTime, container = "") { // Add container of bet time
-    var now, m, s, startTime, timer, obj, ms = seconds * 1000,
-      display = document.getElementById(container);
-    obj = {};
-    obj.resume = () => {
-      startTime = new Date().getTime();
-      timer = setInterval(obj.step, 250);
-    };
-    obj.step = () => {
-      now = Math.max(0, ms - (new Date().getTime() - startTime)),
-        m = Math.floor(now / 60000),
-        s = Math.floor(now / 1000) % 60;
-      s = (s < 10 ? "0" : "") + s;
-      if (now === 0) {
-        clearInterval(timer);
-        obj.resume = function() {};
-        this.onComplete();
-      }
-      return now;
-    };
-    obj.resume();
-    return obj;
-  }
-  join(selectedOption) {
-    // Joins the bet, deposits credits...
-    // Once joined one cannot simply leave.
-    let userCoins = userObj.coins;
-
-    if(userCoins < this.betAmount) {
-        // TODO: Display some kind of error message to the user.
+    constructor(id, title, question, coins, endTime, lastBetTime, creator, numberOfBets, options, numberOfOptions) {
+        this.id = id;
+        this.title = title;
+        this.question = question;
+        this.coins = coins;
+        this.endTime = endTime;
+        this.lastBetTime = lastBetTime;
+        this.creator = creator;
+        this.numberOfBets = numberOfBets;
+        this.options = options;
+        this.numberOfOptions = numberOfOptions;
+        this.grid = undefined;
+        this.card = undefined;
     }
-    else {
-        this.pot += this.betAmount;
-        userCoins 
+    createCard() {
+        // Select the grid that we place all the bets in
+        this.grid = document.getElementsByTagName('main')[0];
+
+        // Create the bet card and all its components, add their classes etc.
+        this.card = document.createElement("div");
+        this.card.classList.add("bet");
+        this.card.setAttribute("data-id", this.id);
+
+        let betTop = document.createElement("div");
+        betTop.classList.add("bet-top");   
+
+            let avatar = document.createElement("img");
+            avatar.classList.add("userImage", "avatar");
+            avatar.setAttribute("src", this.creator.displayImage);
+            avatar.setAttribute("alt", this.creator.name);
+            avatar.addEventListener("click", () => {
+                console.log("Redirect to userpage, TODO");
+            });
+
+            let topInfo = document.createElement("div");
+            topInfo.classList.add("inf");
+                let betTitle = document.createElement("p");
+                betTitle.classList.add("size-14", "text-dark");
+                betTitle.innerText = this.title;
+
+                let createdBy = document.createElement("p")
+                createdBy.classList.add("size-14", "text-light");
+                createdBy.innerText = "Created by: " + this.creator.name;
+                createdBy.addEventListener("click", () => {
+                    console.log("Redirect to userpage, TODO");
+                });
+
+            let endDate = document.createElement("p");
+            endDate.classList.add("size-14", "text-light");
+            endDate.innerText = "End date: " + this.endTime;
+
+        topInfo.appendChild(betTitle);
+        topInfo.appendChild(createdBy);
+
+        betTop.appendChild(avatar);
+        betTop.appendChild(topInfo);
+        betTop.appendChild(endDate);
+
+
+        let betMiddle = document.createElement("div");
+        betMiddle.classList.add("bet-middle");
+
+        // Add all the options to the bet-middle div.
+        this.createOptionsIn(betMiddle);
+
+        let betBottom = document.createElement("div");
+        betBottom.classList.add("bet-bottom");
+
+            let bottomInfo = document.createElement("div");
+            bottomInfo.classList.add("inf");
+                let questionText = document.createElement("h1");
+                questionText.classList.add("size-24", "text-dark");
+                questionText.innerText = this.question;
+
+                let betAmountWrapper = document.createElement("div");
+                betAmountWrapper.classList.add("relative-wrapper", "coin-wrapper");
+                    let count = document.createElement("p");
+                    count.classList.add("text-light", "acme");
+                    count.innerText = this.coins;
+                    let coin = document.createElement("img");
+                    coin.classList.add("coin");
+                    coin.setAttribute("src", "images/coin.svg");
+                    coin.setAttribute("alt", "Coins");
+
+            let countWrapper = document.createElement("div");
+            countWrapper.classList.add("peeps");
+                let countWrapperTwo = document.createElement("div");
+                countWrapperTwo.classList.add("relative-wrapper");
+                    let peopleCount = document.createElement("p");
+                    peopleCount.classList.add("text-light", "acme");
+                    peopleCount.innerText = this.numberOfBets;
+                    let peopleImage = document.createElement("i");
+                    peopleImage.classList.add("material-icons");
+                    peopleImage.innerText = "people";
+
+            let buttonWrapper = document.createElement("div");
+            buttonWrapper.classList.add("buts");
+                let betButton = document.createElement("button");
+                betButton.classList.add("mdc-button", "voteBtn", "mdc-ripple-uprgaded");
+                betButton.disabled = true;
+                betButton.innerText = "Place Bet";
+                let shareButton = document.createElement("button");
+                shareButton.classList.add("mdc-button", "mdc-ripple-upgraded");
+                shareButton.innerText = "Share";
+                shareButton.addEventListener("click", () => {
+                    console.log("TODO: Implement Share");
+                });
+            
+            let betCloseTime = document.createElement("p");
+            betCloseTime.classList.add("size-14", "text-light");
+            betCloseTime.innerText = "Betting closes in: " + this.lastBetTime;
+
+        bottomInfo.appendChild(questionText);
+        betAmountWrapper.appendChild(count);
+        betAmountWrapper.appendChild(coin);
+        bottomInfo.appendChild(betAmountWrapper);
+        betBottom.appendChild(bottomInfo);
+        countWrapperTwo.appendChild(peopleCount);
+        countWrapperTwo.appendChild(peopleImage);
+        countWrapper.appendChild(countWrapperTwo);
+        betBottom.appendChild(countWrapper);
+        buttonWrapper.appendChild(betButton);
+        buttonWrapper.appendChild(shareButton);
+        betBottom.appendChild(buttonWrapper);
+        betBottom.appendChild(betCloseTime);
+
+
+        this.card.appendChild(betTop);
+        this.card.appendChild(betMiddle);
+        this.card.appendChild(betBottom);
+
+        // Append the bet card to the grid.
+        this.grid.appendChild(this.card);
     }
-  }
-  remove() {
-    // Removes the whole bet and returns bettings.
-    // Cant be done after lastBetTime is set.
-  }
-  placeBet() {
-    //Find the checked option
-    //let votedOption = document.getElementsByClassName
-    console.log("To be implemented.");
-    // TODO: Grab the current activated input from the Bet and join() bet.
-  }
-    createOptions(container) {
+    startTimer(seconds = this.lastBetTime, container = "") { // Add container of bet time
+        var now, m, s, startTime, timer, obj, ms = seconds * 1000,
+            display = document.getElementById(container);
+        obj = {};
+        obj.resume = () => {
+            startTime = new Date().getTime();
+            timer = setInterval(obj.step, 250);
+        };
+        obj.step = () => {
+            now = Math.max(0, ms - (new Date().getTime() - startTime)),
+            m = Math.floor(now / 60000),
+            s = Math.floor(now / 1000) % 60;
+            s = (s < 10 ? "0" : "") + s;
+            if (now === 0) {
+            clearInterval(timer);
+            obj.resume = function() {};
+            this.onComplete();
+            }
+            return now;
+        };
+        obj.resume();
+        return obj;
+    }
+    join() {
+        // Joins the bet, deposits credits...
+        // Once joined one cannot simply leav.
+    }
+    remove() {
+        // Removes the whole bet and returns bettings.
+        // Cant be done after lastBetTime is set.
+    }
+    castVote(){
+        //Find the checked option
+        //let votedOption = document.getElementsByClassName
+    }
+    createOptionsIn(container) {
         let numberOfOptions = 1;
-        let html = [];
+
+        // For every option in the bet options object, create the HTML tags and append it to the container.
         for (let option in this.options) {
             let evenOrOdd;
             if((numberOfOptions%2)==0)
@@ -268,15 +335,15 @@ class Bet {
         // Integrate with Facebook API or another API to share the bet.
         console.log("To be implemented.");
     }
-  onComplete() {
-    // Play some cool sound
-    // var audio = new Audio('audio_file.mp3');
-    // audio.play();
+    onComplete() {
+        // Play some cool sound
+        // var audio = new Audio('audio_file.mp3');
+        // audio.play();
 
-    // Calculate the winner
-    // Update some statistics
-    // Set player coins
-    // Draw player coins
-  }
+        // Calculate the winner
+        // Update some statistics
+        // Set player coins
+        // Draw player coins
+    }
 }
 // let myNewBet = new Bet(title, question, coins, endTime, lastBetTime, options);
