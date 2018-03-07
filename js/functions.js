@@ -21,10 +21,10 @@ function showLoadingScreen() {
     loadingScreen.classList.remove("hidden");
 }
 
-function updateUI(name, avatar, coins) {
-    document.getElementById("username").innerText = name;
-    document.getElementById("avatar").setAttribute("src", avatar);
-    document.getElementById("coins").innerText = coins;
+function updateUI() {
+    document.getElementById("username").innerText = user.name;
+    document.getElementById("avatar").setAttribute("src", user.displayImage);
+    document.getElementById("coins").innerText = user.coins;
 
     loginWrapper.classList.add("hidden");
     contentWrapper.classList.remove("hidden");
@@ -114,8 +114,10 @@ function fetchBetsFromDB() {
         let data = snapshot.val();
         let key = snapshot.key;
 
-        if(data.active) {
-            let bet = new Bet(data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options);
+        if(data.active && data.options) {
+            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
+            bet.createCard();
+
             // Add ripple effect to buttons
             let btns = document.querySelectorAll('.mdc-button');
             let fabs = document.querySelectorAll('.mdc-fab');
@@ -128,6 +130,23 @@ function fetchBetsFromDB() {
         }
     //call this to start search.js
     search();
+    });
+
+    db.ref("bets/").on("child_changed", snapshot => {
+        let data = snapshot.val();
+        let key = snapshot.key;
+
+        if(Object.keys(data.options).length === data.numberOfOptions) {
+
+            // If the element already exists on the page, remove it
+            let changedElement = document.querySelectorAll("data-id=" + key);
+            if(changedElement) {
+                changedElement.parentNode.removeChild(changedElement);
+            }
+
+            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
+            bet.createCard();
+        }
     });
 }
 
