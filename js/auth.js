@@ -36,7 +36,7 @@ window.onload = function() {
                     user.subscribeToUpdates();
 
                    // Send message in our Slack channel
-                   let msg = "*" + authUser.displayName + " (uid: " + authUser.uid + ")* has just logged in for the first time!";
+                   let msg = "*" + user.displayName + " (uid: " + user.uid + ")* has just logged in for the first time!";
                    fetch("https://hooks.slack.com/services/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", { method: "POST", body: JSON.stringify({"text": msg}) });
 
                    //User is signed in. Hide login page and show the rest of the page.

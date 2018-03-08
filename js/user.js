@@ -87,8 +87,7 @@ class User {
         db.ref("users/" + this.uid + "/" + property).set(value);
     }
     incrementProperty(property, value) {
-        db.ref("users/" + this.uid)
-
+        // Get a reference from the database for users/userid/property, then set it to current value + given value
         let ref = db.ref("users/" + this.uid + "/" + property);
         ref.transaction(val => {
             return (val + value);
