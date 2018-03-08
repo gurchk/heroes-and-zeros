@@ -153,6 +153,12 @@ input[class=radioOption]:checked ~ .alternative {
   bottom: 4px;
   right: 4px;
 }
+.bet-top > span {
+    display: block;
+    text-align: right;
+    color: #FF5D55;
+    margin-right: 4px;
+}
 
 .bet-middle {
   height: 220px;
