@@ -1,5 +1,5 @@
 class User {
-    constructor(uid, displayImage, email, name, coins, games, wins, losses, totalCoinsPlaced, totalCoinsWon) {
+    constructor(uid, displayImage, email, name, coins, games, wins, losses, totalCoinsPlaced, totalCoinsWon, betHistory) {
         this.uid = uid;
         this.displayImage = displayImage; // Fetch image from facebook objekt
         this.email = email;
@@ -10,6 +10,7 @@ class User {
         this.losses = losses;
         this.totalCoinsPlaced = totalCoinsPlaced;
         this.totalCoinsWon = totalCoinsWon;
+        this.betHistory = betHistory;
     }
     subscribeToUpdates() {
         console.log("Subscribing to user updates");
@@ -19,6 +20,8 @@ class User {
             let value = snapshot.val();
             
             this[property] = value;
+
+            console.log("Updated", property, "to", value);
         });
 
         // TODO: Add querySelectorAll to update all elements on page that uses the values. For example every container for coins has class="coins" or similar. querySelectorAll(".coins") foreach.

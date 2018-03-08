@@ -1,6 +1,4 @@
-// Variables
-let inputOptionsDiv;
-let addOption;
+const bets = {};
 
 function createBet(event) {
     let inputs = document.querySelectorAll(".createBetInput");
@@ -119,8 +117,9 @@ class Bet {
         this.options = options;
         this.numberOfOptions = numberOfOptions;
         this.card = undefined;
+        this.grid = document.getElementsByClassName("grid")[0];
     }
-    createCard(container) {
+    createCard() {
         // Create the bet card and all its components, add their classes etc.
         this.card = document.createElement("div");
         this.card.classList.add("bet");
@@ -229,13 +228,12 @@ class Bet {
         betBottom.appendChild(buttonWrapper);
         betBottom.appendChild(betCloseTime);
 
-
         this.card.appendChild(betTop);
         this.card.appendChild(betMiddle);
         this.card.appendChild(betBottom);
 
         // Append the bet card to the grid.
-        container.appendChild(this.card);
+        this.grid.appendChild(this.card);
     }
     startTimer(seconds = this.lastBetTime, container = "") { // Add container of bet time
         var now, m, s, startTime, timer, obj, ms = seconds * 1000,
@@ -268,7 +266,7 @@ class Bet {
         // Removes the whole bet and returns bettings.
         // Cant be done after lastBetTime is set.
     }
-    castVote(){
+    placeBet(){
         //Find the checked option
         //let votedOption = document.getElementsByClassName
     }
@@ -303,9 +301,33 @@ class Bet {
             p.classList.add("size-14", "text-dark");
             p.innerHTML = this.options[option].name;
 
-            input.addEventListener("click", (event) => {
-                this.enableVoteButton();
-            });
+            let userHasBet = false;
+            for(let bet in user.betHistory) {
+                // For every placed bet in the user bet history, check if that bet is the current bet
+                if(bet === this.id) {
+                    // If the user has placed a bet on the current bet, check for the option
+                    if(user.betHistory[bet] === option) {
+                        // This happens if a user has placed a bet on this option
+                        input.checked = true;
+                    }
+                    else {
+                        // This happens if a user has placed a bet on this bet, but not this option
+                        input.disabled = true;
+                    }
+
+                    // Set userHasBet to true so that the input eventListener will not be set.
+                    userHasBet = true;
+                }
+
+                // This happens if the user has not placed a bet on this bet, pressing any label enables the Place Bet button
+            }
+
+            // If the user has not placed a bet on this card, enable the button on selection.
+            if(!userHasBet) {
+                input.addEventListener("click", () => {
+                    this.enableVoteButton();
+                });
+            }
 
             div.appendChild(span);
             div.appendChild(p);
@@ -321,10 +343,10 @@ class Bet {
     }
     enableVoteButton() {
         let voteButton = this.card.querySelectorAll("button")[0];
-        voteButton.disabled = false;
 
+        voteButton.disabled = false;
         voteButton.addEventListener("click", () => {
-            this.castVote();
+            this.placeBet();
         });
     }
     shareBet() {
@@ -342,4 +364,3 @@ class Bet {
         // Draw player coins
     }
 }
-// let myNewBet = new Bet(title, question, coins, endTime, lastBetTime, options);

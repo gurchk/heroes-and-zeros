@@ -90,56 +90,6 @@ function updateUI() {
         fadeIn(createBet);
         fadeIn(createBetCover);
     });
-
-    let menuMyBets = document.getElementById("menuMyBets");
-    menuMyBets.addEventListener("click", () => {
-        let placedBets = [];
-        let createdBets = [];
-        closeMenu();
-
-        // Get user placed and created bets.
-        //getBets();
-        
-        function getBets() {
-            db.ref("bets/").once("value", snap => {
-                let bets = snap.val();
-                let createdByUser = [];
-
-                for(let bet in bets) {
-                    if(bets[bet].creator.uid === user.uid && bets[bet].active) {
-                        createdBets.push(bets[bet]);
-                    }
-                }
-
-                console.log(createdBets);
-            });
-        }
-
-
-        // Load the created bets
-        function loadCreatedBets() {
-
-        }
-
-        // Load the placed bets
-        function loadPlacedBets() {
-
-        }
-
-        document.getElementById("placedBetsBtn").addEventListener("click", () => {
-            // Clear the grid
-            document.getElementsByClassName("userBetsGrid")[0].innerHTML = "";
-            loadPlacedBets();
-        });
-        document.getElementById("createdBetsBtn").addEventListener("click", () => {
-            // Clear the grid
-            document.getElementsByClassName("userBetsGrid")[0].innerHTML = "";
-            loadCreatedBets();
-        });
-
-
-        document.getElementsByClassName("grid")[0].classList.add("hidden");
-    });
 }
 
 function fadeOut(el){
@@ -167,6 +117,84 @@ function fadeIn(el, display){
     })();
 }
 
+window.addEventListener("load", () => {
+
+    let allBetsBtn = document.getElementById("allBetsBtn");
+    let createdBetsBtn = document.getElementById("createdBetsBtn");
+    let placedBetsBtn = document.getElementById("placedBetsBtn");
+    
+    allBetsBtn.addEventListener("click", () => {
+        document.getElementById("noResults").classList.add("hidden");
+        showAllBets();
+        allBetsBtn.classList.add("active");
+        createdBetsBtn.classList.remove("active");
+        placedBetsBtn.classList.remove("active");
+    }); 
+    
+    createdBetsBtn.addEventListener("click", () => {
+        document.getElementById("noResults").classList.add("hidden");
+        showCreatedBets();
+        createdBetsBtn.classList.add("active");
+        placedBetsBtn.classList.remove("active");
+        allBetsBtn.classList.remove("active");
+    });
+    
+    placedBetsBtn.addEventListener("click", () => {
+        document.getElementById("noResults").classList.add("hidden");
+        showPlacedBets();
+        placedBetsBtn.classList.add("active");
+        createdBetsBtn.classList.remove("active");
+        allBetsBtn.classList.remove("active");
+    });
+});
+
+function showAllBets() {
+    document.getElementsByClassName("grid")[0].innerHTML = "";
+
+    for(let bet in bets) {
+        bets[bet].createCard();
+    }
+
+    if(Object.keys(bets).length === 0) {
+        document.getElementById("noResults").classList.remove("hidden");
+    }
+}
+
+function showCreatedBets() {
+    document.getElementsByClassName("grid")[0].innerHTML = "";
+    let count = 0;
+
+    for(let bet in bets) {
+        if(bets[bet].creator.uid === user.uid) {
+            bets[bet].createCard();
+            count++;
+        }
+    }
+
+    if(count === 0) {
+        document.getElementById("noResults").classList.remove("hidden");
+    }
+}
+
+function showPlacedBets() {
+    document.getElementsByClassName("grid")[0].innerHTML = "";
+    let count = 0;
+
+    for(let bet in bets) {
+        for(let id in user.betHistory) {
+            if(id === bet) {
+                bets[bet].createCard();
+                bets[bet].card.style.pointerEvents = "none";
+                count++;
+            }
+        }
+    }
+
+    if(count === 0) {
+        document.getElementById("noResults").classList.remove("hidden");
+    }
+}
+
 function fetchBetsFromDB() {
     document.getElementsByTagName('main')[0].innerHTML = "";
 
@@ -174,14 +202,13 @@ function fetchBetsFromDB() {
         let data = snapshot.val();
         let key = snapshot.key;
 
-        // Om bettet är inaktivt gör något, typ lägg den längst bak av alla bets eller något.
-        if(!data.active) {
-            console.log("TODO");
-        }
-
-        if(data.options) {
+        // If the bet is inactive, AKA a winning option has been chosen, don't render it on the page. Maybe do something else with it 
+        if(data.options && data.active) {
             let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
-            bet.createCard(document.getElementsByClassName("grid")[0]);
+            bet.createCard();
+
+            bets[key] = bet;
+            document.getElementById("allBetsCounter").innerText = "(" + Object.keys(bets).length + ")";
 
             // Add ripple effect to buttons
             let btns = document.querySelectorAll('.mdc-button');
@@ -208,7 +235,9 @@ function fetchBetsFromDB() {
             }
 
             let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
-            bet.createCard(document.getElementsByClassName("grid")[0]);
+            bet.createCard();
+
+            bets[key] = bet;
         }
     });
 }
