@@ -71,7 +71,7 @@ function createBet(event) {
             errors[errors.length-1].parentNode.removeChild(errors[errors.length-1]);
         }
 
-        // document.getElementById("optionsError").classList.add("hidden");
+        //document.getElementById("optionsError").classList.add("hidden");
 
         // Add bet to database
         let data = {

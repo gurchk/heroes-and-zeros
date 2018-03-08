@@ -17,7 +17,7 @@ class User {
         db.ref("users/" + this.uid).on("child_changed", snapshot => {
             let property = snapshot.key;
             let value = snapshot.val();
-            
+
             this[property] = value;
         });
 
