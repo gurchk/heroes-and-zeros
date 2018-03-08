@@ -13,18 +13,15 @@
             "betHistory": {
                 "betId": {
                     "option": "New York Rangers",
-                    "coinsPlaced": "100",
-                    "coinsWon": "0"
+                    "coinsPlaced": "100"
                 },
                 "betId2": {
                     "option": "Boston Bears",
-                    "coinsPlaced": "100",
-                    "coinsWon": "200"
+                    "coinsPlaced": "100"
                 },
                 "betId3": {
                     "option": "Seatle Sea Turtles",
-                    "coinsPlaced": "100",
-                    "coinsWon": "0"
+                    "coinsPlaced": "100"
                 }
             }
         }
@@ -38,33 +35,22 @@
             "lastBetTime": "2018-02-18 20:00:00",
             "options": {
                 "optionId1": {
-                    "name": "New York Rangers",
-                    "placedBets": {
-                        "uid1": "100",
-                        "uid2": "100",
-                        "uid3": "100"
-                    }
+                    "name": "New York Rangers"
                 },
                 "optionId2": {
-                    "name": "Boston Bears",
-                    "placedBets": {
-                        "uid1": "100",
-                        "uid2": "100",
-                        "uid3": "100"
-                    }
+                    "name": "Boston Bears"
                 },
                 "optionId3": {
-                    "name": "Seatle Sea Turtles",
-                    "placedBets": {
-                        "uid1": "100",
-                        "uid2": "100",
-                        "uid3": "100"
-                    }
+                    "name": "Seatle Sea Turtles"
                 }
             },
             "title": "Superbowl 2018",
             "active": "true",
-            "winningOption": ""
+            "winningOption": "",
+            "placedBets": {
+                "uid": "optionId",
+                "uid2": "optionId2"
+            }
         }
     }
 }

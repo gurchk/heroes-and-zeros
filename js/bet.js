@@ -71,7 +71,7 @@ function createBet(event) {
             errors[errors.length-1].parentNode.removeChild(errors[errors.length-1]);
         }
 
-        document.getElementById("optionsError").classList.add("hidden");
+        //document.getElementById("optionsError").classList.add("hidden");
 
         // Add bet to database
         let data = {
@@ -80,7 +80,7 @@ function createBet(event) {
             betAmount: betAmount.value,
             endTime: endTime.value,
             lastBetTime: lastBetTime.value,
-            creator: userObj,
+            creator: { uid: user.uid, displayImage: user.displayImage, name: user.name },
             active: true,
             numberOfBets: 0,
             winningOption: "",
@@ -118,13 +118,9 @@ class Bet {
         this.numberOfBets = numberOfBets;
         this.options = options;
         this.numberOfOptions = numberOfOptions;
-        this.grid = undefined;
         this.card = undefined;
     }
-    createCard() {
-        // Select the grid that we place all the bets in
-        this.grid = document.getElementsByTagName('main')[0];
-
+    createCard(container) {
         // Create the bet card and all its components, add their classes etc.
         this.card = document.createElement("div");
         this.card.classList.add("bet");
@@ -239,7 +235,7 @@ class Bet {
         this.card.appendChild(betBottom);
 
         // Append the bet card to the grid.
-        this.grid.appendChild(this.card);
+        container.appendChild(this.card);
     }
     startTimer(seconds = this.lastBetTime, container = "") { // Add container of bet time
         var now, m, s, startTime, timer, obj, ms = seconds * 1000,

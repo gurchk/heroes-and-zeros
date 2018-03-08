@@ -35,30 +35,33 @@ function updateUI() {
     fetchBetsFromDB();
 
     document.getElementById("openMenu").addEventListener("click", function() {
+        openMenu();
+    });
+    document.getElementById("closeMenu").addEventListener("click", function() {
+        closeMenu();
+    });
+
+    function openMenu() {
         closeMenuCover.classList.remove("hidden");
-        this.style.zIndex = "-1";
-        this.style.display = "none";
+        document.getElementById("openMenu").style.zIndex = "-1";
+        document.getElementById("openMenu").style.display = "none";
         document.getElementById("closeMenu").style.zIndex = "2001";
         document.getElementById("closeMenu").style.display = "inline";
         document.getElementById("menu").style.transform = "translateX(0)";
-    });
-    document.getElementById("closeMenu").addEventListener("click", function() {
-        this.style.zIndex = "-1";
-        this.style.display = "none";
+    }
+
+    function closeMenu() {
+        closeMenuCover.classList.add("hidden");
+        document.getElementById("closeMenu").style.zIndex = "-1";
+        document.getElementById("closeMenu").style.display = "none";
         document.getElementById("openMenu").style.zIndex = "2001";
         document.getElementById("openMenu").style.display = "inline";
         document.getElementById("menu").style.transform = "translateX(100%)";
-    });
+    }
 
     let createBetCover = document.getElementById("createBetCover");
     let createBet = document.getElementById("createBet");
     let closeBet = document.getElementById('closeBet');
-    let menuCreateBet = document.getElementById("menuCreateBet");
-
-    menuCreateBet.addEventListener("click", () => {
-        fadeIn(createBet);
-        fadeIn(createBetCover);
-    });
 
     closeBet.addEventListener("click", function() {
         fadeOut(createBet);
@@ -80,43 +83,105 @@ function updateUI() {
 
         closeMenuCover.classList.add("hidden");
     });
+
+    let menuCreateBet = document.getElementById("menuCreateBet");
+    menuCreateBet.addEventListener("click", () => {
+        closeMenu();
+        fadeIn(createBet);
+        fadeIn(createBetCover);
+    });
+
+    let menuMyBets = document.getElementById("menuMyBets");
+    menuMyBets.addEventListener("click", () => {
+        let placedBets = [];
+        let createdBets = [];
+        closeMenu();
+
+        // Get user placed and created bets.
+        //getBets();
+        
+        function getBets() {
+            db.ref("bets/").once("value", snap => {
+                let bets = snap.val();
+                let createdByUser = [];
+
+                for(let bet in bets) {
+                    if(bets[bet].creator.uid === user.uid && bets[bet].active) {
+                        createdBets.push(bets[bet]);
+                    }
+                }
+
+                console.log(createdBets);
+            });
+        }
+
+
+        // Load the created bets
+        function loadCreatedBets() {
+
+        }
+
+        // Load the placed bets
+        function loadPlacedBets() {
+
+        }
+
+        document.getElementById("placedBetsBtn").addEventListener("click", () => {
+            // Clear the grid
+            document.getElementsByClassName("userBetsGrid")[0].innerHTML = "";
+            loadPlacedBets();
+        });
+        document.getElementById("createdBetsBtn").addEventListener("click", () => {
+            // Clear the grid
+            document.getElementsByClassName("userBetsGrid")[0].innerHTML = "";
+            loadCreatedBets();
+        });
+
+
+        document.getElementsByClassName("grid")[0].classList.add("hidden");
+    });
 }
 
 function fadeOut(el){
-  el.style.opacity = 1;
+    el.style.opacity = 1;
 
-  (function fade() {
+    (function fade() {
     if ((el.style.opacity -= .1) < 0) {
-      el.style.display = "none";
+        el.style.display = "none";
     } else {
-      requestAnimationFrame(fade);
+        requestAnimationFrame(fade);
     }
-  })();
+    })();
 }
 
-// fade in
-
 function fadeIn(el, display){
-  el.style.opacity = 0;
-  el.style.display = display || "block";
+    el.style.opacity = 0;
+    el.style.display = display || "block";
 
-  (function fade() {
+    (function fade() {
     var val = parseFloat(el.style.opacity);
     if (!((val += .1) > 1)) {
-      el.style.opacity = val;
-      requestAnimationFrame(fade);
+        el.style.opacity = val;
+        requestAnimationFrame(fade);
     }
-  })();
+    })();
 }
 
 function fetchBetsFromDB() {
+    document.getElementsByTagName('main')[0].innerHTML = "";
+
     db.ref("bets/").on("child_added", snapshot => {
         let data = snapshot.val();
         let key = snapshot.key;
 
-        if(data.active && data.options) {
+        // Om bettet är inaktivt gör något, typ lägg den längst bak av alla bets eller något.
+        if(!data.active) {
+            console.log("TODO");
+        }
+
+        if(data.options) {
             let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
-            bet.createCard();
+            bet.createCard(document.getElementsByClassName("grid")[0]);
 
             // Add ripple effect to buttons
             let btns = document.querySelectorAll('.mdc-button');
@@ -137,13 +202,13 @@ function fetchBetsFromDB() {
         if(Object.keys(data.options).length === data.numberOfOptions) {
 
             // If the element already exists on the page, remove it
-            let changedElement = document.querySelectorAll("data-id=" + key);
+            let changedElement = document.querySelector("[data-id=" + key + "]");
             if(changedElement) {
                 changedElement.parentNode.removeChild(changedElement);
             }
 
             let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
-            bet.createCard();
+            bet.createCard(document.getElementsByClassName("grid")[0]);
         }
     });
 }
@@ -188,22 +253,22 @@ function distributeWinnings(winningOption, options, coinPot) {
 }
 
 function loginFinished() {
-  /* CreateBet Check for amount of options */
-  inputOptionsDiv = document.getElementById("inputOptionsDiv");
-  addOption = document.getElementById("addOption");
-  // Add click on add more options
-  addOption.addEventListener("click", function() {
-      // Check current amount of options
-      if(document.querySelectorAll(".inputOption").length < 20) {
-          let newOption = document.createElement("input");
-          newOption.classList.add("createBetInput");
-          newOption.classList.add("inputOption");
-          newOption.setAttribute("placeholder", "Option");
+    /* CreateBet Check for amount of options */
+    inputOptionsDiv = document.getElementById("inputOptionsDiv");
+    addOption = document.getElementById("addOption");
+    // Add click on add more options
+    addOption.addEventListener("click", function() {
+        // Check current amount of options
+        if(document.querySelectorAll(".inputOption").length < 20) {
+            let newOption = document.createElement("input");
+            newOption.classList.add("createBetInput");
+            newOption.classList.add("inputOption");
+            newOption.setAttribute("placeholder", "Option");
 
-          inputOptionsDiv.appendChild(newOption);
-      } else {
+            inputOptionsDiv.appendChild(newOption);
+        } else {
         let errorBox = document.getElementById("errorBox");
         errorBox.classList.remove("hidden");
-      }
-  });
+        }
+    });
 }
