@@ -128,7 +128,7 @@ class Bet {
         // Create the bet card and all its components, add their classes etc.
         this.card = document.createElement("div");
         this.card.classList.add("bet");
-        this.card.classList.add("hidden");
+        //this.card.classList.add("hidden");
         this.card.setAttribute("data-id", this.id);
 
         let betTop = document.createElement("div");
@@ -345,6 +345,14 @@ class Bet {
         // Update some statistics
         // Set player coins
         // Draw player coins
+    }
+    showBet() {
+        //remove the hidden class
+        document.querySelector("[data-id="+this.id+"]").classList.remove("hidden");
+    }
+    hideBet() {
+        //add the hidden class
+        document.querySelector("[data-id="+this.id+"]").classList.add("hidden");
     }
 }
 // let myNewBet = new Bet(title, question, coins, endTime, lastBetTime, options);
