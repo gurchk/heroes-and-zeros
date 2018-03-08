@@ -71,7 +71,7 @@ function createBet(event) {
             errors[errors.length-1].parentNode.removeChild(errors[errors.length-1]);
         }
 
-        document.getElementById("optionsError").classList.add("hidden");
+        // document.getElementById("optionsError").classList.add("hidden");
 
         // Add bet to database
         let data = {
@@ -131,7 +131,7 @@ class Bet {
         this.card.setAttribute("data-id", this.id);
 
         let betTop = document.createElement("div");
-        betTop.classList.add("bet-top");   
+        betTop.classList.add("bet-top");
 
             let avatar = document.createElement("img");
             avatar.classList.add("userImage", "avatar");
@@ -214,7 +214,7 @@ class Bet {
                 shareButton.addEventListener("click", () => {
                     console.log("TODO: Implement Share");
                 });
-            
+
             let betCloseTime = document.createElement("p");
             betCloseTime.classList.add("size-14", "text-light");
             betCloseTime.innerText = "Betting closes in: " + this.lastBetTime;
