@@ -136,7 +136,7 @@ function createBet(event) {
 }
 
 class Bet {
-	constructor(id, title, question, coins, endTime, lastBetTime, creator, numberOfBets, options, numberOfOptions, winnerSelect = false, isCreator = false) {
+	constructor(id, title, question, coins, endTime, lastBetTime, creator, numberOfBets, options, numberOfOptions, winningOption) {
 		this.id = id;
 		this.title = title;
 		this.question = question;
@@ -149,9 +149,7 @@ class Bet {
 		this.numberOfOptions = numberOfOptions;
 		this.card = null;
 		this.grid = null;
-		this.winnerSelect = winnerSelect;
-		this.isCreator = isCreator;
-		this.eventTargetId;
+		this.winningOption = winningOption;
 	}
 	createCard() {
 		// Select the grid that we place all the bets in
@@ -256,23 +254,111 @@ class Bet {
 		selectWinnerBtn.addEventListener('click', (event) => {
 			this.decideWinner;
 		})
-		if (hasUserPlacedBet(this)) {
-			betButton.disabled = true;
-			betButton.innerText = "bet already placed";
-		} else {
 
-			betButton.onclick = () => {
-				placeBet(this)
-			};
-			betButton.disabled = true;
-			betButton.innerText = "Place Bet";
 
-			if (setTimeNow() > new Date(this.lastBetTime).getTime()) {
-				betButton.disabled = true;
-				betButton.innerText = "Betting closed";
+		//IF	kolla om creator == user.uid
+		//	kolla endDate < setTimeNow
+		//	kolla om winning option == false
+		// skapa select winner button
+		//db.ref(winningoption).set == bla bla
+
+		if (user.get("uid") == this.creator.uid) {
+			console.log("first if")
+			console.log(new Date(this.endTime).getTime());
+			console.log(setTimeNow());
+			if (setTimeNow() > new Date(this.endTime).getTime()) {
+				console.log("second if")
+				console.log(this.winningOption)
+				if (this.winningOption.length == 0) {
+					console.log("thrid if");
+					buttonWrapper.appendChild(betButton);
+					betButton.disabled = true;
+					betButton.innerHTML = "Choose winner";
+					betButton.onclick = () => {
+						this.decideWinner();
+					}
+				}
 			}
-
 		}
+		/*
+
+		// Making a date to compare with
+        const dateObj = new Date()
+        const currentTimeOnPc = {
+            year: dateObj.getUTCFullYear(),
+            month: dateObj.getUTCMonth() + 1,
+            day: dateObj.getUTCDate()
+        }
+        const computedDate = `${currentTimeOnPc.year}-${currentTimeOnPc.month}-${currentTimeOnPc.day}`
+        // Checking if the bet has ended
+        if (data.active === true && Date.parse(computedDate) > Date.parse(data.lastBetTime)) {
+            if (data.winningOption.length === 0) { // Check if winningOption is set
+                var isCreator = false;
+                if (user.get("uid") == data.creator.uid) {
+                    isCreator = true;
+                }
+                console.log("Renderring the card for the owner");
+                let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, true, isCreator);
+                bet.createCard(document.getElementsByClassName("grid")[0]);
+                let btns = document.querySelectorAll('.mdc-button');
+                for (let i = 0, btn; btn = btns[i]; i++) {
+                  mdc.ripple.MDCRipple.attachTo(btn);
+                }
+            } else if (Date.parse(computedDate) > Date.parse(data.endTime)){ // If winning option is set distributeWinnings
+                console.log("Distributing winnings");
+                db.ref('bets/' + key).update({
+                    active: false,
+                });
+                distributeWinnings(data.winningOption, data.options, data.coinPot);
+            }
+        } else if (data.active === true) {
+            // Render the bet normally
+            console.log("Rendering the bet normally");
+            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
+            bet.createCard(document.getElementsByClassName("grid")[0]);
+            // Add ripple effect to buttons
+            let btns = document.querySelectorAll('.mdc-button');
+            let fabs = document.querySelectorAll('.mdc-fab');
+            for (let i = 0, btn; btn = btns[i]; i++) {
+                mdc.ripple.MDCRipple.attachTo(btn);
+            }
+            for (let i = 0, fab; fab = fabs[i]; i++) {
+                mdc.ripple.MDCRipple.attachTo(fab);
+            }
+        }
+
+
+		*/
+
+		/*
+				if (this.hasUserPlacedBet()) {
+					betButton.disabled = true;
+					betButton.innerText = "bet already placed";
+				} else {
+					console.log(this.creator, this.winnerSelect);
+					if (this.isCreator === true && this.winnerSelect != true) {
+						buttonWrapper.appendChild(selectWinnerBtn);
+						selectWinnerBtn.onclick = () => {
+							this.decideWinner(event.target.id);
+						}
+					}
+					if (this.winnerSelect != true) {
+						buttonWrapper.appendChild(betButton);
+						betButton.onclick = () => {
+							this.placeBet();
+						}
+						betButton.disabled = true;
+						betButton.innerText = "Place Bet";
+						console.log(setTimeNow() > new Date(this.lastBetTime).getTime())
+						if (setTimeNow() > new Date(this.lastBetTime).getTime()) {
+							betButton.disabled = true;
+							betButton.innerText = "Betting closed";
+							console.log("fired");
+						}
+					}
+				}*/
+
+
 		let shareButton = document.createElement("button");
 		shareButton.classList.add("mdc-button", "mdc-ripple-upgraded");
 		shareButton.innerText = "Share";
@@ -294,17 +380,7 @@ class Bet {
 		countWrapper.appendChild(countWrapperTwo);
 		betBottom.appendChild(countWrapper);
 
-		if (this.winnerSelect != true) {
-			buttonWrapper.appendChild(betButton);
-			betButton.onclick = () => {
-				this.castVote();
-			}
-		} else if (this.isCreator === true) {
-			buttonWrapper.appendChild(selectWinnerBtn);
-			selectWinnerBtn.onclick = () => {
-				this.decideWinner(this.eventTargetId);
-			}
-		}
+
 
 		buttonWrapper.appendChild(betButton);
 		buttonWrapper.appendChild(shareButton);
@@ -350,18 +426,28 @@ class Bet {
 		// Removes the whole bet and returns bettings.
 		// Cant be done after lastBetTime is set.
 	}
-	decideWinner(eventTargetId) {
-		console.log(eventTargetId);
+	decideWinner() {
+		console.log("trigger decide winner");
+		let pickedOption;
+		for (let i in this.options) {
+			if (document.getElementById(i).checked == true) {
+				pickedOption = i;
+				document.getElementById(i).checked = false;
+			}
+		}
+		console.log(pickedOption);
+		/*
 		db.ref("bets/").once("child_changed", snapshot => {
 			let data = snapshot.val();
 			let key = snapshot.key;
 			let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, false, true);
 			bet.createCard(document.getElementsByClassName("grid")[0]);
 		});
+		*/
 		db.ref('bets/' + this.id).update({
-			winningOption: eventTargetId,
+			winningOption: pickedOption,
 		});
-
+		// Delete the card from the view !!!!!!!!
 	}
 	createOptionsIn(container) {
 		let numberOfOptions = 1;
@@ -394,11 +480,11 @@ class Bet {
 			p.classList.add("size-14", "text-dark");
 			p.innerHTML = this.options[option].name;
 
-			if (setTimeNow() < new Date(this.lastBetTime).getTime()) {
-				input.addEventListener("click", (event) => {
-					this.enableVoteButton();
-				});
-			}
+
+			input.addEventListener("click", (event) => {
+				this.enableVoteButton();
+
+			});
 			div.appendChild(span);
 			div.appendChild(p);
 			label.appendChild(input);
@@ -412,6 +498,7 @@ class Bet {
 		return container;
 	}
 	enableVoteButton() {
+		console.log(this.card);
 		let castBtn = this.card.querySelectorAll("button")[0];
 		castBtn.disabled = false;
 	}
@@ -429,59 +516,52 @@ class Bet {
 		// Set player coins
 		// Draw player coins
 	}
-}
-// let myNewBet = new Bet(title, question, coins, endTime, lastBetTime, options);
+	hasUserPlacedBet() {
+		let x = false;
+		db.ref(`bets/${this.id}/placedBets`).once("value", function(snapshot) {
+			let data = snapshot.val()
+			for (let i in data) {
+				if (i == user.uid) {
+					x = true;
+				}
+			}
+		});
+		return x;
+	}
 
+	placeBet() {
+		let pickedOption;
 
-
-
-
-let hasUserPlacedBet = function(bet) {
-	let x = false;
-	db.ref(`bets/${bet.id}/placedBets`).once("value", function(snapshot) {
-		let data = snapshot.val()
-		for (let i in data) {
-			if (i == user.uid) {
-				x = true;
+		for (let i in this.options) {
+			if (document.getElementById(i).checked == true) {
+				pickedOption = i;
+				document.getElementById(i).checked = false;
 			}
 		}
-	});
-	return x;
-}
+
+		if (setTimeNow() > new Date(this.lastBetTime).getTime()) {} else {
+			//PLACE BET IN DB
+			db.ref(`bets/${this.id}/placedBets/${user.uid}`).set(pickedOption);
+
+			db.ref(`users/${user.uid}/totalCoinsPlaced`).once("value", function(snapshot) {
+				let data = snapshot.val();
+				db.ref(`users/${user.uid}/totalCoinsPlaced`).set(data + this.coins);
+			});
 
 
+			//REMOVE COINS FROM USER
+			db.ref(`users/${user.uid}/coins`).once("value", function(snapshot) {
 
-let placeBet = function(bet) {
-	let pickedOption;
+				let currentCoins = snapshot.val()
+				db.ref(`users/${user.uid}/coins`).set((currentCoins - this.coins));
+				db.ref(`users/${user.uid}/totalCoinsPlaced`).set(this.coins);
 
-	for (let i in bet.options) {
-		if (document.getElementById(i).checked == true) {
-			pickedOption = i;
-			document.getElementById(i).checked = false;
+				//updateUI(user.displayName, user.photoUrl, currentCoins - bet.coins);
+			});
 		}
 	}
 
 
 
-
-	if (setTimeNow() > new Date(bet.lastBetTime).getTime()) {} else {
-		//PLACE BET IN DB
-		db.ref(`bets/${bet.id}/placedBets/${user.uid}`).set(pickedOption);
-
-		db.ref(`users/${user.uid}/totalCoinsPlaced`).once("value", function(snapshot) {
-			let data = snapshot.val();
-			db.ref(`users/${user.uid}/totalCoinsPlaced`).set(data + bet.coins);
-		});
-
-
-		//REMOVE COINS FROM USER
-		db.ref(`users/${user.uid}/coins`).once("value", function(snapshot) {
-
-			let currentCoins = snapshot.val()
-			db.ref(`users/${user.uid}/coins`).set((currentCoins - bet.coins));
-			db.ref(`users/${user.uid}/totalCoinsPlaced`).set(bet.coins);
-
-			//updateUI(user.displayName, user.photoUrl, currentCoins - bet.coins);
-		});
-	}
 }
+// let myNewBet = new Bet(title, question, coins, endTime, lastBetTime, options);
