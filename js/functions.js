@@ -185,21 +185,20 @@ function fetchBetsFromDB() {
         }
         const computedDate = `${currentTimeOnPc.year}-${currentTimeOnPc.month}-${currentTimeOnPc.day}`
         // Checking if the bet has ended
-        if (data.active === true && Date.parse(computedDate) > Date.parse(data.endTime)) {
-            console.log("Bettet är inte aktivt eller har gått ut");
-            if (data.winningOption.length === 0) {
+        if (data.active === true && Date.parse(computedDate) > Date.parse(data.lastBetTime)) {
+            if (data.winningOption.length === 0) { // Check if winningOption is set
                 var isCreator = false;
                 if (user.get("uid") == data.creator.uid) {
                     isCreator = true;
                 }
+                console.log("Renderring the card for the owner");
                 let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, true, isCreator);
                 bet.createCard(document.getElementsByClassName("grid")[0]);
-                console.log(isCreator);
                 let btns = document.querySelectorAll('.mdc-button');
                 for (let i = 0, btn; btn = btns[i]; i++) {
                   mdc.ripple.MDCRipple.attachTo(btn);
                 }
-            } else {
+            } else if (Date.parse(computedDate) > Date.parse(data.endTime)){ // If winning option is set distributeWinnings
                 console.log("Distributing winnings");
                 db.ref('bets/' + key).update({
                     active: false,
@@ -208,6 +207,7 @@ function fetchBetsFromDB() {
             }
         } else if (data.active === true) {
             // Render the bet normally
+            console.log("Rendering the bet normally");
             let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
             bet.createCard(document.getElementsByClassName("grid")[0]);
             // Add ripple effect to buttons
@@ -226,7 +226,7 @@ function fetchBetsFromDB() {
         let data = snapshot.val();
         let key = snapshot.key;
 
-        if(Object.keys(data.options).length === data.numberOfOptions) {
+        if(Object.keys(data.options).length === data.numberOfOptions && data.active === true) {
 
             // If the element already exists on the page, remove it
             let changedElement = document.querySelector("[data-id=" + key + "]");

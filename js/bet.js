@@ -129,7 +129,7 @@ class Bet {
 		this.card = null;
 		this.winnerSelect = winnerSelect;
 		this.isCreator = isCreator;
-        this.eventTargetId;
+		this.eventTargetId;
 	}
 	createCard(container) {
 		// Create the bet card and all its components, add their classes etc.
@@ -252,14 +252,14 @@ class Bet {
 		betBottom.appendChild(countWrapper);
 		if (this.winnerSelect != true) {
 			buttonWrapper.appendChild(betButton);
-            betButton.onclick = () => {
-                this.castVote();
-            }
+			betButton.onclick = () => {
+				this.castVote();
+			}
 		} else if (this.isCreator === true) {
 			buttonWrapper.appendChild(selectWinnerBtn);
-            selectWinnerBtn.onclick = () => {
-                this.decideWinner(this.eventTargetId);
-            }
+			selectWinnerBtn.onclick = () => {
+				this.decideWinner(this.eventTargetId);
+			}
 		}
 
 		buttonWrapper.appendChild(shareButton);
@@ -305,78 +305,84 @@ class Bet {
 		// Cant be done after lastBetTime is set.
 	}
 	decideWinner(eventTargetId) {
-        console.log(eventTargetId);
-        db.ref('bets/' + this.id).update({
-            winningOption: eventTargetId,
-        });
-
-	}
-	createOptionsIn(container) {
-		let numberOfOptions = 1;
-
-		// For every option in the bet options object, create the HTML tags and append it to the container.
-		for (let option in this.options) {
-			let evenOrOdd;
-			if ((numberOfOptions % 2) == 0)
-				evenOrOdd = "evenOption";
-			else
-				evenOrOdd = "oddOption";
-
-			let label = document.createElement("label");
-			label.setAttribute("for", option);
-
-			let input = document.createElement("input");
-			input.classList.add("radioOption");
-			input.setAttribute("name", this.title);
-			input.setAttribute("type", "radio");
-			input.id = option;
-
-			let div = document.createElement("div");
-			div.classList.add("alternative", evenOrOdd);
-
-			let span = document.createElement("span");
-			span.classList.add("size-24", "text-dark", "w700");
-			span.innerHTML = numberOfOptions;
-
-			let p = document.createElement("p");
-			p.classList.add("size-14", "text-dark");
-			p.innerHTML = this.options[option].name;
-
-			input.addEventListener("click", (event) => {
-				this.enableVoteButton();
-                this.eventTargetId = event.target.id;
+		console.log(eventTargetId);
+		db.ref("bets/").once("child_changed", snapshot => {
+				let data = snapshot.val();
+				let key = snapshot.key;
+				let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, false, true);
+				bet.createCard(document.getElementsByClassName("grid")[0]);
+			});
+			db.ref('bets/' + this.id).update({
+				winningOption: eventTargetId,
 			});
 
-			div.appendChild(span);
-			div.appendChild(p);
-			label.appendChild(input);
-			label.appendChild(div);
+		}
+		createOptionsIn(container) {
+			let numberOfOptions = 1;
 
-			container.appendChild(label);
+			// For every option in the bet options object, create the HTML tags and append it to the container.
+			for (let option in this.options) {
+				let evenOrOdd;
+				if ((numberOfOptions % 2) == 0)
+					evenOrOdd = "evenOption";
+				else
+					evenOrOdd = "oddOption";
 
-			numberOfOptions++
+				let label = document.createElement("label");
+				label.setAttribute("for", option);
+
+				let input = document.createElement("input");
+				input.classList.add("radioOption");
+				input.setAttribute("name", this.title);
+				input.setAttribute("type", "radio");
+				input.id = option;
+
+				let div = document.createElement("div");
+				div.classList.add("alternative", evenOrOdd);
+
+				let span = document.createElement("span");
+				span.classList.add("size-24", "text-dark", "w700");
+				span.innerHTML = numberOfOptions;
+
+				let p = document.createElement("p");
+				p.classList.add("size-14", "text-dark");
+				p.innerHTML = this.options[option].name;
+
+				input.addEventListener("click", (event) => {
+					this.enableVoteButton();
+					this.eventTargetId = event.target.id;
+				});
+
+				div.appendChild(span);
+				div.appendChild(p);
+				label.appendChild(input);
+				label.appendChild(div);
+
+				container.appendChild(label);
+
+				numberOfOptions++
+			}
+
+			return container;
+		}
+		enableVoteButton() {
+			let castBtn = this.card.querySelectorAll("button")[0];
+			castBtn.disabled = false;
 		}
 
-		return container;
-	}
-	enableVoteButton() {
-		let castBtn = this.card.querySelectorAll("button")[0];
-		castBtn.disabled = false;
-	}
+		shareBet() {
+			// Integrate with Facebook API or another API to share the bet.
+			console.log("To be implemented.");
+		}
+		onComplete() {
+			// Play some cool sound
+			// var audio = new Audio('audio_file.mp3');
+			// audio.play();
 
-	shareBet() {
-		// Integrate with Facebook API or another API to share the bet.
-		console.log("To be implemented.");
+			// Calculate the winner
+			// Update some statistics
+			// Set player coins
+			// Draw player coins
+		}
 	}
-	onComplete() {
-		// Play some cool sound
-		// var audio = new Audio('audio_file.mp3');
-		// audio.play();
-
-		// Calculate the winner
-		// Update some statistics
-		// Set player coins
-		// Draw player coins
-	}
-}
-// let myNewBet = new Bet(title, question, coins, endTime, lastBetTime, options);
+	// let myNewBet = new Bet(title, question, coins, endTime, lastBetTime, options);
