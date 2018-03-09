@@ -13,6 +13,8 @@ window.onload = function() {
     let openModalBtn = document.getElementById("openModalBtn");
     let btnCastVote = document.getElementById("btnCastVote");
 
+
+
     //When user is logged in or logged out
     firebase.auth().onAuthStateChanged( authUser => {
         if (authUser) {

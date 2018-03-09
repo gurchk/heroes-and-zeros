@@ -183,13 +183,16 @@ function fetchBetsFromDB() {
 	db.ref("bets/").on("child_added", snapshot => {
 		let data = snapshot.val();
 		let key = snapshot.key;
+
 		if (!data.active) {
 			// Om bettet inte är aktivt gör ngt
+			// flytta det till en annan "tab" soom visar utgågna bet
 		} else {
 			// Render the bet normally
 			console.log("Rendering the bet normally");
 			let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, data.winningOption);
 			bet.createCard(document.getElementsByClassName("grid")[0]);
+			bets[key] = bet;
 			// Add ripple effect to buttons
 			let btns = document.querySelectorAll('.mdc-button');
 			let fabs = document.querySelectorAll('.mdc-fab');
@@ -202,53 +205,6 @@ function fetchBetsFromDB() {
 		}
 
 	});
-	/*
-
-	        // Making a date to compare with
-	        const dateObj = new Date()
-	        const currentTimeOnPc = {
-	            year: dateObj.getUTCFullYear(),
-	            month: dateObj.getUTCMonth() + 1,
-	            day: dateObj.getUTCDate()
-	        }
-	        const computedDate = `${currentTimeOnPc.year}-${currentTimeOnPc.month}-${currentTimeOnPc.day}`
-	        // Checking if the bet has ended
-	        if (data.active === true && Date.parse(computedDate) > Date.parse(data.lastBetTime)) {
-	            if (data.winningOption.length === 0) { // Check if winningOption is set
-	                var isCreator = false;
-	                if (user.get("uid") == data.creator.uid) {
-	                    isCreator = true;
-	                }
-	                console.log("Renderring the card for the owner");
-	                let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, true, isCreator);
-	                bet.createCard(document.getElementsByClassName("grid")[0]);
-	                let btns = document.querySelectorAll('.mdc-button');
-	                for (let i = 0, btn; btn = btns[i]; i++) {
-	                  mdc.ripple.MDCRipple.attachTo(btn);
-	                }
-	            } else if (Date.parse(computedDate) > Date.parse(data.endTime)){ // If winning option is set distributeWinnings
-	                console.log("Distributing winnings");
-	                db.ref('bets/' + key).update({
-	                    active: false,
-	                });
-	                distributeWinnings(data.winningOption, data.options, data.coinPot);
-	            }
-	        } else if (data.active === true) {
-	            // Render the bet normally
-	            console.log("Rendering the bet normally");
-	            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
-	            bet.createCard(document.getElementsByClassName("grid")[0]);
-	            // Add ripple effect to buttons
-	            let btns = document.querySelectorAll('.mdc-button');
-	            let fabs = document.querySelectorAll('.mdc-fab');
-	            for (let i = 0, btn; btn = btns[i]; i++) {
-	                mdc.ripple.MDCRipple.attachTo(btn);
-	            }
-	            for (let i = 0, fab; fab = fabs[i]; i++) {
-	                mdc.ripple.MDCRipple.attachTo(fab);
-	            }
-	        }
-	        */
 }
 db.ref("bets/").on("child_changed", snapshot => {
 	let data = snapshot.val();

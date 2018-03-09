@@ -1,7 +1,6 @@
 let inputOptionsDiv;
 let addOption;
 
-
 function createBet(event) {
 	let inputs = document.querySelectorAll(".createBetInput");
 	let title = inputs[0];
@@ -67,13 +66,11 @@ function createBet(event) {
 		error = true;
 	}
 
-
 	//CHECK THAT LAST BET TIME OCCUR BEFORE BET END TIME
 	if (lastBetTime.value > endTime.value) {
 		lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*Must be before bet end.</p>");
 		error = true;
 	}
-
 
 	//CREATE A DATE STRING IN THE SAME FORMAT AS INPUT FIELDS
 	let d = new Date();
@@ -87,8 +84,6 @@ function createBet(event) {
 		lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*That date has already passed.</p>");
 		error = true;
 	}
-
-
 
 	if (!error) {
 		let errors = document.getElementsByClassName("error");
@@ -132,6 +127,7 @@ function createBet(event) {
 		// Hide the create bet window
 		fadeOut(document.getElementById("createBet"), "block");
 		fadeOut(document.getElementById("createBetCover"));
+		fetchBetsFromDB();
 	}
 }
 
@@ -150,6 +146,7 @@ class Bet {
 		this.card = null;
 		this.grid = null;
 		this.winningOption = winningOption;
+		this.placedBets = {};
 	}
 	createCard() {
 		// Select the grid that we place all the bets in
@@ -197,10 +194,6 @@ class Bet {
 		topInfo.appendChild(betTitle);
 		topInfo.appendChild(createdBy);
 
-		if (this.winnerSelect != false) {
-			betTop.appendChild(waitingForWinSelect);
-		}
-
 		betTop.appendChild(avatar);
 		betTop.appendChild(topInfo);
 		betTop.appendChild(endDate);
@@ -246,11 +239,15 @@ class Bet {
 		buttonWrapper.classList.add("buts");
 
 		let betButton = document.createElement("button");
-		betButton.classList.add("mdc-button", "voteBtn", "mdc-ripple-uprgaded");
+		betButton.classList.add("mdc-button", "voteBtn", "mdc-ripple-upgraded");
+		betButton.disabled = true;
+		betButton.innerText = "Place Bet";
+
 		let selectWinnerBtn = document.createElement("button");
 		selectWinnerBtn.classList.add("mdc-button", "mdc-ripple-upgraded", "select-winner", "voteBtn");
 		selectWinnerBtn.disabled = true;
 		selectWinnerBtn.innerText = "Decide winner";
+
 		selectWinnerBtn.addEventListener('click', (event) => {
 			this.decideWinner;
 		})
@@ -261,16 +258,26 @@ class Bet {
 		//	kolla om winning option == false
 		// skapa select winner button
 		//db.ref(winningoption).set == bla bla
+		if (!this.hasUserPlacedBet()) {
+			betButton.onclick = () => {
+				this.placeBet();
+			}
+		} else {
+			betButton.disabled = true;
+			betButton.innerText = "bet already placed";
+		}
 
+		//if last bet time has ended, show betting is closed
+		if (setTimeNow() > new Date(this.lastBetTime).getTime()) {
+			betButton.disabled = true;
+			betButton.innerText = "Betting closed";
+		}
 		if (user.get("uid") == this.creator.uid) {
-			console.log("first if")
-			console.log(new Date(this.endTime).getTime());
-			console.log(setTimeNow());
+
 			if (setTimeNow() > new Date(this.endTime).getTime()) {
-				console.log("second if")
-				console.log(this.winningOption)
+
 				if (this.winningOption.length == 0) {
-					console.log("thrid if");
+					console.log("thirdif");
 					buttonWrapper.appendChild(betButton);
 					betButton.disabled = true;
 					betButton.innerHTML = "Choose winner";
@@ -280,83 +287,8 @@ class Bet {
 				}
 			}
 		}
-		/*
-
-		// Making a date to compare with
-        const dateObj = new Date()
-        const currentTimeOnPc = {
-            year: dateObj.getUTCFullYear(),
-            month: dateObj.getUTCMonth() + 1,
-            day: dateObj.getUTCDate()
-        }
-        const computedDate = `${currentTimeOnPc.year}-${currentTimeOnPc.month}-${currentTimeOnPc.day}`
-        // Checking if the bet has ended
-        if (data.active === true && Date.parse(computedDate) > Date.parse(data.lastBetTime)) {
-            if (data.winningOption.length === 0) { // Check if winningOption is set
-                var isCreator = false;
-                if (user.get("uid") == data.creator.uid) {
-                    isCreator = true;
-                }
-                console.log("Renderring the card for the owner");
-                let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, true, isCreator);
-                bet.createCard(document.getElementsByClassName("grid")[0]);
-                let btns = document.querySelectorAll('.mdc-button');
-                for (let i = 0, btn; btn = btns[i]; i++) {
-                  mdc.ripple.MDCRipple.attachTo(btn);
-                }
-            } else if (Date.parse(computedDate) > Date.parse(data.endTime)){ // If winning option is set distributeWinnings
-                console.log("Distributing winnings");
-                db.ref('bets/' + key).update({
-                    active: false,
-                });
-                distributeWinnings(data.winningOption, data.options, data.coinPot);
-            }
-        } else if (data.active === true) {
-            // Render the bet normally
-            console.log("Rendering the bet normally");
-            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
-            bet.createCard(document.getElementsByClassName("grid")[0]);
-            // Add ripple effect to buttons
-            let btns = document.querySelectorAll('.mdc-button');
-            let fabs = document.querySelectorAll('.mdc-fab');
-            for (let i = 0, btn; btn = btns[i]; i++) {
-                mdc.ripple.MDCRipple.attachTo(btn);
-            }
-            for (let i = 0, fab; fab = fabs[i]; i++) {
-                mdc.ripple.MDCRipple.attachTo(fab);
-            }
-        }
 
 
-		*/
-
-		/*
-				if (this.hasUserPlacedBet()) {
-					betButton.disabled = true;
-					betButton.innerText = "bet already placed";
-				} else {
-					console.log(this.creator, this.winnerSelect);
-					if (this.isCreator === true && this.winnerSelect != true) {
-						buttonWrapper.appendChild(selectWinnerBtn);
-						selectWinnerBtn.onclick = () => {
-							this.decideWinner(event.target.id);
-						}
-					}
-					if (this.winnerSelect != true) {
-						buttonWrapper.appendChild(betButton);
-						betButton.onclick = () => {
-							this.placeBet();
-						}
-						betButton.disabled = true;
-						betButton.innerText = "Place Bet";
-						console.log(setTimeNow() > new Date(this.lastBetTime).getTime())
-						if (setTimeNow() > new Date(this.lastBetTime).getTime()) {
-							betButton.disabled = true;
-							betButton.innerText = "Betting closed";
-							console.log("fired");
-						}
-					}
-				}*/
 
 
 		let shareButton = document.createElement("button");
@@ -380,13 +312,10 @@ class Bet {
 		countWrapper.appendChild(countWrapperTwo);
 		betBottom.appendChild(countWrapper);
 
-
-
 		buttonWrapper.appendChild(betButton);
 		buttonWrapper.appendChild(shareButton);
 		betBottom.appendChild(buttonWrapper);
 		betBottom.appendChild(betCloseTime);
-
 
 		this.card.appendChild(betTop);
 		this.card.appendChild(betMiddle);
@@ -435,19 +364,12 @@ class Bet {
 				document.getElementById(i).checked = false;
 			}
 		}
-		console.log(pickedOption);
-		/*
-		db.ref("bets/").once("child_changed", snapshot => {
-			let data = snapshot.val();
-			let key = snapshot.key;
-			let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, false, true);
-			bet.createCard(document.getElementsByClassName("grid")[0]);
-		});
-		*/
 		db.ref('bets/' + this.id).update({
 			winningOption: pickedOption,
 		});
-		// Delete the card from the view !!!!!!!!
+		console.log(this);
+		//distributeWinnings(pickedOption, options, coinPot)
+
 	}
 	createOptionsIn(container) {
 		let numberOfOptions = 1;
@@ -480,11 +402,21 @@ class Bet {
 			p.classList.add("size-14", "text-dark");
 			p.innerHTML = this.options[option].name;
 
+			//if user has already placed bet or lastBetTime has passed
 
-			input.addEventListener("click", (event) => {
-				this.enableVoteButton();
-
+			input.addEventListener("click", event => {
+				if (this.hasUserPlacedBet() || setTimeNow() > new Date(this.lastBetTime).getTime()) {
+					if (user.get("uid") == this.creator.uid && this.winningOption.length === 0) {
+						this.enableVoteButton();
+					} else {
+						event.preventDefault();
+					}
+				} else {
+					this.enableVoteButton();
+				}
 			});
+
+
 			div.appendChild(span);
 			div.appendChild(p);
 			label.appendChild(input);
@@ -498,9 +430,22 @@ class Bet {
 		return container;
 	}
 	enableVoteButton() {
-		console.log(this.card);
 		let castBtn = this.card.querySelectorAll("button")[0];
 		castBtn.disabled = false;
+
+	}
+	disableVoteButton() {
+		let castBtn = this.card.querySelectorAll("button")[0];
+		castBtn.disabled = true;
+
+	}
+	showBet() {
+		//remove the hidden class
+		document.querySelector("[data-id=" + this.id + "]").classList.remove("hidden");
+	}
+	hideBet() {
+		//add the hidden class
+		document.querySelector("[data-id=" + this.id + "]").classList.add("hidden");
 	}
 	shareBet() {
 		// Integrate with Facebook API or another API to share the bet.
@@ -539,24 +484,31 @@ class Bet {
 			}
 		}
 
-		if (setTimeNow() > new Date(this.lastBetTime).getTime()) {} else {
-			//PLACE BET IN DB
-			db.ref(`bets/${this.id}/placedBets/${user.uid}`).set(pickedOption);
+		if (setTimeNow() > new Date(this.lastBetTime).getTime()) {
 
-			db.ref(`users/${user.uid}/totalCoinsPlaced`).once("value", function(snapshot) {
+			/// betting is not avialask
+
+		} else {
+			//PLACE BET IN DB
+			let id = user.get("uid")
+			db.ref(`bets/${this.id}/placedBets/${id}`).set(pickedOption);
+			let tempThis = this;
+
+
+			db.ref(`users/${id}/totalCoinsPlaced`).once("value", function(snapshot) {
 				let data = snapshot.val();
-				db.ref(`users/${user.uid}/totalCoinsPlaced`).set(data + this.coins);
+				db.ref(`users/${id}/totalCoinsPlaced`).set(data + tempThis.coins);
 			});
 
 
 			//REMOVE COINS FROM USER
-			db.ref(`users/${user.uid}/coins`).once("value", function(snapshot) {
+			db.ref(`users/${id}/coins`).once("value", function(snapshot) {
 
 				let currentCoins = snapshot.val()
-				db.ref(`users/${user.uid}/coins`).set((currentCoins - this.coins));
-				db.ref(`users/${user.uid}/totalCoinsPlaced`).set(this.coins);
+				db.ref(`users/${id}/coins`).set((currentCoins - tempThis.coins));
+				db.ref(`users/${id}/totalCoinsPlaced`).set(tempThis.coins);
 
-				//updateUI(user.displayName, user.photoUrl, currentCoins - bet.coins);
+				updateUI(user.displayName, user.photoUrl, currentCoins - tempThis.coins);
 			});
 		}
 	}
