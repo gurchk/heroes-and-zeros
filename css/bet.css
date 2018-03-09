@@ -1,73 +1,74 @@
 .text-dark {
-  color: #3b3b3b;
-  font-family: 'Roboto', sans-serif;
-  position: relative;
+    color: #3b3b3b;
+    font-family: 'Roboto', sans-serif;
+    position: relative;
 }
 
 .text-light {
-  color: #8b8b8b;
-  font-family: 'Roboto', sans-serif;
-  position: relative;
+    color: #8b8b8b;
+    font-family: 'Roboto', sans-serif;
+    position: relative;
 }
 
 .size-24 {
-  font-size: 24px;
+    font-size: 24px;
 }
 
 .size-14 {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 .w700 {
-  font-weight: 700;
+    font-weight: 700;
 }
 
 .acme {
-  font-family: 'Acme', sans-serif;
-  font-weight: 400;
+    font-family: 'Acme', sans-serif;
+    font-weight: 400;
 }
 
 /*#ff5d55*/
 
 .relative-wrapper {
-  position: relative;
+    position: relative;
 }
 
 .coin-wrapper > * {
-  padding: 0 2px;
-  display: inline-block !important;
+    padding: 0 2px;
+    display: inline-block !important;
 }
+
 .mdc-fab {
-  background: linear-gradient(45deg, #aedd94, #94ddb9);
-  position: absolute;
-  right: 13px;
-  top: 12px;
+    background: linear-gradient(45deg, #aedd94, #94ddb9);
+    position: absolute;
+    right: 13px;
+    top: 12px;
 }
 
 
 
 .mdc-fab__icon {
-  color: #3b3b3b;
-  font-family: 'Material Icons' !important;
+    color: #3b3b3b;
+    font-family: 'Material Icons' !important;
 }
 
 .material-icons {
-  color: #3b3b3b;
+    color: #3b3b3b;
 }
 
 
 .mdc-button {
-  text-transform: uppercase;
-  --mdc-theme-primary: #3b3b3b;
+    text-transform: uppercase;
+    --mdc-theme-primary: #3b3b3b;
 }
 
 .activeBtn {
-  color: #ff5d55 !important;
+    color: #ff5d55 !important;
 }
 
 .selected {
-  box-shadow: 7px 0 1px 0 #ff5d55;
-  z-index: 1;
+    box-shadow: 7px 0 1px 0 #ff5d55;
+    z-index: 1;
 }
 
 .grid, .userBetsGrid {
@@ -83,75 +84,78 @@
 /* Specific classes */
 
 .bet {
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
-  width: 344px;
-  justify-self: center;
-  display: inline-block;
-  border: 0;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+    width: 344px;
+    justify-self: center;
+    display: inline-block;
+    border: 0;
 
-  /*
+    /*
   border: 1px solid;
   border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
   */
 }
 
 .alternative {
-  height: 55px;
-  width: 100%;
-  position: relative;
-  background-color: #ebebeb;
-  display: block;
-  cursor: pointer;
+    height: 55px;
+    width: 100%;
+    position: relative;
+    background-color: #ebebeb;
+    display: block;
+    cursor: pointer;
 }
 
-.alternative>span {
-  /* Alternative number */
-  position: absolute;
-  left: 13px;
-  top: 13px;
+.alternative > span {
+    /* Alternative number */
+    position: absolute;
+    left: 13px;
+    top: 13px;
 }
 
-.alternative>p {
-  top: 19px;
-  left: 69px;
-  width: 50%;
+.alternative > p {
+    top: 19px;
+    left: 69px;
+    width: 50%;
 }
+
 .label {
-  z-index: 2;
+    z-index: 2;
 }
+
 /*funkar ej med labels då html strukturen är ändrad*/
+
 .alternative:nth-child(even) {
-  background-color: #d6d6d6;
+    background-color: #d6d6d6;
 }
 
 input[class=radioOption] {
-  display: none;
+    display: none;
 }
 
 input[class=radioOption]:checked ~ .alternative {
-  border-top: solid 2px #FF5D55;
-  border-bottom: solid 2px #FF5D55;
+    border-top: solid 2px #FF5D55;
+    border-bottom: solid 2px #FF5D55;
 }
 
 .bet-top {
-  height: 79px;
-  width: 100%;
-  background-color: #f9f9f9;
-  position: relative;
+    height: 79px;
+    width: 100%;
+    background-color: #f9f9f9;
+    position: relative;
 }
 
-.bet-top>.inf {
-  /* Title and created by ... */
-  position: absolute;
-  top: 22px;
-  left: 70px;
+.bet-top > .inf {
+    /* Title and created by ... */
+    position: absolute;
+    top: 22px;
+    left: 70px;
 }
 
-.bet-top>p {
-  /* End date ... */
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
+.bet-top > p {
+    /* End date ... */
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
 }
 .bet-top > span {
     display: block;
@@ -161,78 +165,79 @@ input[class=radioOption]:checked ~ .alternative {
 }
 
 .bet-middle {
-  height: 220px;
-  width: 100%;
-  position: relative;
-  overflow-y: scroll;
+    height: 220px;
+    width: 100%;
+    position: relative;
+    overflow-y: scroll;
 }
 
 .bet-bottom {
-  background-color: #f9f9f9;
-  position: relative;
-  min-height: 139px;
-  padding: 4px;
+    background-color: #f9f9f9;
+    position: relative;
+    min-height: 139px;
+    padding: 4px;
 }
 
 .peeps {
-  position: absolute;
-  right: 4px;
-  top: 4px;
+    position: absolute;
+    right: 4px;
+    top: 4px;
 }
 
 .peeps p {
-  position: absolute;
-  right: 26px;
-  top: 1px;
+    position: absolute;
+    right: 26px;
+    top: 1px;
 }
 
 .peeps i {
-  position: absolute;
-  right: 0;
+    position: absolute;
+    right: 0;
 }
 
-.bet-bottom>p {
-  /* Betting closes in ... */
-  position: absolute;
-  bottom: 0px;
-  left: 4px;
+.bet-bottom > p {
+    /* Betting closes in ... */
+    position: absolute;
+    bottom: 0px;
+    left: 4px;
 }
 
-.bet-bottom>.inf>h1 {
-  /* Bet title */
-  position: relative;
-  max-width: 280px;
-  font-weight: 500;
-  overflow-wrap: break-word;
+.bet-bottom > .inf > h1 {
+    /* Bet title */
+    position: relative;
+    max-width: 280px;
+    font-weight: 500;
+    overflow-wrap: break-word;
 }
 
-.bet-bottom>.inf>div * {
-  /* Coin and icon */
-  display: inline-block;
-  padding: 0 2px;
+.bet-bottom > .inf > div * {
+    /* Coin and icon */
+    display: inline-block;
+    padding: 0 2px;
 }
 
-.bet-bottom>.inf>div i {
-  /* HQ icon in bet */
-  position: absolute;
-  top: -1px;
-  color: #ff5d55;
+.bet-bottom > .inf > div i {
+    /* HQ icon in bet */
+    position: absolute;
+    top: -1px;
+    color: #ff5d55;
 }
 
-.bet-bottom>.buts {
-  position: absolute;
-  bottom: 12px;
-  right: 4px;
-  margin-bottom: 9px
+.bet-bottom > .buts {
+    position: absolute;
+    bottom: 12px;
+    right: 4px;
+    margin-bottom: 9px
 }
 
 .userImage {
-  position: absolute;
-  top: 17px;
-  left: 11px;
+    position: absolute;
+    top: 17px;
+    left: 11px;
 }
+
 .inputOptionsDiv {
-  position: relative;
+    position: relative;
 }
 
 .voteBtn {
@@ -255,14 +260,17 @@ input[class=radioOption]:checked ~ .alternative {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
 @media screen and (max-width: 1381px) {
   .grid, .userBetsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
 @media screen and (max-width: 904px) {
   .grid, .userBetsGrid {
     grid-template-columns: 1fr;
   }
 }
+
 /*Hej*/

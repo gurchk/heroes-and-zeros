@@ -73,18 +73,18 @@ function updateUI() {
     let createBet = document.getElementById("createBet");
     let closeBet = document.getElementById('closeBet');
 
-    closeBet.addEventListener("click", function() {
+    closeBet.addEventListener("click", function () {
         fadeOut(createBet);
         fadeOut(createBetCover);
     });
 
-    createBetCover.addEventListener("click", function() {
+    createBetCover.addEventListener("click", function () {
         fadeOut(createBet, "block");
         fadeOut(createBetCover);
     });
 
     let closeMenuCover = document.getElementById("closeMenuCover");
-    closeMenuCover.addEventListener("click", function() {
+    closeMenuCover.addEventListener("click", function () {
         document.getElementById("closeMenu").style.zIndex = "-1";
         document.getElementById("closeMenu").style.display = "none";
         document.getElementById("openMenu").style.zIndex = "2001";
@@ -224,10 +224,10 @@ function fetchBetsFromDB() {
             let btns = document.querySelectorAll('.mdc-button');
             let fabs = document.querySelectorAll('.mdc-fab');
             for (let i = 0, btn; btn = btns[i]; i++) {
-              mdc.ripple.MDCRipple.attachTo(btn);
+                mdc.ripple.MDCRipple.attachTo(btn);
             }
             for (let i = 0, fab; fab = fabs[i]; i++) {
-              mdc.ripple.MDCRipple.attachTo(fab);
+                mdc.ripple.MDCRipple.attachTo(fab);
             }
         }
 });
@@ -251,14 +251,14 @@ function fetchBetsFromDB() {
 }
 
 function distributeWinnings(winningOption, options, coinPot) {
-    for(let option in options) {
-        if(option == winningOption) {
+    for (let option in options) {
+        if (option == winningOption) {
             // Winners bracket, add wins +1, totalCoinsWon +1, coins + whatever they won (pot split up on everyone)
             let winners = options[option];
-            console.log(winners);
+
             //let winnings = Math.floor(coinPot/winners);
 
-            for(let uid in options[option].placedBets) {
+            for (let uid in options[option].placedBets) {
                 /*
                 let wins = db.ref("users/" + uid + "/wins");
                 wins.transaction(wins => {
@@ -276,10 +276,9 @@ function distributeWinnings(winningOption, options, coinPot) {
                 });*/
             }
 
-        }
-        else {
+        } else {
             // Losers bracket, add losses += 1
-            for(let user in options[option].placedBets) {
+            for (let user in options[option].placedBets) {
                 let ref = db.ref('users/' + user.uid + "/losses");
                 ref.transaction(losses => {
                     return (losses + 1);
@@ -304,10 +303,47 @@ function loginFinished() {
 
             inputOptionsDiv.appendChild(newOption);
         } else {
-        let errorBox = document.getElementById("errorBox");
-        errorBox.classList.remove("hidden");
+            let errorBox = document.getElementById("errorBox");
+            errorBox.classList.remove("hidden");
         }
     });
+}
+
+
+
+let calcTimeLeft = function (lastBetTime) {
+
+    let d = new Date();
+    let date;
+    date = d.getFullYear();
+    (d.getMonth() + 1) < 10 ? date += "-0" + (d.getMonth() + 1) : date += "-" + (d.getMonth() + 1);
+    d.getDate() < 10 ? date += "-0" + d.getDate() : date += "-" + d.getDate();
+
+    let timeLeft = (new Date(lastBetTime).getTime() / 1000) - (new Date(date).getTime() / 1000)
+    if (timeLeft < 259200) {
+
+        if (timeLeft < 172800) {
+            if (timeLeft < 86400) {
+                if (timeLeft < 0) {
+                    return "betting is closed"
+                }
+                return "less than one day";
+            }
+            return "less than 2 days";
+        }
+        return "less than 3 days"
+    } else {
+        return lastBetTime;
+    }
+}
+
+let setTimeNow = function () {
+    let timeNow;
+    db.ref(`users/${user.uid}/currentTime`).set(firebase.database.ServerValue.TIMESTAMP);
+    db.ref(`users/${user.uid}/currentTime`).once("value", function (snapshot) {
+        timeNow = snapshot.val();
+    });
+    return timeNow;
 }
 
 // websiteadress/?search=value
