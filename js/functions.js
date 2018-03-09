@@ -34,7 +34,7 @@ function updateUI() {
 
     fetchBetsFromDB();
 
-    document.getElementById("openMenu").addEventListener("click", function() {
+    document.getElementById("openMenu").addEventListener("click", function () {
         closeMenuCover.classList.remove("hidden");
         this.style.zIndex = "-1";
         this.style.display = "none";
@@ -42,7 +42,7 @@ function updateUI() {
         document.getElementById("closeMenu").style.display = "inline";
         document.getElementById("menu").style.transform = "translateX(0)";
     });
-    document.getElementById("closeMenu").addEventListener("click", function() {
+    document.getElementById("closeMenu").addEventListener("click", function () {
         this.style.zIndex = "-1";
         this.style.display = "none";
         document.getElementById("openMenu").style.zIndex = "2001";
@@ -60,18 +60,18 @@ function updateUI() {
         fadeIn(createBetCover);
     });
 
-    closeBet.addEventListener("click", function() {
+    closeBet.addEventListener("click", function () {
         fadeOut(createBet);
         fadeOut(createBetCover);
     });
 
-    createBetCover.addEventListener("click", function() {
+    createBetCover.addEventListener("click", function () {
         fadeOut(createBet, "block");
         fadeOut(createBetCover);
     });
 
     let closeMenuCover = document.getElementById("closeMenuCover");
-    closeMenuCover.addEventListener("click", function() {
+    closeMenuCover.addEventListener("click", function () {
         document.getElementById("closeMenu").style.zIndex = "-1";
         document.getElementById("closeMenu").style.display = "none";
         document.getElementById("openMenu").style.zIndex = "2001";
@@ -82,31 +82,31 @@ function updateUI() {
     });
 }
 
-function fadeOut(el){
-  el.style.opacity = 1;
+function fadeOut(el) {
+    el.style.opacity = 1;
 
-  (function fade() {
-    if ((el.style.opacity -= .1) < 0) {
-      el.style.display = "none";
-    } else {
-      requestAnimationFrame(fade);
-    }
-  })();
+    (function fade() {
+        if ((el.style.opacity -= .1) < 0) {
+            el.style.display = "none";
+        } else {
+            requestAnimationFrame(fade);
+        }
+    })();
 }
 
 // fade in
 
-function fadeIn(el, display){
-  el.style.opacity = 0;
-  el.style.display = display || "block";
+function fadeIn(el, display) {
+    el.style.opacity = 0;
+    el.style.display = display || "block";
 
-  (function fade() {
-    var val = parseFloat(el.style.opacity);
-    if (!((val += .1) > 1)) {
-      el.style.opacity = val;
-      requestAnimationFrame(fade);
-    }
-  })();
+    (function fade() {
+        var val = parseFloat(el.style.opacity);
+        if (!((val += .1) > 1)) {
+            el.style.opacity = val;
+            requestAnimationFrame(fade);
+        }
+    })();
 }
 
 function fetchBetsFromDB() {
@@ -114,7 +114,7 @@ function fetchBetsFromDB() {
         let data = snapshot.val();
         let key = snapshot.key;
 
-        if(data.active && data.options) {
+        if (data.active && data.options) {
             let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
             bet.createCard();
 
@@ -122,10 +122,10 @@ function fetchBetsFromDB() {
             let btns = document.querySelectorAll('.mdc-button');
             let fabs = document.querySelectorAll('.mdc-fab');
             for (let i = 0, btn; btn = btns[i]; i++) {
-              mdc.ripple.MDCRipple.attachTo(btn);
+                mdc.ripple.MDCRipple.attachTo(btn);
             }
             for (let i = 0, fab; fab = fabs[i]; i++) {
-              mdc.ripple.MDCRipple.attachTo(fab);
+                mdc.ripple.MDCRipple.attachTo(fab);
             }
         }
     });
@@ -134,11 +134,11 @@ function fetchBetsFromDB() {
         let data = snapshot.val();
         let key = snapshot.key;
 
-        if(Object.keys(data.options).length === data.numberOfOptions) {
+        if (Object.keys(data.options).length === data.numberOfOptions) {
 
             // If the element already exists on the page, remove it
             let changedElement = document.querySelectorAll("data-id=" + key);
-            if(changedElement) {
+            if (changedElement) {
                 changedElement.parentNode.removeChild(changedElement);
             }
 
@@ -149,14 +149,14 @@ function fetchBetsFromDB() {
 }
 
 function distributeWinnings(winningOption, options, coinPot) {
-    for(let option in options) {
-        if(option == winningOption) {
+    for (let option in options) {
+        if (option == winningOption) {
             // Winners bracket, add wins +1, totalCoinsWon +1, coins + whatever they won (pot split up on everyone)
             let winners = options[option];
-            console.log(winners);
+
             //let winnings = Math.floor(coinPot/winners);
 
-            for(let uid in options[option].placedBets) {
+            for (let uid in options[option].placedBets) {
                 /*
                 let wins = db.ref("users/" + uid + "/wins");
                 wins.transaction(wins => {
@@ -174,10 +174,9 @@ function distributeWinnings(winningOption, options, coinPot) {
                 });*/
             }
 
-        }
-        else {
+        } else {
             // Losers bracket, add losses += 1
-            for(let user in options[option].placedBets) {
+            for (let user in options[option].placedBets) {
                 let ref = db.ref('users/' + user.uid + "/losses");
                 ref.transaction(losses => {
                     return (losses + 1);
@@ -188,22 +187,59 @@ function distributeWinnings(winningOption, options, coinPot) {
 }
 
 function loginFinished() {
-  /* CreateBet Check for amount of options */
-  inputOptionsDiv = document.getElementById("inputOptionsDiv");
-  addOption = document.getElementById("addOption");
-  // Add click on add more options
-  addOption.addEventListener("click", function() {
-      // Check current amount of options
-      if(document.querySelectorAll(".inputOption").length < 20) {
-          let newOption = document.createElement("input");
-          newOption.classList.add("createBetInput");
-          newOption.classList.add("inputOption");
-          newOption.setAttribute("placeholder", "Option");
+    /* CreateBet Check for amount of options */
+    inputOptionsDiv = document.getElementById("inputOptionsDiv");
+    addOption = document.getElementById("addOption");
+    // Add click on add more options
+    addOption.addEventListener("click", function () {
+        // Check current amount of options
+        if (document.querySelectorAll(".inputOption").length < 20) {
+            let newOption = document.createElement("input");
+            newOption.classList.add("createBetInput");
+            newOption.classList.add("inputOption");
+            newOption.setAttribute("placeholder", "Option");
 
-          inputOptionsDiv.appendChild(newOption);
-      } else {
-        let errorBox = document.getElementById("errorBox");
-        errorBox.classList.remove("hidden");
-      }
-  });
+            inputOptionsDiv.appendChild(newOption);
+        } else {
+            let errorBox = document.getElementById("errorBox");
+            errorBox.classList.remove("hidden");
+        }
+    });
+}
+
+
+
+let calcTimeLeft = function (lastBetTime) {
+
+    let d = new Date();
+    let date;
+    date = d.getFullYear();
+    (d.getMonth() + 1) < 10 ? date += "-0" + (d.getMonth() + 1) : date += "-" + (d.getMonth() + 1);
+    d.getDate() < 10 ? date += "-0" + d.getDate() : date += "-" + d.getDate();
+
+    let timeLeft = (new Date(lastBetTime).getTime() / 1000) - (new Date(date).getTime() / 1000)
+    if (timeLeft < 259200) {
+
+        if (timeLeft < 172800) {
+            if (timeLeft < 86400) {
+                if (timeLeft < 0) {
+                    return "betting is closed"
+                }
+                return "less than one day";
+            }
+            return "less than 2 days";
+        }
+        return "less than 3 days"
+    } else {
+        return lastBetTime;
+    }
+}
+
+let setTimeNow = function () {
+    let timeNow;
+    db.ref(`users/${user.uid}/currentTime`).set(firebase.database.ServerValue.TIMESTAMP);
+    db.ref(`users/${user.uid}/currentTime`).once("value", function (snapshot) {
+        timeNow = snapshot.val();
+    });
+    return timeNow;
 }

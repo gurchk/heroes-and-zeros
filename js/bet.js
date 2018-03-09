@@ -1,6 +1,6 @@
-// Variables
 let inputOptionsDiv;
 let addOption;
+
 
 function createBet(event) {
     let inputs = document.querySelectorAll(".createBetInput");
@@ -15,9 +15,11 @@ function createBet(event) {
     let optionValues = [];
     let optionCount = 0;
 
-    options.forEach( option => {
-        if(option.value) {
-            optionValues.push({name: option.value});
+    options.forEach(option => {
+        if (option.value) {
+            optionValues.push({
+                name: option.value
+            });
             optionCount++;
         }
     });
@@ -25,53 +27,76 @@ function createBet(event) {
     let error = false;
 
     //check for errors in input fields
-    if(optionCount < 2) {
+    if (optionCount < 2) {
         document.getElementById("optionsError").classList.remove("hidden");
         error = true;
     }
 
-    if(!title.value) {
-        if(!title.nextElementSibling.className.includes("error")) {
+    if (!title.value) {
+        if (!title.nextElementSibling.className.includes("error")) {
             title.insertAdjacentHTML("afterend", "<p class='error'>*Field must have a value.</p>");
         }
         error = true;
     }
 
-    if(!question.value) {
-        if(!question.nextElementSibling.className.includes("error")) {
+    if (!question.value) {
+        if (!question.nextElementSibling.className.includes("error")) {
             question.insertAdjacentHTML("afterend", "<p class='error'>*Field must have a value.</p>");
         }
         error = true;
     }
 
-    if(!betAmount.value) {
-        if(!betAmount.nextElementSibling.className.includes("error")) {
+    if (!betAmount.value) {
+        if (!betAmount.nextElementSibling.className.includes("error")) {
             betAmount.insertAdjacentHTML("afterend", "<p class='error'>*Field must have a value.</p>");
         }
         error = true;
     }
 
-    if(!endTime.value) {
-        if(!endTime.nextElementSibling.className.includes("error")) {
+    if (!endTime.value) {
+        if (!endTime.nextElementSibling.className.includes("error")) {
             endTime.insertAdjacentHTML("afterend", "<p class='error'>*Field must have a value.</p>");
         }
         error = true;
     }
 
-    if(!lastBetTime.value) {
-        if(!lastBetTime.nextElementSibling.className.includes("error")) {
+    if (!lastBetTime.value) {
+        if (!lastBetTime.nextElementSibling.className.includes("error")) {
             lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*Field must have a value.</p>");
         }
         error = true;
     }
 
-    if(!error) {
+
+    //CHECK THAT LAST BET TIME OCCUR BEFORE BET END TIME
+    if (lastBetTime.value > endTime.value) {
+        lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*Must be before bet end.</p>");
+        error = true;
+    }
+
+
+    //CREATE A DATE STRING IN THE SAME FORMAT AS INPUT FIELDS
+    let d = new Date();
+    let date;
+    date = d.getFullYear();
+    (d.getMonth() + 1) < 10 ? date += "-0" + (d.getMonth() + 1) : date += "-" + (d.getMonth() + 1);
+    d.getDate() < 10 ? date += "-0" + d.getDate() : date += "-" + d.getDate();
+
+    //CHECK THAT LAST BET TIME AND BET END TIME IS AFTER TODAYS DATE
+    if (lastBetTime.value < date || endTime.value < date) {
+        lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*That date has already passed.</p>");
+        error = true;
+    }
+
+
+
+    if (!error) {
         let errors = document.getElementsByClassName("error");
-        while(errors.length > 0) {
-            errors[errors.length-1].parentNode.removeChild(errors[errors.length-1]);
+        while (errors.length > 0) {
+            errors[errors.length - 1].parentNode.removeChild(errors[errors.length - 1]);
         }
 
-        document.getElementById("optionsError").classList.add("hidden");
+        // document.getElementById("optionsError").classList.add("hidden");
 
         // Add bet to database
         let data = {
@@ -80,7 +105,11 @@ function createBet(event) {
             betAmount: betAmount.value,
             endTime: endTime.value,
             lastBetTime: lastBetTime.value,
-            creator: userObj,
+            creator: {
+                uid: user.uid,
+                displayImage: user.displayImage,
+                name: user.name
+            },
             active: true,
             numberOfBets: 0,
             winningOption: "",
@@ -88,7 +117,7 @@ function createBet(event) {
             numberOfOptions: optionCount
         }
 
-        db.ref("bets/").push(data).then( snap => {
+        db.ref("bets/").push(data).then(snap => {
             let betKey = snap.key;
             optionValues.forEach(option => {
                 db.ref("bets/" + betKey + "/options/").push(option);
@@ -96,8 +125,8 @@ function createBet(event) {
         });
 
         // Clear inputs on submit
-        inputs.forEach(function(input) {
-          input.value = "";
+        inputs.forEach(function (input) {
+            input.value = "";
         });
 
         // Hide the create bet window
@@ -131,32 +160,32 @@ class Bet {
         this.card.setAttribute("data-id", this.id);
 
         let betTop = document.createElement("div");
-        betTop.classList.add("bet-top");   
+        betTop.classList.add("bet-top");
 
-            let avatar = document.createElement("img");
-            avatar.classList.add("userImage", "avatar");
-            avatar.setAttribute("src", this.creator.displayImage);
-            avatar.setAttribute("alt", this.creator.name);
-            avatar.addEventListener("click", () => {
-                console.log("Redirect to userpage, TODO");
-            });
+        let avatar = document.createElement("img");
+        avatar.classList.add("userImage", "avatar");
+        avatar.setAttribute("src", this.creator.displayImage);
+        avatar.setAttribute("alt", this.creator.name);
+        avatar.addEventListener("click", () => {
+            console.log("Redirect to userpage, TODO");
+        });
 
-            let topInfo = document.createElement("div");
-            topInfo.classList.add("inf");
-                let betTitle = document.createElement("p");
-                betTitle.classList.add("size-14", "text-dark");
-                betTitle.innerText = this.title;
+        let topInfo = document.createElement("div");
+        topInfo.classList.add("inf");
+        let betTitle = document.createElement("p");
+        betTitle.classList.add("size-14", "text-dark");
+        betTitle.innerText = this.title;
 
-                let createdBy = document.createElement("p")
-                createdBy.classList.add("size-14", "text-light");
-                createdBy.innerText = "Created by: " + this.creator.name;
-                createdBy.addEventListener("click", () => {
-                    console.log("Redirect to userpage, TODO");
-                });
+        let createdBy = document.createElement("p")
+        createdBy.classList.add("size-14", "text-light");
+        createdBy.innerText = "Created by: " + this.creator.name;
+        createdBy.addEventListener("click", () => {
+            console.log("Redirect to userpage, TODO");
+        });
 
-            let endDate = document.createElement("p");
-            endDate.classList.add("size-14", "text-light");
-            endDate.innerText = "End date: " + this.endTime;
+        let endDate = document.createElement("p");
+        endDate.classList.add("size-14", "text-light");
+        endDate.innerText = "End date: " + this.endTime;
 
         topInfo.appendChild(betTitle);
         topInfo.appendChild(createdBy);
@@ -175,49 +204,66 @@ class Bet {
         let betBottom = document.createElement("div");
         betBottom.classList.add("bet-bottom");
 
-            let bottomInfo = document.createElement("div");
-            bottomInfo.classList.add("inf");
-                let questionText = document.createElement("h1");
-                questionText.classList.add("size-24", "text-dark");
-                questionText.innerText = this.question;
+        let bottomInfo = document.createElement("div");
+        bottomInfo.classList.add("inf");
+        let questionText = document.createElement("h1");
+        questionText.classList.add("size-24", "text-dark");
+        questionText.innerText = this.question;
 
-                let betAmountWrapper = document.createElement("div");
-                betAmountWrapper.classList.add("relative-wrapper", "coin-wrapper");
-                    let count = document.createElement("p");
-                    count.classList.add("text-light", "acme");
-                    count.innerText = this.coins;
-                    let coin = document.createElement("img");
-                    coin.classList.add("coin");
-                    coin.setAttribute("src", "images/coin.svg");
-                    coin.setAttribute("alt", "Coins");
+        let betAmountWrapper = document.createElement("div");
+        betAmountWrapper.classList.add("relative-wrapper", "coin-wrapper");
+        let count = document.createElement("p");
+        count.classList.add("text-light", "acme");
+        count.innerText = this.coins;
+        let coin = document.createElement("img");
+        coin.classList.add("coin");
+        coin.setAttribute("src", "images/coin.svg");
+        coin.setAttribute("alt", "Coins");
 
-            let countWrapper = document.createElement("div");
-            countWrapper.classList.add("peeps");
-                let countWrapperTwo = document.createElement("div");
-                countWrapperTwo.classList.add("relative-wrapper");
-                    let peopleCount = document.createElement("p");
-                    peopleCount.classList.add("text-light", "acme");
-                    peopleCount.innerText = this.numberOfBets;
-                    let peopleImage = document.createElement("i");
-                    peopleImage.classList.add("material-icons");
-                    peopleImage.innerText = "people";
+        let countWrapper = document.createElement("div");
+        countWrapper.classList.add("peeps");
+        let countWrapperTwo = document.createElement("div");
+        countWrapperTwo.classList.add("relative-wrapper");
+        let peopleCount = document.createElement("p");
+        peopleCount.classList.add("text-light", "acme");
+        peopleCount.innerText = this.numberOfBets;
+        let peopleImage = document.createElement("i");
+        peopleImage.classList.add("material-icons");
+        peopleImage.innerText = "people";
 
-            let buttonWrapper = document.createElement("div");
-            buttonWrapper.classList.add("buts");
-                let betButton = document.createElement("button");
-                betButton.classList.add("mdc-button", "voteBtn", "mdc-ripple-uprgaded");
+        let buttonWrapper = document.createElement("div");
+        buttonWrapper.classList.add("buts");
+
+        let betButton = document.createElement("button");
+        betButton.classList.add("mdc-button", "voteBtn", "mdc-ripple-uprgaded");
+
+        if (hasUserPlacedBet(this)) {
+            betButton.disabled = true;
+            betButton.innerText = "bet already placed";
+        } else {
+
+            betButton.onclick = () => {
+                placeBet(this)
+            };
+            betButton.disabled = true;
+            betButton.innerText = "Place Bet";
+
+            if (setTimeNow() > new Date(this.lastBetTime).getTime()) {
                 betButton.disabled = true;
-                betButton.innerText = "Place Bet";
-                let shareButton = document.createElement("button");
-                shareButton.classList.add("mdc-button", "mdc-ripple-upgraded");
-                shareButton.innerText = "Share";
-                shareButton.addEventListener("click", () => {
-                    console.log("TODO: Implement Share");
-                });
-            
-            let betCloseTime = document.createElement("p");
-            betCloseTime.classList.add("size-14", "text-light");
-            betCloseTime.innerText = "Betting closes in: " + this.lastBetTime;
+                betButton.innerText = "Betting closed";
+            }
+
+        }
+        let shareButton = document.createElement("button");
+        shareButton.classList.add("mdc-button", "mdc-ripple-upgraded");
+        shareButton.innerText = "Share";
+        shareButton.addEventListener("click", () => {
+            console.log("TODO: Implement Share");
+        });
+
+        let betCloseTime = document.createElement("p");
+        betCloseTime.classList.add("size-14", "text-light");
+        betCloseTime.innerText = "Betting closes in: " + calcTimeLeft(this.lastBetTime);
 
         bottomInfo.appendChild(questionText);
         betAmountWrapper.appendChild(count);
@@ -251,13 +297,13 @@ class Bet {
         };
         obj.step = () => {
             now = Math.max(0, ms - (new Date().getTime() - startTime)),
-            m = Math.floor(now / 60000),
-            s = Math.floor(now / 1000) % 60;
+                m = Math.floor(now / 60000),
+                s = Math.floor(now / 1000) % 60;
             s = (s < 10 ? "0" : "") + s;
             if (now === 0) {
-            clearInterval(timer);
-            obj.resume = function() {};
-            this.onComplete();
+                clearInterval(timer);
+                obj.resume = function () {};
+                this.onComplete();
             }
             return now;
         };
@@ -272,7 +318,7 @@ class Bet {
         // Removes the whole bet and returns bettings.
         // Cant be done after lastBetTime is set.
     }
-    castVote(){
+    castVote() {
         //Find the checked option
         //let votedOption = document.getElementsByClassName
     }
@@ -282,10 +328,10 @@ class Bet {
         // For every option in the bet options object, create the HTML tags and append it to the container.
         for (let option in this.options) {
             let evenOrOdd;
-            if((numberOfOptions%2)==0)
-            evenOrOdd = "evenOption";
+            if ((numberOfOptions % 2) == 0)
+                evenOrOdd = "evenOption";
             else
-            evenOrOdd = "oddOption";
+                evenOrOdd = "oddOption";
 
             let label = document.createElement("label");
             label.setAttribute("for", option);
@@ -307,10 +353,11 @@ class Bet {
             p.classList.add("size-14", "text-dark");
             p.innerHTML = this.options[option].name;
 
-            input.addEventListener("click", (event) => {
-                this.enableVoteButton();
-            });
-
+            if (setTimeNow() < new Date(this.lastBetTime).getTime()) {
+                input.addEventListener("click", (event) => {
+                    this.enableVoteButton();
+                });
+            }
             div.appendChild(span);
             div.appendChild(p);
             label.appendChild(input);
@@ -347,3 +394,57 @@ class Bet {
     }
 }
 // let myNewBet = new Bet(title, question, coins, endTime, lastBetTime, options);
+
+
+
+
+
+let hasUserPlacedBet = function (bet) {
+    let x = false;
+    db.ref(`bets/${bet.id}/placedBets`).once("value", function (snapshot) {
+        let data = snapshot.val()
+        for (let i in data) {
+            if (i == user.uid) {
+                x = true;
+            }
+        }
+    });
+    return x;
+}
+
+
+
+let placeBet = function (bet) {
+    let pickedOption;
+
+    for (let i in bet.options) {
+        if (document.getElementById(i).checked == true) {
+            pickedOption = i;
+            document.getElementById(i).checked = false;
+        }
+    }
+
+
+
+
+    if (setTimeNow() > new Date(bet.lastBetTime).getTime()) {} else {
+        //PLACE BET IN DB
+        db.ref(`bets/${bet.id}/placedBets/${user.uid}`).set(pickedOption);
+
+        db.ref(`users/${user.uid}/totalCoinsPlaced`).once("value", function (snapshot) {
+            let data = snapshot.val();
+            db.ref(`users/${user.uid}/totalCoinsPlaced`).set(data + bet.coins);
+        });
+
+
+        //REMOVE COINS FROM USER
+        db.ref(`users/${user.uid}/coins`).once("value", function (snapshot) {
+
+            let currentCoins = snapshot.val()
+            db.ref(`users/${user.uid}/coins`).set((currentCoins - bet.coins));
+            db.ref(`users/${user.uid}/totalCoinsPlaced`).set(bet.coins);
+
+            //updateUI(user.displayName, user.photoUrl, currentCoins - bet.coins);
+        });
+    }
+}
