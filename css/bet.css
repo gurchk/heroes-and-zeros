@@ -70,7 +70,7 @@
   z-index: 1;
 }
 
-.grid {
+.grid, .userBetsGrid {
   position: relative;
   display: grid;
   width: 80%;
@@ -152,6 +152,12 @@ input[class=radioOption]:checked ~ .alternative {
   position: absolute;
   bottom: 4px;
   right: 4px;
+}
+.bet-top > span {
+    display: block;
+    text-align: right;
+    color: #FF5D55;
+    margin-right: 4px;
 }
 
 .bet-middle {
@@ -245,17 +251,17 @@ input[class=radioOption]:checked ~ .alternative {
 }
 
 @media screen and (max-width: 1840px) {
-  .grid {
+  .grid, .userBetsGrid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 @media screen and (max-width: 1381px) {
-  .grid {
+  .grid, .userBetsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media screen and (max-width: 904px) {
-  .grid {
+  .grid, .userBetsGrid {
     grid-template-columns: 1fr;
   }
 }

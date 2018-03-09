@@ -2,33 +2,32 @@
 <html lang="en">
 
 <head>
-  <meta name="description" content="Betting for everyone | fun with friends " />
-  <meta name="keywords" content="betting, simple, money, rich, free, fun" />
-  <meta name="author" content="Heroes and zeroes dev">
-  <meta name="robots" content="index, follow">
-  <meta name="revisit-after" content="1 month">
-  <title>Heroes and zeroes</title>
-  <!-- betting, money, free -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="node_modules/@material/fab/dist/mdc.fab.min.css" rel="stylesheet" />
-  <script src="node_modules/material-components-web/dist/material-components-web.min.js"></script>
-  <script src="js/nodep-date-input-polyfill.dist.js"></script>
+    <meta name="description" content="Betting for everyone | fun with friends " />
+    <meta name="keywords" content="betting, simple, money, rich, free, fun" />
+    <meta name="author" content="Heroes and zeroes dev">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="1 month">
+    <title>Heroes and Zeroes</title>
+    <!-- betting, money, free -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="node_modules/@material/fab/dist/mdc.fab.min.css" rel="stylesheet" />
+    <script src="node_modules/material-components-web/dist/material-components-web.min.js"></script>
+    <script src="js/nodep-date-input-polyfill.dist.js"></script>
 
-  <link href="node_modules/@material/button/dist/mdc.button.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+    <link href="node_modules/@material/button/dist/mdc.button.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
 
-  <script src="js/functions.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/bet.js"></script>
-  <script src="js/user.js"></script>
+    <script src="js/functions.js"></script>
+    <script src="js/bet.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/user.js"></script>
 
-  <link href="css/style.css" rel="stylesheet" />
-  <link href="css/bet.css" rel="stylesheet" />
-
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/bet.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -116,11 +115,11 @@
         <button></button>
         <a href="index.html">ALL BETS</a>
         <div></div>
-        <a href="#">MY BETS</a>
+        <a id="menuMyBets" href="#">MY BETS</a>
         <div></div>
         <a id="menuCreateBet" href="#">CREATE BET</a>
         <div></div>
-        <a href="#">PROFILE & SETTINGS</a>
+        <a id="menuProfileAndSettings" href="#">PROFILE & SETTINGS</a>
         <div></div>
         <a id="btnSignOut" href="#">LOGOUT</a>
       </div>
@@ -141,6 +140,15 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="userBets hidden">
+        <div class="userBetsHeader">
+            <button id="createdBetsBtn" class="size-24 text-light active">Created Bets <span id="createdBetsCount" class="text-light">(0)</span></button>
+            <button id="placedBetsBtn" class="size-24 text-light">Placed Bets <span id="placedBetsCount" class="text-light">(0)</span></button>
+        </div>
+        <div class="userBetsGrid">
+        </div>
     </div>
 
     <div id="createBet" class="createBet">
@@ -188,73 +196,6 @@
     </div>
 
     <main class="grid">
-      <!--<div class="bet">
-              <div class="bet-top">
-                <img src="images/avatar.png" class="avatar" alt="an image" />
-                <div class="inf">
-                  <p class="size-14 text-dark">
-                    Valet 2018
-                  </p>
-                  <p class="size-14 text-light">
-                    Created by: John Doe
-                  </p>
-                </div>
-                <p class="size-14 text-light">
-                  End date: 3-12-2018
-                </p>
-              </div>
-              <div class="bet-middle">
-                <label for="optionId1">
-                    <input class="radioOption" type="radio" name="betId1" id="optionId1">
-                    <div class="alternative">
-                      <span class="size-24 text-dark w700">1</span>
-                      <p class="size-14 text-dark">Trump</p>
-                    </div>
-                  </label>
-                <label for="optionId2">
-                    <input class="radioOption" type="radio" name="betId1" id="optionId2">
-                    <div class="alternative">
-                      <span class="size-24 text-dark w700">1</span>
-                      <p class="size-14 text-dark">Trump</p>
-                    </div>
-                  </label>
-                <label for="optionId3">
-                    <input class="radioOption" type="radio" name="betId1" id="optionId3">
-                    <div class="alternative">
-                      <span class="size-24 text-dark w700">1</span>
-                      <p class="size-14 text-dark">Trump</p>
-                    </div>
-                  </label>
-              </div>
-              <div class="bet-bottom">
-
-                <div class="inf">
-                  <h1 class="size-24 text-dark">Who wins the whale ?</h1>
-                  <div class="relative-wrapper coin-wrapper">
-                    <p class="text-light acme">100</p>
-                    <img class="coin" src="images/coin.svg" />
-                  </div>
-                </div>
-                <div class="peeps">
-                  <div class="relative-wrapper">
-                    <p class="text-light acme">3541</p>
-                    <i class="material-icons">people</i>
-                  </div>
-                </div>
-                <div class="buts">
-                  <button class="mdc-button voteBtn mdc-ripple-upgraded" disabled>
-                      Vote
-                    </button>
-                  <button class="mdc-button mdc-ripple-upgraded">
-                      Share
-                    </button>
-                </div>
-                <p class="size-14 text-light">
-                  Betting closes in: 5 days 3 hours
-                </p>
-              </div>
-            </div>-->
-
     </main>
   </div>
 </body>
