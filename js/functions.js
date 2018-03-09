@@ -1,3 +1,4 @@
+const bets = {};
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyD46CxE-8uJDebx5ErANO9SOMOGuTxZiVQ",
@@ -33,6 +34,15 @@ function updateUI() {
     hideLoadingScreen();
 
     fetchBetsFromDB();
+    
+    //if url has ?search="query"
+    if (getParameterByName("search")!=null) {
+        //store the query in a variable
+        let searchQuery = getParameterByName('search');
+        //TODO: Hitta bättre lösning!
+        //delay by 1 second to wait untill fetchBetsFromDB is done.
+        setTimeout(() => filterByQuery(searchQuery), 1000);
+    };
 
     document.getElementById("openMenu").addEventListener("click", function() {
         closeMenuCover.classList.remove("hidden");
@@ -95,7 +105,6 @@ function fadeOut(el){
 }
 
 // fade in
-
 function fadeIn(el, display){
   el.style.opacity = 0;
   el.style.display = display || "block";
@@ -117,7 +126,7 @@ function fetchBetsFromDB() {
         if(data.active && data.options) {
             let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
             bet.createCard();
-
+            bets[key] = bet;
             // Add ripple effect to buttons
             let btns = document.querySelectorAll('.mdc-button');
             let fabs = document.querySelectorAll('.mdc-fab');
@@ -128,7 +137,7 @@ function fetchBetsFromDB() {
               mdc.ripple.MDCRipple.attachTo(fab);
             }
         }
-    });
+});
 
     db.ref("bets/").on("child_changed", snapshot => {
         let data = snapshot.val();
@@ -207,3 +216,32 @@ function loginFinished() {
       }
   });
 }
+
+// websiteadress/?search=value
+// Parse the URL parameter
+function getParameterByName(name, url) {
+    if (!url) {
+        url = window.location.href;    
+    } 
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function filterByQuery(query) {
+    console.log(bets);
+    let unmatchedBets = [];
+    //loop through the bets and check which ones will not be displayed on page
+    for (let bet in bets) {
+        let obj = bets[bet];
+        //if not title, question, id, uid nor creators name matches query, push bet to unmathchedBets
+        if (obj.title != query && obj.question != query && obj.id != query && obj.creator.uid != query && obj.creator.name != query) {
+            unmatchedBets.push(obj);
+        };
+        //hide all the unmatched bets
+        unmatchedBets.forEach( bet => bet.hideBet());
+    };
+};
