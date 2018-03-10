@@ -132,7 +132,7 @@ function createBet(event) {
 }
 
 class Bet {
-	constructor(id, title, question, coins, endTime, lastBetTime, creator, numberOfBets, options, numberOfOptions, winningOption) {
+	constructor(id, title, question, coins, endTime, lastBetTime, creator, numberOfBets, options, numberOfOptions, winningOption, pot = 0) {
 		this.id = id;
 		this.title = title;
 		this.question = question;
@@ -147,6 +147,7 @@ class Bet {
 		this.grid = null;
 		this.winningOption = winningOption;
 		this.placedBets = {};
+		this.pot = pot;
 	}
 	createCard() {
 		// Select the grid that we place all the bets in
@@ -261,6 +262,7 @@ class Bet {
 		if (!this.hasUserPlacedBet()) {
 			betButton.onclick = () => {
 				this.placeBet();
+				console.log("PLACED BET ");
 			}
 		} else {
 			betButton.disabled = true;
@@ -366,9 +368,9 @@ class Bet {
 		}
 		db.ref('bets/' + this.id).update({
 			winningOption: pickedOption,
+
 		});
-		console.log(this);
-		//distributeWinnings(pickedOption, options, coinPot)
+		distributeWinnings(this.id);
 
 	}
 	createOptionsIn(container) {
@@ -486,18 +488,24 @@ class Bet {
 
 		if (setTimeNow() > new Date(this.lastBetTime).getTime()) {
 
-			/// betting is not avialask
+			console.log("Betting not avaliable");
 
 		} else {
 			//PLACE BET IN DB
 			let id = user.get("uid")
 			db.ref(`bets/${this.id}/placedBets/${id}`).set(pickedOption);
 			let tempThis = this;
+			let lePot = Number(tempThis.pot);
+			let coins = Number(tempThis.coins);
 
+			db.ref('bets/' + this.id).update({
+				numberOfBets: tempThis.numberOfBets += 1,
+				pot: lePot += coins
+			});
 
 			db.ref(`users/${id}/totalCoinsPlaced`).once("value", function(snapshot) {
 				let data = snapshot.val();
-				db.ref(`users/${id}/totalCoinsPlaced`).set(data + tempThis.coins);
+				db.ref(`users/${id}/totalCoinsPlaced`).set(data + coins);
 			});
 
 
@@ -505,10 +513,9 @@ class Bet {
 			db.ref(`users/${id}/coins`).once("value", function(snapshot) {
 
 				let currentCoins = snapshot.val()
-				db.ref(`users/${id}/coins`).set((currentCoins - tempThis.coins));
-				db.ref(`users/${id}/totalCoinsPlaced`).set(tempThis.coins);
+				db.ref(`users/${id}/coins`).set((currentCoins - coins));
 
-				updateUI(user.displayName, user.photoUrl, currentCoins - tempThis.coins);
+				updateUI(user.displayName, user.photoUrl, currentCoins - coins);
 			});
 		}
 	}
