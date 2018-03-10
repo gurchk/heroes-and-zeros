@@ -34,6 +34,15 @@ function updateUI() {
 
     fetchBetsFromDB();
 
+    //if url has ?search="query"
+	if (getParameterByName("search") != null) {
+		//store the query in a variable
+		let searchQuery = getParameterByName('search');
+		//TODO: Hitta bättre lösning!
+		//delay by 1 second to wait untill fetchBetsFromDB is done.
+		setTimeout(() => filterByQuery(searchQuery), 1000);
+	};
+
     document.getElementById("openMenu").addEventListener("click", function() {
         openMenu();
     });
@@ -204,7 +213,7 @@ function fetchBetsFromDB() {
 
         // If the bet is inactive, AKA a winning option has been chosen, don't render it on the page. Maybe do something else with it 
         if(data.options && data.active) {
-            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
+            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, data.winningOption);
             bet.createCard();
 
             bets[key] = bet;
@@ -235,7 +244,7 @@ function fetchBetsFromDB() {
                 changedElement.parentNode.removeChild(changedElement);
             }
 
-            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions);
+            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, data.winningOption);
             bet.createCard();
 
             bets[key] = bet;
@@ -297,8 +306,70 @@ function loginFinished() {
 
             inputOptionsDiv.appendChild(newOption);
         } else {
-        let errorBox = document.getElementById("errorBox");
-        errorBox.classList.remove("hidden");
+            let errorBox = document.getElementById("errorBox");
+            errorBox.classList.remove("hidden");
         }
     });
 }
+
+let calcTimeLeft = function(lastBetTime) {
+	let d = new Date();
+	let date;
+	date = d.getFullYear();
+	(d.getMonth() + 1) < 10 ? date += "-0" + (d.getMonth() + 1) : date += "-" + (d.getMonth() + 1);
+	d.getDate() < 10 ? date += "-0" + d.getDate() : date += "-" + d.getDate();
+
+    let timeLeft = (new Date(lastBetTime).getTime() / 1000) - (new Date(date).getTime() / 1000)
+
+	if (timeLeft < 259200) {
+		if (timeLeft < 172800) {
+			if (timeLeft < 86400) {
+				if (timeLeft <= 0) {
+					return "Betting Closed";
+				}
+				return "Betting closes in less than 1 day";
+			}
+			return "Betting closes in less than 2 days";
+		}
+		return "Betting closes in less than 3 days";
+	} else {
+		return "Betting closes at " + lastBetTime;
+	}
+}
+
+let setTimeNow = function() {
+	let timeNow;
+	db.ref(`users/${user.uid}/currentTime`).set(firebase.database.ServerValue.TIMESTAMP);
+	db.ref(`users/${user.uid}/currentTime`).once("value", function(snapshot) {
+		timeNow = snapshot.val();
+	});
+	return timeNow;
+}
+
+// websiteadress/?search=value
+// Parse the URL parameter
+function getParameterByName(name, url) {
+	if (!url) {
+		url = window.location.href;
+	}
+	name = name.replace(/[\[\]]/g, "\\$&");
+	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+		results = regex.exec(url);
+	if (!results) return null;
+	if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function filterByQuery(query) {
+	let unmatchedBets = [];
+	//loop through the bets and check which ones will not be displayed on page
+	for (let bet in bets) {
+		let obj = bets[bet];
+		//if not title, question, id, uid nor creators name matches query, push bet to unmathchedBets
+		if (obj.title != query && obj.question != query && obj.id != query && obj.creator.uid != query && obj.creator.name != query) {
+			unmatchedBets.push(obj);
+		};
+		//hide all the unmatched bets
+		unmatchedBets.forEach(bet => bet.hideBet());
+	};
+};

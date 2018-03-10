@@ -20,8 +20,6 @@ class User {
             let value = snapshot.val();
             
             this[property] = value;
-
-            console.log("Updated", property, "to", value);
         });
 
         // TODO: Add querySelectorAll to update all elements on page that uses the values. For example every container for coins has class="coins" or similar. querySelectorAll(".coins") foreach.
