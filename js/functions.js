@@ -208,7 +208,6 @@ function fetchBetsFromDB() {
             bet.createCard();
 
             bets[key] = bet;
-            document.getElementById("allBetsCounter").innerText = "(" + Object.keys(bets).length + ")";
 
             // Add ripple effect to buttons
             let btns = document.querySelectorAll('.mdc-button');
@@ -220,6 +219,8 @@ function fetchBetsFromDB() {
               mdc.ripple.MDCRipple.attachTo(fab);
             }
         }
+
+        document.getElementById("allBetsCounter").innerText = "(" + Object.keys(bets).length + ")";
     });
 
     db.ref("bets/").on("child_changed", snapshot => {
