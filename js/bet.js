@@ -65,7 +65,9 @@ function createBet(event) {
 
     //CHECK THAT LAST BET TIME OCCUR BEFORE BET END TIME
 	if (lastBetTime.value > endTime.value) {
-		lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*Betting must close before the bet ends.</p>");
+        if(!lastBetTime.nextElementSibling.className.includes("error")) {
+            lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*Betting must close before the bet ends.</p>");
+        }
 		error = true;
 	}
 
@@ -78,7 +80,9 @@ function createBet(event) {
 
 	//CHECK THAT LAST BET TIME AND BET END TIME IS AFTER TODAYS DATE
 	if (lastBetTime.value < date || endTime.value < date) {
-		lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*That date has already passed.</p>");
+        if(!lastBetTime.nextElementSibling.className.includes("error")) {
+            lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*That date has already passed.</p>");
+        }
 		error = true;
 	}
 
@@ -111,6 +115,32 @@ function createBet(event) {
 
         db.ref("bets/").push(data).then( snap => {
             let betKey = snap.key;
+
+            db.ref("bets/" + betKey).on("child_changed", snapshot => {
+                let data = snapshot.val();
+                if(Object.keys(data).length === optionCount) {
+                    db.ref("bets/" + betKey).once("value", snapshot => {
+                        let data = snapshot.val();
+                        let bet = new Bet(
+                            betKey, 
+                            data.title, 
+                            data.question, 
+                            data.betAmount, 
+                            data.endTime, 
+                            data.lastBetTime, 
+                            data.creator, 
+                            data.numberOfBets, 
+                            data.options, 
+                            data.numberOfOptions, 
+                            data.winningOption,
+                            data.pot
+                        );
+                        bet.createCard();
+                        bets[betKey] = bet; 
+                    });
+                }
+            });
+
             optionValues.forEach(option => {
                 db.ref("bets/" + betKey + "/options/").push(option);
             });
@@ -374,8 +404,8 @@ class Bet {
             }
 
             // If the user has placed a bet, OR the bet time has ended.
-            if(this.userHasPlacedBet || setTimeNow() > new Date(this.lastBetTime).getTime()) {
-            // If the user is the bet creator and the bet has ended AND the bet has no winning option set. Enable decide Winner button.
+            if(this.userHasPlacedBet() || setTimeNow() > new Date(this.lastBetTime).getTime()) {
+                // If the user is the bet creator and the bet has ended AND the bet has no winning option set. Enable decide Winner button.
                 if (user.get("uid") == this.creator.uid && setTimeNow() > new Date(this.endTime) && !this.winningOption) {
                     this.card.classList.add("awaitingWinningOption");
                     input.addEventListener("click", () => {

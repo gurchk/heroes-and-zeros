@@ -243,8 +243,13 @@ function fetchBetsFromDB() {
         }
 
         document.getElementById("allBetsCounter").innerText = "(" + Object.keys(bets).length + ")";
+
+        allBetsBtn.classList.add("active");
+        createdBetsBtn.classList.remove("active");
+        placedBetsBtn.classList.remove("active");
     });
 
+    /*
     db.ref("bets/").on("child_changed", snapshot => {
         let data = snapshot.val();
         let key = snapshot.key;
@@ -274,6 +279,7 @@ function fetchBetsFromDB() {
             bets[key] = bet;
         }
     });
+    */
 }
 
 function distributeWinnings(id) {
