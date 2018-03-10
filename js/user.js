@@ -20,9 +20,12 @@ class User {
             let value = snapshot.val();
             
             this[property] = value;
-        });
 
-        // TODO: Add querySelectorAll to update all elements on page that uses the values. For example every container for coins has class="coins" or similar. querySelectorAll(".coins") foreach.
+            let targets = document.querySelectorAll("." + property);
+            targets.forEach(target => {
+                target.innerText = this[property];
+            });
+        });
     }
     logout() {
         // Logout the user

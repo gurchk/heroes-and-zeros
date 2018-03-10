@@ -630,3 +630,15 @@ button:focus {
     text-align: center;
     margin-top: 5em;
 }
+
+.awaitingWinningOption {
+    border-image: linear-gradient(45deg, #ff5d55, rgb(221, 189, 148)) 1 round !IMPORTANT;
+}
+
+.winnerOption {
+    border-left: 2px solid yellow !IMPORTANT;
+}
+
+.alternative {
+    border-left: 2px solid rgba(0, 0, 0, 0);
+}

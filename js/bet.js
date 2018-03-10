@@ -129,11 +129,11 @@ function createBet(event) {
 }
 
 class Bet {
-    constructor(id, title, question, coins, endTime, lastBetTime, creator, numberOfBets, options, numberOfOptions, winningOption) {
+    constructor(id, title, question, betAmount, endTime, lastBetTime, creator, numberOfBets, options, numberOfOptions, winningOption, pot) {
         this.id = id;
         this.title = title;
         this.question = question;
-        this.coins = coins;
+        this.betAmount = betAmount;
         this.endTime = endTime;
         this.lastBetTime = lastBetTime;
         this.creator = creator;
@@ -143,6 +143,7 @@ class Bet {
         this.card = undefined;
         this.grid = document.getElementsByClassName("grid")[0];
         this.winningOption = winningOption;
+        this.pot = pot;
 		this.placedBets = {};
     }
     createCard() {
@@ -153,12 +154,6 @@ class Bet {
 
         let betTop = document.createElement("div");
         betTop.classList.add("bet-top");   
-
-        if (this.winnerSelect != false) {
-			var waitingForWinSelect = document.createElement("span");
-			waitingForWinSelect.classList.add("size-14");
-			waitingForWinSelect.innerHTML = "Waiting for winner selection";
-        }
         
         let avatar = document.createElement("img");
         avatar.classList.add("userImage", "avatar");
@@ -185,13 +180,18 @@ class Bet {
         endDate.classList.add("size-14", "text-light");
         endDate.innerText = "End date: " + this.endTime;
 
+        // If there's no winning option and the bet has ended, add winner selection text
+        if(!this.winningOption && setTimeNow() > new Date(this.endTime).getTime()) {
+            endDate.innerText = "Awaiting winner selection";
+            endDate.style.color = "#ff5d55";
+        }
+
         topInfo.appendChild(betTitle);
         topInfo.appendChild(createdBy);
 
         betTop.appendChild(avatar);
         betTop.appendChild(topInfo);
         betTop.appendChild(endDate);
-
 
         let betMiddle = document.createElement("div");
         betMiddle.classList.add("bet-middle");
@@ -212,7 +212,7 @@ class Bet {
         betAmountWrapper.classList.add("relative-wrapper", "coin-wrapper");
         let count = document.createElement("p");
         count.classList.add("text-light", "acme");
-        count.innerText = this.coins;
+        count.innerText = this.betAmount;
         let coin = document.createElement("img");
         coin.classList.add("coin");
         coin.setAttribute("src", "images/coin.svg");
@@ -244,46 +244,17 @@ class Bet {
             console.log("TODO: Implement Share");
         });
 
-        let selectWinnerBtn = document.createElement("button");
-		selectWinnerBtn.classList.add("mdc-button", "mdc-ripple-upgraded", "select-winner", "voteBtn");
-		selectWinnerBtn.disabled = true;
-		selectWinnerBtn.innerText = "Decide Winner";
-		selectWinnerBtn.addEventListener('click', event => {
-			this.decideWinner;
-        });
-        
-        //IF	kolla om creator == user.uid
-		//	kolla endDate < setTimeNow
-		//	kolla om winning option == false
-		// skapa select winner button
-		//db.ref(winningoption).set == bla bla
-		if (!this.hasUserPlacedBet()) {
-			betButton.onclick = () => {
-                betButton.disabled = false;
-				this.placeBet();
-			}
-		} else {
-            betButton.innerText = "Bet Locked In";
-            betButton.disabled = true;
-		}
-
-		//if last bet time has ended, show betting is closed
+		// If last bet time has ended, show betting is closed
 		if (setTimeNow() > new Date(this.lastBetTime).getTime()) {
-			betButton.disabled = true;
-			betButton.innerText = "Bet Closed";
+            betButton.innerText = "Bet Closed";
+        }
+
+        if (this.userHasPlacedBet()) {
+            betButton.innerText = "Bet Locked In";
         }
         
-		if (user.get("uid") == this.creator.uid) {
-			if (setTimeNow() > new Date(this.endTime).getTime()) {
-				if (this.winningOption.length == 0) {
-					buttonWrapper.appendChild(betButton);
-					betButton.disabled = false;
-					betButton.innerHTML = "Choose Winner";
-					betButton.onclick = () => {
-						this.decideWinner();
-					}
-				}
-			}
+		if (user.get("uid") == this.creator.uid && setTimeNow() > new Date(this.endTime).getTime() && !this.winningOption) {
+            betButton.innerHTML = "Decide Winner";
 		}
         
         let betCloseTime = document.createElement("p");
@@ -346,7 +317,8 @@ class Bet {
 		db.ref('bets/' + this.id).update({
 			winningOption: pickedOption,
 		});
-		//distributeWinnings(pickedOption, options, coinPot)
+        
+        distributeWinnings(this.id);
 	}
     createOptionsIn(container) {
         let numberOfOptions = 1;
@@ -379,8 +351,17 @@ class Bet {
             p.classList.add("size-14", "text-dark");
             p.innerHTML = this.options[option].name;
 
-            /*
-            let userHasBet = false;
+            if(this.winningOption == option) {
+                let winner = document.createElement("span");
+                winner.classList.add("text-dark");
+                winner.style.float = "right";
+                winner.style.fontWeight = "bold";
+                winner.innerText = "Winner!";
+                p.appendChild(winner);
+
+                div.classList.add("winnerOption");
+            }
+
             for(let bet in user.betHistory) {
                 // For every placed bet in the user bet history, check if that bet is the current bet
                 if(bet === this.id) {
@@ -389,36 +370,29 @@ class Bet {
                         // This happens if a user has placed a bet on this option
                         input.checked = true;
                     }
-                    else {
-                        // This happens if a user has placed a bet on this bet, but not this option
-                        input.disabled = true;
-                    }
-
-                    // Set userHasBet to true so that the input eventListener will not be set.
-                    userHasBet = true;
                 }
-
-                // This happens if the user has not placed a bet on this bet, pressing any label enables the Place Bet button
             }
 
-            // If the user has not placed a bet on this card, enable the button on selection.
-            if(!userHasBet) {
+            // If the user has placed a bet, OR the bet time has ended.
+            if(this.userHasPlacedBet || setTimeNow() > new Date(this.lastBetTime).getTime()) {
+            // If the user is the bet creator and the bet has ended AND the bet has no winning option set. Enable decide Winner button.
+                if (user.get("uid") == this.creator.uid && setTimeNow() > new Date(this.endTime) && !this.winningOption) {
+                    this.card.classList.add("awaitingWinningOption");
+                    input.addEventListener("click", () => {
+                        this.enableDecideWinnerButton();
+                    });
+                } 
+                // If the user has placed a bet or the bet time has ended and the user is not the creator, disable the input buttons.
+                else {
+                    input.disabled = true;
+                }
+            } 
+            // If the user has not placed a bet and the lastBetTime has not ended, enable bet button.
+            else {
                 input.addEventListener("click", () => {
-                    this.enableVoteButton();
+                    this.enableBetButton();
                 });
-            }*/
-
-            input.addEventListener("click", event => {
-				if (this.hasUserPlacedBet() || setTimeNow() > new Date(this.lastBetTime).getTime()) {
-					if (user.get("uid") == this.creator.uid && this.winningOption.length === 0) {
-						this.enableVoteButton();
-					} else {
-						event.preventDefault();
-					}
-				} else {
-					this.enableVoteButton();
-				}
-			});
+            }
 
             div.appendChild(span);
             div.appendChild(p);
@@ -432,19 +406,24 @@ class Bet {
 
         return container;
     }
-    enableVoteButton() {
-        let voteButton = this.card.querySelectorAll("button")[0];
+    enableBetButton() {
+        let betButton = this.card.querySelectorAll("button")[0];
+        betButton.innerText = "Place Bet";
 
-        voteButton.disabled = false;
-        voteButton.addEventListener("click", () => {
+        betButton.disabled = false;
+        betButton.addEventListener("click", () => {
             this.placeBet();
         });
     }
-    disableVoteButton() {
-		let castBtn = this.card.querySelectorAll("button")[0];
-		castBtn.disabled = true;
+    enableDecideWinnerButton() {
+        let betButton = this.card.querySelectorAll("button")[0];
+        betButton.innerText = "Decide Winner";
 
-	}
+        betButton.disabled = false;
+        betButton.addEventListener("click", () => {
+            this.decideWinner();
+        });
+    }
     showBet() {
 		//remove the hidden class
 		document.querySelector("[data-id=" + this.id + "]").classList.remove("hidden");
@@ -457,52 +436,57 @@ class Bet {
         // Integrate with Facebook API or another API to share the bet.
         console.log("To be implemented.");
     }
-    hasUserPlacedBet() {
-		let userHasPlacedBet = false;
+    userHasPlacedBet() {
+		let userHasBet = false;
 		db.ref(`bets/${this.id}/placedBets/`).once("value", snapshot => {
 			let data = snapshot.val()
 			for (let i in data) {
 				if (i == user.uid) {
-					userHasPlacedBet = true;
+					userHasBet = true;
 				}
 			}
 		});
-		return userHasPlacedBet;
+		return userHasBet;
 	}
 	placeBet() {
 		let pickedOption;
 
-		for (let i in this.options) {
-			if (document.getElementById(i).checked == true) {
+		for(let i in this.options) {
+			if(document.getElementById(i).checked == true) {
 				pickedOption = i;
 				document.getElementById(i).checked = false;
 			}
 		}
 
-		if (setTimeNow() > new Date(this.lastBetTime).getTime()) {
+		if(setTimeNow() < new Date(this.lastBetTime).getTime()) {
+            let uid = user.get("uid");
+            let betId = this.id;
 
-			/// betting is not avialask
+            // Add bet in database
+            db.ref(`bets/${this.id}/placedBets/`).push({uid: pickedOption});
 
-		} else {
-			//PLACE BET IN DB
-			let id = user.get("uid")
-			db.ref(`bets/${this.id}/placedBets/${id}`).set(pickedOption);
-			let tempThis = this;
+            // Update users total coins placed count
+			db.ref(`users/${uid}/totalCoinsPlaced`).transaction(cur => {
+                return cur + this.betAmount;
+            });
 
-			db.ref(`users/${id}/totalCoinsPlaced`).once("value", function(snapshot) {
-				let data = snapshot.val();
-				db.ref(`users/${id}/totalCoinsPlaced`).set(data + tempThis.coins);
-			});
+            // Update user bet history
+            db.ref(`users/${uid}/betHistory/`).push({betId: pickedOption});
 
-			//REMOVE COINS FROM USER
-			db.ref(`users/${id}/coins`).once("value", function(snapshot) {
+            // Remove coins from user
+            db.ref(`users/${uid}/coins`).transaction(cur => {
+                return cur - this.betAmount;
+            });
 
-				let currentCoins = snapshot.val()
-				db.ref(`users/${id}/coins`).set((currentCoins - tempThis.coins));
-				db.ref(`users/${id}/totalCoinsPlaced`).set(tempThis.coins);
+            // Add the bet count to the bet
+            db.ref(`bets/${this.id}/numberOfBets`).transaction(cur => {
+                return cur + 1;
+            });
 
-				updateUI(user.displayName, user.photoUrl, currentCoins - tempThis.coins);
-			});
+            // Add coins to the pot
+            db.ref(`bets/${this.id}/pot`).transaction(cur => {
+                return cur + this.betAmount;
+            });
 		}
 	}
 }

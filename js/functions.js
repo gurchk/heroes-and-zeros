@@ -212,8 +212,21 @@ function fetchBetsFromDB() {
         let key = snapshot.key;
 
         // If the bet is inactive, AKA a winning option has been chosen, don't render it on the page. Maybe do something else with it 
-        if(data.options && data.active) {
-            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, data.winningOption);
+        if(data.options) {
+            let bet = new Bet(
+                key, 
+                data.title, 
+                data.question, 
+                data.betAmount, 
+                data.endTime, 
+                data.lastBetTime, 
+                data.creator, 
+                data.numberOfBets, 
+                data.options, 
+                data.numberOfOptions, 
+                data.winningOption,
+                data.pot
+            );
             bet.createCard();
 
             bets[key] = bet;
@@ -236,15 +249,26 @@ function fetchBetsFromDB() {
         let data = snapshot.val();
         let key = snapshot.key;
 
-        if(Object.keys(data.options).length === data.numberOfOptions) {
-
+        if(Object.keys(data.options).length === data.numberOfOptions && data.active) {
             // If the element already exists on the page, remove it
             let changedElement = document.querySelector("[data-id=" + key + "]");
             if(changedElement) {
                 changedElement.parentNode.removeChild(changedElement);
             }
 
-            let bet = new Bet(key, data.title, data.question, data.betAmount, data.endTime, data.lastBetTime, data.creator, data.numberOfBets, data.options, data.numberOfOptions, data.winningOption);
+            let bet = new Bet(key, 
+                data.title, 
+                data.question, 
+                data.betAmount, 
+                data.endTime, 
+                data.lastBetTime, 
+                data.creator, 
+                data.numberOfBets, 
+                data.options, 
+                data.numberOfOptions, 
+                data.winningOption,
+                data.pot
+            );
             bet.createCard();
 
             bets[key] = bet;
@@ -252,49 +276,51 @@ function fetchBetsFromDB() {
     });
 }
 
-function distributeWinnings(winningOption, options, coinPot) {
-    for(let option in options) {
-        if(option == winningOption) {
-            // Winners bracket, add wins +1, totalCoinsWon +1, coins + whatever they won (pot split up on everyone)
-            let winners = options[option];
-            console.log(winners);
-            //let winnings = Math.floor(coinPot/winners);
-
-            for(let uid in options[option].placedBets) {
-                /*
-                let wins = db.ref("users/" + uid + "/wins");
-                wins.transaction(wins => {
-                    return (wins + 1);
-                });
-
-                let coinsWon = db.ref("users/" + uid + "/totalCoinsWon");
-                coinsWon.transaction(totalCoinsWon => {
-                    return (totalCoinsWon + winnings);
-                });
-
-                let coinCount = db.ref("users/" + uid + "/coins");
-                coinCount.transaction(coins => {
-                    return (coins + winnings);
-                });*/
-            }
-
-        }
-        else {
-            // Losers bracket, add losses += 1
-            for(let user in options[option].placedBets) {
-                let ref = db.ref('users/' + user.uid + "/losses");
-                ref.transaction(losses => {
-                    return (losses + 1);
-                });
+function distributeWinnings(id) {
+    db.ref("bets/" + id).once("value", function(snapshot) {
+        let bet = snapshot.val();
+        let winners = [];
+        let losers = [];
+        for (let user in bet.placedBets) {
+            let userSelect = bet.placedBets[user];
+            if (userSelect === bet.winningOption) {
+                winners.push(user);
+            } else {
+                losers.push(user);
             }
         }
-    }
-}
+        losers.forEach(loser => {
+            db.ref(`users/${loser}/games`).transaction(cur => {
+                return cur + 1;
+            });
+            db.ref(`users/${loser}/losses`).transaction(cur => {
+                return cur + 1;
+            });
+        });
+
+        let calcWinnings = bet.pot/winners.length;
+
+        winners.forEach(winner => {
+            db.ref(`users/${winner}/games`).transaction(cur => {
+                return cur + 1;
+            });
+            db.ref(`users/${winner}/wins`).transaction(cur => {
+                return cur + 1;
+            });
+            db.ref(`users/${winner}/coins`).transaction(cur => {
+                return cur + calcWinnings;
+            });
+            db.ref(`users/${winner}/totalCoinsWon`).transaction(cur => {
+                return cur + calcWinnings;
+            });
+        });
+    });
+  }
 
 function loginFinished() {
     /* CreateBet Check for amount of options */
-    inputOptionsDiv = document.getElementById("inputOptionsDiv");
-    addOption = document.getElementById("addOption");
+    let inputOptionsDiv = document.getElementById("inputOptionsDiv");
+    let addOption = document.getElementById("addOption");
     // Add click on add more options
     addOption.addEventListener("click", function() {
         // Check current amount of options
