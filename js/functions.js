@@ -248,38 +248,6 @@ function fetchBetsFromDB() {
         createdBetsBtn.classList.remove("active");
         placedBetsBtn.classList.remove("active");
     });
-
-    /*
-    db.ref("bets/").on("child_changed", snapshot => {
-        let data = snapshot.val();
-        let key = snapshot.key;
-
-        if(Object.keys(data.options).length === data.numberOfOptions && data.active) {
-            // If the element already exists on the page, remove it
-            let changedElement = document.querySelector("[data-id=" + key + "]");
-            if(changedElement) {
-                changedElement.parentNode.removeChild(changedElement);
-            }
-
-            let bet = new Bet(key, 
-                data.title, 
-                data.question, 
-                data.betAmount, 
-                data.endTime, 
-                data.lastBetTime, 
-                data.creator, 
-                data.numberOfBets, 
-                data.options, 
-                data.numberOfOptions, 
-                data.winningOption,
-                data.pot
-            );
-            bet.createCard();
-
-            bets[key] = bet;
-        }
-    });
-    */
 }
 
 function distributeWinnings(id) {

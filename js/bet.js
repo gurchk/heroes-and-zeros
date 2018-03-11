@@ -484,9 +484,13 @@ class Bet {
 		for(let i in this.options) {
 			if(document.getElementById(i).checked == true) {
 				pickedOption = i;
-				document.getElementById(i).checked = false;
 			}
-		}
+        }
+        
+        if(!pickedOption) {
+            console.log("No option picked, aborting");
+            return false;
+        }
 
 		if(setTimeNow() < new Date(this.lastBetTime).getTime()) {
             let uid = user.get("uid");
@@ -499,10 +503,10 @@ class Bet {
             user.incrementProperty("coins", -(this.betAmount));
 
             // Update user bet history
-            db.ref(`users/${uid}/betHistory/`).push({betId: pickedOption});
+            db.ref(`users/${uid}/betHistory/${betId}`).set(pickedOption);
 
             // Add bet in database
-            db.ref(`bets/${this.id}/placedBets/`).push({uid: pickedOption});
+            db.ref(`bets/${this.id}/placedBets/${uid}`).set(pickedOption);
 
             // Add the bet count to the bet
             db.ref(`bets/${this.id}/numberOfBets`).transaction(cur => {
@@ -513,6 +517,9 @@ class Bet {
             db.ref(`bets/${this.id}/pot`).transaction(cur => {
                 return cur + this.betAmount;
             });
+
+            // TODO: After a user has placed a bet, disable the inputs on the bet and perhaps also update the info on the bet (number of bets for example)
+            // Same for after a user has decided the winner of a bet, disable the inputs on the bet.
 		}
 	}
 }
