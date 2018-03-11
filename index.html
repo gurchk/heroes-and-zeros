@@ -28,6 +28,8 @@
 
     <link href="css/style.css" rel="stylesheet" />
     <link href="css/bet.css" rel="stylesheet" />
+    
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 </head>
 
 <body>
@@ -112,15 +114,13 @@
       <button id="openMenu">&#9776;</button>
       <button id="closeMenu">×</button>
       <div id="menu">
-        <a href="index.html">ALL BETS</a>
+        <a href="index.html"><i class="fas fa-dollar-sign"></i> BETS</a>
         <div></div>
-        <a id="menuMyBets" href="#">MY BETS</a>
+        <a id="menuCreateBet" href="#"><i class="fas fa-plus-circle"></i> CREATE BET</a>
         <div></div>
-        <a id="menuCreateBet" href="#">CREATE BET</a>
+        <a id="menuProfileAndSettings" href="#"><i class="fas fa-cogs"></i> SETTINGS & STATISTICS</a>
         <div></div>
-        <a id="menuProfileAndSettings" href="#">PROFILE & SETTINGS</a>
-        <div></div>
-        <a id="btnSignOut" href="#">LOGOUT</a>
+        <a id="btnSignOut" href="#"><i class="fas fa-sign-out-alt"></i> LOGOUT</a>
       </div>
     </nav>
 
@@ -135,7 +135,7 @@
                 </div>
                 <div class="relative-wrapper coin-wrapper">
                     <p id="coins" class="acme text-light coins"></p>
-                    <img class="coin" src="images/coin.svg" />
+                    <img class="coin" src="images/coin.svg" alt="Coin Count"/>
                 </div>
             </div>
         </div>
@@ -163,7 +163,6 @@
           <label for="endtime">When is the bet end date?</label><br>
           <input class="createBetInput" id="endtime" type="date" lang="en"><br>
           <label for="lastBet" class="mainLabel">When can users no longer place a bet?</label><br>
-          <label for="lastBet" class="subLabel">Betting will automatically be disabled once the bet ends if not set.</label><br>
           <input class="createBetInput" id="lastBet" type="date" lang="en"><br>
         </div>
 

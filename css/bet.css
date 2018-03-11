@@ -263,6 +263,7 @@ input[class=radioOption]:checked ~ .alternative {
 }
 @media screen and (max-width: 904px) {
   .grid {
+    width: 100%;
     grid-template-columns: 1fr;
   }
 }

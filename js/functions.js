@@ -22,9 +22,9 @@ function showLoadingScreen() {
 }
 
 function updateUI() {
-    document.getElementById("username").innerText = user.name;
-    document.getElementById("avatar").setAttribute("src", user.displayImage);
-    document.getElementById("coins").innerText = user.coins;
+    document.getElementById("username").innerText = user.get("name");
+    document.getElementById("avatar").setAttribute("src", user.get("displayImage"));
+    document.getElementById("coins").innerText = user.get("coins");
 
     loginWrapper.classList.add("hidden");
     contentWrapper.classList.remove("hidden");
@@ -174,7 +174,7 @@ function showCreatedBets() {
     let count = 0;
 
     for(let bet in bets) {
-        if(bets[bet].creator.uid === user.uid) {
+        if(bets[bet].creator.uid === user.get("uid")) {
             bets[bet].createCard();
             count++;
         }
@@ -190,7 +190,7 @@ function showPlacedBets() {
     let count = 0;
 
     for(let bet in bets) {
-        for(let id in user.betHistory) {
+        for(let id in user.get("betHistory")) {
             if(id === bet) {
                 bets[bet].createCard();
                 bets[bet].card.style.pointerEvents = "none";
@@ -371,8 +371,8 @@ let calcTimeLeft = function(lastBetTime) {
 
 let setTimeNow = function() {
 	let timeNow;
-	db.ref(`users/${user.uid}/currentTime`).set(firebase.database.ServerValue.TIMESTAMP);
-	db.ref(`users/${user.uid}/currentTime`).once("value", function(snapshot) {
+	db.ref(`users/${user.get("uid")}/currentTime`).set(firebase.database.ServerValue.TIMESTAMP);
+	db.ref(`users/${user.get("uid")}/currentTime`).once("value", function(snapshot) {
 		timeNow = snapshot.val();
 	});
 	return timeNow;

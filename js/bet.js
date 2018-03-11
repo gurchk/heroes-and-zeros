@@ -102,9 +102,9 @@ function createBet(event) {
             endTime: endTime.value,
             lastBetTime: lastBetTime.value,
             creator: { 
-                uid: user.uid, 
-                displayImage: user.displayImage, 
-                name: user.name 
+                uid: user.get("uid"), 
+                displayImage: user.get("displayImage"), 
+                name: user.get("name") 
             },
             active: true,
             numberOfBets: 0,
@@ -386,17 +386,17 @@ class Bet {
                 winner.classList.add("text-dark");
                 winner.style.float = "right";
                 winner.style.fontWeight = "bold";
-                winner.innerText = "Winner!";
+                winner.innerHTML = "<i class='fas fa-trophy'></i> Winner";
                 p.appendChild(winner);
 
                 div.classList.add("winnerOption");
             }
 
-            for(let bet in user.betHistory) {
+            for(let bet in user.get("betHistory")) {
                 // For every placed bet in the user bet history, check if that bet is the current bet
                 if(bet === this.id) {
                     // If the user has placed a bet on the current bet, check for the option
-                    if(user.betHistory[bet] === option) {
+                    if(user.get("betHistory")[bet] === option) {
                         // This happens if a user has placed a bet on this option
                         input.checked = true;
                     }
@@ -471,7 +471,7 @@ class Bet {
 		db.ref(`bets/${this.id}/placedBets/`).once("value", snapshot => {
 			let data = snapshot.val()
 			for (let i in data) {
-				if (i == user.uid) {
+				if (i == user.get("uid")) {
 					userHasBet = true;
 				}
 			}
@@ -492,21 +492,17 @@ class Bet {
             let uid = user.get("uid");
             let betId = this.id;
 
-            // Add bet in database
-            db.ref(`bets/${this.id}/placedBets/`).push({uid: pickedOption});
-
             // Update users total coins placed count
-			db.ref(`users/${uid}/totalCoinsPlaced`).transaction(cur => {
-                return cur + this.betAmount;
-            });
+            user.incrementProperty("totalCoinsPlaced", this.betAmount);
+
+            // Remove coins from user
+            user.incrementProperty("coins", -(this.betAmount));
 
             // Update user bet history
             db.ref(`users/${uid}/betHistory/`).push({betId: pickedOption});
 
-            // Remove coins from user
-            db.ref(`users/${uid}/coins`).transaction(cur => {
-                return cur - this.betAmount;
-            });
+            // Add bet in database
+            db.ref(`bets/${this.id}/placedBets/`).push({uid: pickedOption});
 
             // Add the bet count to the bet
             db.ref(`bets/${this.id}/numberOfBets`).transaction(cur => {
