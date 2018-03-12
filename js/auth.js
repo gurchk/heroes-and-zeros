@@ -51,7 +51,7 @@ window.onload = function() {
                     let data = snapshot.val();
 
                     // Create a new user object using the data from database
-                    user = new User(authUser.uid, data.displayImage, data.email, data.name, data.coins, data.games, data.wins, data.losses, data.totalCoinsPlaced, data.totalCoinsWon);
+                    user = new User(authUser.uid, data.displayImage, data.email, data.name, data.coins, data.games, data.wins, data.losses, data.totalCoinsPlaced, data.totalCoinsWon, data.betHistory);
                     user.subscribeToUpdates();
 
                     //User is signed in. Hide login page and show the rest of the page.

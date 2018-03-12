@@ -71,7 +71,7 @@
     z-index: 1;
 }
 
-.grid, .userBetsGrid {
+.grid {
   position: relative;
   display: grid;
   width: 80%;
@@ -84,16 +84,14 @@
 /* Specific classes */
 
 .bet {
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
-    width: 344px;
-    justify-self: center;
-    display: inline-block;
-    border: 0;
-
-    /*
-  border: 1px solid;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+  width: 344px;
+  justify-self: center;
+  display: inline-block;
+  border: 0;
+  background: white;
+  border-top: 10px solid;
   border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
-  */
 }
 
 .alternative {
@@ -133,8 +131,10 @@ input[class=radioOption] {
 }
 
 input[class=radioOption]:checked ~ .alternative {
-    border-top: solid 2px #FF5D55;
-    border-bottom: solid 2px #FF5D55;
+  /*border-top: solid 2px #FF5D55;
+  border-bottom: solid 2px #FF5D55;*/
+
+  box-shadow: 0px 0px 0px 2px rgb(154, 221, 177) inset;
 }
 
 .bet-top {
@@ -171,6 +171,13 @@ input[class=radioOption]:checked ~ .alternative {
     overflow-y: scroll;
 }
 
+.bet-top > span {
+    display: block;
+    text-align: right;
+    color: #FF5D55;
+    margin-right: 4px;
+}
+
 .bet-bottom {
     background-color: #f9f9f9;
     position: relative;
@@ -202,12 +209,13 @@ input[class=radioOption]:checked ~ .alternative {
     left: 4px;
 }
 
-.bet-bottom > .inf > h1 {
-    /* Bet title */
-    position: relative;
-    max-width: 280px;
-    font-weight: 500;
-    overflow-wrap: break-word;
+.bet-bottom>.inf>h1 {
+  /* Bet title */
+  position: relative;
+  max-width: 270px;
+  font-weight: 500;
+  overflow-wrap: break-word;
+
 }
 
 .bet-bottom > .inf > div * {
@@ -256,21 +264,44 @@ input[class=radioOption]:checked ~ .alternative {
 }
 
 @media screen and (max-width: 1840px) {
-  .grid, .userBetsGrid {
+  .grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (max-width: 1381px) {
-  .grid, .userBetsGrid {
+  .grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media screen and (max-width: 904px) {
-  .grid, .userBetsGrid {
+  .grid {
+    width: 100%;
     grid-template-columns: 1fr;
   }
 }
 
 /*Hej*/
+
+.bet-top > p {
+    padding-right: 5px;
+}
+
+.bet-bottom .inf {
+    padding-left: 5px;
+}
+
+.bet-bottom .peeps {
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.bet-bottom > p {
+    padding-left: 5px;
+    padding-bottom: 5px;
+}
+
+.bet-bottom .buts {
+    padding-bottom: 5px;
+}
