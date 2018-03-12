@@ -237,6 +237,10 @@ a:hover {
   background-color: #F9F9F9;
 }
 
+.profile {
+  margin-left: 10%;
+}
+
 .avatar {
   width: 48px;
   height: 48px;

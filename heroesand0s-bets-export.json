@@ -1,0 +1,654 @@
+{
+  "-L6ernkmb0SDuEkRwquj" : {
+    "active" : true,
+    "betAmount" : "1234",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-23",
+    "lastBetTime" : "2018-03-7",
+    "numberOfBets" : 0,
+    "options" : {
+      "-L6ernnLOsusffwrRIKo" : {
+        "name" : "Si "
+      },
+      "-L6ernnN5C-JPmOLOZwE" : {
+        "name" : "Nein"
+      }
+    },
+    "placedBets" : {
+      "jTadfsnAKJN61W5qVTJYIjZEBO83" : "-L6ernnN5C-JPmOLOZwE"
+    },
+    "pot" : 0,
+    "question" : "skrrrra skrbom bom bom? ",
+    "title" : "hohoho",
+    "winningOption" : "-L6ernnLOsusffwrRIKo"
+  },
+  "-L6pB78mWa5HYaWQqf3I" : {
+    "active" : false,
+    "betAmount" : "200",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/20479953_1573668526031057_806480763148385090_n.jpg?oh=fe96e81bd27562aabdc17f3042072e58&oe=5B49D936",
+      "name" : "Erik Olsson",
+      "uid" : "URJlCNui5rd9YoS3q5SHKPt0xq52"
+    },
+    "endTime" : "2018-03-06",
+    "lastBetTime" : "2018-03-05",
+    "numberOfBets" : 0,
+    "options" : {
+      "-L6pB7CITMwwNEGA1XTr" : {
+        "name" : "Nej?"
+      },
+      "-L6pB7CM1OXcjWEPv-RX" : {
+        "name" : "Ja!"
+      },
+      "-L6pB7CS7duGL797ujht" : {
+        "name" : "Kanske?"
+      }
+    },
+    "pot" : 0,
+    "question" : "Ja??!",
+    "title" : "fwafwa",
+    "winningOption" : ""
+  },
+  "-L6pF5xUSemiqhMdsBBc" : {
+    "active" : true,
+    "betAmount" : "500",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/c0.7.100.100/p100x100/22450012_10155007230995382_4328682094046358395_n.jpg?oh=0be0f8b414d52a1ce2d2a20d05c7a8b6&oe=5B002AFB",
+      "name" : "Markus Mattsson",
+      "uid" : "tWzepOhEbjhwSrFfWfxhSoiLzSg2"
+    },
+    "endTime" : "2018-03-26",
+    "lastBetTime" : "2018-03-29",
+    "numberOfBets" : 0,
+    "options" : {
+      "-L6pF6-5SBwCIYNEwulS" : {
+        "name" : "Erik"
+      },
+      "-L6pF6-8xsfxHwsHLeoL" : {
+        "name" : "Andreas"
+      },
+      "-L6pF6-B7DYUMPVzVasu" : {
+        "name" : "Markus"
+      }
+    },
+    "placedBets" : {
+      "URJlCNui5rd9YoS3q5SHKPt0xq52" : "-L6pF6-8xsfxHwsHLeoL",
+      "jTadfsnAKJN61W5qVTJYIjZEBO83" : "-L6pF6-5SBwCIYNEwulS"
+    },
+    "pot" : 0,
+    "question" : "Vem är bäst av oss tre?",
+    "title" : "Vem är bäst",
+    "winningOption" : ""
+  },
+  "-L6pWebcgbWiGpWkqt0o" : {
+    "active" : true,
+    "betAmount" : "500",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/20479953_1573668526031057_806480763148385090_n.jpg?oh=fe96e81bd27562aabdc17f3042072e58&oe=5B49D936",
+      "name" : "Erik Olsson",
+      "uid" : "URJlCNui5rd9YoS3q5SHKPt0xq52"
+    },
+    "endTime" : "2018-03-14",
+    "lastBetTime" : "2018-03-14",
+    "numberOfBets" : 0,
+    "options" : {
+      "-L6pWeesxVvaqeemfpTl" : {
+        "name" : "Nej"
+      },
+      "-L6pWeesxVvaqeemfpTm" : {
+        "name" : "Aldrig"
+      },
+      "-L6pWeesxVvaqeemfpTn" : {
+        "name" : "Inte en chans"
+      },
+      "-L6pWeesxVvaqeemfpTo" : {
+        "name" : "Vadå?"
+      },
+      "-L6pWeesxVvaqeemfpTu" : {
+        "name" : "Perhaps"
+      }
+    },
+    "placedBets" : {
+      "fM5GuqGLfth5d8XHN3P0jnuSqEn1" : "-L6pWeesxVvaqeemfpTn",
+      "jTadfsnAKJN61W5qVTJYIjZEBO83" : "-L6pWeesxVvaqeemfpTn"
+    },
+    "pot" : 0,
+    "question" : "Kommer gruppen hålla tiden?",
+    "title" : "Tidsfråga?",
+    "winningOption" : ""
+  },
+  "-L7--EK1crfFxoU07o7S" : {
+    "active" : true,
+    "betAmount" : "31",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/20374769_10213791080948844_5128822763577940060_n.jpg?oh=689fd76007304e5a26f164fa7d6c87cc&oe=5B3C94C6",
+      "name" : "Andreas Holmstedt",
+      "uid" : "jTadfsnAKJN61W5qVTJYIjZEBO83"
+    },
+    "endTime" : "2018-03-09",
+    "lastBetTime" : "2018-03-08",
+    "numberOfBets" : 0,
+    "options" : {
+      "-L7--EMpetJgaDUYgSHG" : {
+        "name" : "Per"
+      },
+      "-L7--EMpetJgaDUYgSHH" : {
+        "name" : "Olof"
+      },
+      "-L7--EMq55zKOWUqu-_i" : {
+        "name" : "Peter"
+      }
+    },
+    "placedBets" : {
+      "jTadfsnAKJN61W5qVTJYIjZEBO83" : "-L7--EMq55zKOWUqu-_i"
+    },
+    "pot" : 0,
+    "question" : "vem är snyggast?",
+    "title" : "snyggast.nu",
+    "winningOption" : "-L7--EMq55zKOWUqu-_i"
+  },
+  "-L7--ZQc-X3L_6ifE9GI" : {
+    "active" : true,
+    "betAmount" : "45",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/20374769_10213791080948844_5128822763577940060_n.jpg?oh=689fd76007304e5a26f164fa7d6c87cc&oe=5B3C94C6",
+      "name" : "Andreas Holmstedt",
+      "uid" : "jTadfsnAKJN61W5qVTJYIjZEBO83"
+    },
+    "endTime" : "2018-03-10",
+    "lastBetTime" : "2018-03-09",
+    "numberOfBets" : 0,
+    "options" : {
+      "-L7--ZTPyjsCgq_dEcbc" : {
+        "name" : "Kungen"
+      },
+      "-L7--ZTQRytK0MYMfF2e" : {
+        "name" : "Jimmie Åkesson"
+      },
+      "-L7--ZTQRytK0MYMfF2f" : {
+        "name" : "Trump"
+      }
+    },
+    "placedBets" : {
+      "jTadfsnAKJN61W5qVTJYIjZEBO83" : "-L7--ZTQRytK0MYMfF2f"
+    },
+    "pot" : 0,
+    "question" : "vem är fulast?",
+    "title" : "fulast.nu",
+    "winningOption" : ""
+  },
+  "-L7-4bzgnrE97oyTm--S" : {
+    "active" : true,
+    "betAmount" : "500",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/20479953_1573668526031057_806480763148385090_n.jpg?oh=fe96e81bd27562aabdc17f3042072e58&oe=5B49D936",
+      "name" : "Erik Olsson",
+      "uid" : "URJlCNui5rd9YoS3q5SHKPt0xq52"
+    },
+    "endTime" : "2018-03-09",
+    "lastBetTime" : "2018-03-08",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 5,
+    "options" : {
+      "-L7-4c17i5O3nv0QoRzD" : {
+        "name" : "Me"
+      },
+      "-L7-4c17i5O3nv0QoRzE" : {
+        "name" : "You"
+      },
+      "-L7-4c19TctV2V3e94mZ" : {
+        "name" : "Someone else"
+      },
+      "-L7-4c19TctV2V3e94m_" : {
+        "name" : "John Cena"
+      },
+      "-L7-4c19TctV2V3e94ma" : {
+        "name" : "Chuck Norris"
+      }
+    },
+    "pot" : 0,
+    "question" : "Who will be the first one to puke?",
+    "title" : "Puke Championship",
+    "winningOption" : "-L7-4c19TctV2V3e94m_"
+  },
+  "-L75SWXpbZ969FjIuWJU" : {
+    "active" : false,
+    "betAmount" : "1212",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-07",
+    "isCreator" : false,
+    "lastBetTime" : "2018-03-07",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 2,
+    "options" : {
+      "-L75SW_hRkuA-lq1uvBC" : {
+        "name" : "12312"
+      },
+      "-L75SW_rXuLKE3S9OvsK" : {
+        "name" : "1212"
+      }
+    },
+    "pot" : 0,
+    "question" : "123123",
+    "title" : "21321",
+    "winnerSelect" : false,
+    "winningOption" : "-L75SW_rXuLKE3S9OvsK"
+  },
+  "-L75YDcCH7-SNO6VTOn7" : {
+    "active" : true,
+    "betAmount" : "1212",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-09",
+    "isCreator" : false,
+    "lastBetTime" : "2018-03-07",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 2,
+    "options" : {
+      "-L75YDelhw-F_oy99t9T" : {
+        "name" : "1231"
+      },
+      "-L75YDetbqBNM-KjlD57" : {
+        "name" : "12123"
+      }
+    },
+    "pot" : 0,
+    "question" : "12312",
+    "title" : "123123",
+    "winnerSelect" : false,
+    "winningOption" : ""
+  },
+  "-L75_Htg5fzQb93xITcD" : {
+    "active" : false,
+    "betAmount" : "1231",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-07",
+    "isCreator" : false,
+    "lastBetTime" : "2018-03-07",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 2,
+    "options" : {
+      "-L75_HwA3Mbv_WsJnYc8" : {
+        "name" : "1231"
+      },
+      "-L75_HwDWekCRQOb6EUX" : {
+        "name" : "321231"
+      }
+    },
+    "pot" : 0,
+    "question" : "1231",
+    "title" : "123112",
+    "winnerSelect" : false,
+    "winningOption" : ""
+  },
+  "-L78m1Dzaj1zGA5U9AIr" : {
+    "active" : false,
+    "betAmount" : "121",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-08",
+    "isCreator" : false,
+    "lastBetTime" : "2018-03-07",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 2,
+    "options" : {
+      "-L78m1GUWdnDk1bWWnNV" : {
+        "name" : "121"
+      },
+      "-L78m1GWl-_Sb1B6E0Nc" : {
+        "name" : "1221"
+      }
+    },
+    "pot" : 0,
+    "question" : "121",
+    "title" : "12312",
+    "winnerSelect" : false,
+    "winningOption" : ""
+  },
+  "-L78pNwDzTGIMdNACovK" : {
+    "active" : true,
+    "betAmount" : "12312",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-09",
+    "isCreator" : false,
+    "lastBetTime" : "2018-03-08",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 2,
+    "options" : {
+      "-L78pNynkB9dGqFq5XCw" : {
+        "name" : "1231"
+      },
+      "-L78pNyqXYWgjI4dNAsO" : {
+        "name" : "1231"
+      }
+    },
+    "pot" : 0,
+    "question" : "Aragon",
+    "title" : "Nu ska det funka",
+    "winnerSelect" : false,
+    "winningOption" : "-L78pNynkB9dGqFq5XCw"
+  },
+  "-L78pReeTE5jO0gkbDh4" : {
+    "active" : true,
+    "betAmount" : "50",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/20374769_10213791080948844_5128822763577940060_n.jpg?oh=689fd76007304e5a26f164fa7d6c87cc&oe=5B3C94C6",
+      "name" : "Andreas Holmstedt",
+      "uid" : "jTadfsnAKJN61W5qVTJYIjZEBO83"
+    },
+    "endTime" : "2018-03-07",
+    "lastBetTime" : "2018-03-10",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 4,
+    "options" : {
+      "-L78pRhVVbKPHURl8M4C" : {
+        "name" : "1"
+      },
+      "-L78pRhW05JmCaSwrAob" : {
+        "name" : "2"
+      },
+      "-L78pRhW05JmCaSwrAoc" : {
+        "name" : "3"
+      },
+      "-L78pRhX_J7wHvP2058N" : {
+        "name" : "4"
+      }
+    },
+    "placedBets" : {
+      "fM5GuqGLfth5d8XHN3P0jnuSqEn1" : "-L78pRhX_J7wHvP2058N",
+      "jTadfsnAKJN61W5qVTJYIjZEBO83" : "-L78pRhW05JmCaSwrAoc"
+    },
+    "pot" : 0,
+    "question" : "på dig",
+    "title" : "hej",
+    "winningOption" : ""
+  },
+  "-L78q1iuvnFNebLBPAcz" : {
+    "active" : true,
+    "betAmount" : "979",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/c0.7.100.100/p100x100/22450012_10155007230995382_4328682094046358395_n.jpg?oh=0be0f8b414d52a1ce2d2a20d05c7a8b6&oe=5B002AFB",
+      "name" : "Markus Mattsson",
+      "uid" : "tWzepOhEbjhwSrFfWfxhSoiLzSg2"
+    },
+    "endTime" : "2019-05-01",
+    "lastBetTime" : "2019-03-12",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 3,
+    "options" : {
+      "-L78q1lNgDlE-ZzZeNrh" : {
+        "name" : "Tyskland"
+      },
+      "-L78q1lP7YUERfeAQqjt" : {
+        "name" : "Sverige"
+      },
+      "-L78q1lR7K-Jg3wRl_ui" : {
+        "name" : "Oavgjort"
+      }
+    },
+    "placedBets" : {
+      "URJlCNui5rd9YoS3q5SHKPt0xq52" : "-L78q1lP7YUERfeAQqjt",
+      "fM5GuqGLfth5d8XHN3P0jnuSqEn1" : "-L78q1lR7K-Jg3wRl_ui",
+      "jTadfsnAKJN61W5qVTJYIjZEBO83" : "-L78q1lNgDlE-ZzZeNrh"
+    },
+    "pot" : 0,
+    "question" : "Vem vinner matchen",
+    "title" : "Vem vinner vm",
+    "winningOption" : ""
+  },
+  "-L78qCSzUafIhcRjkuoS" : {
+    "active" : false,
+    "betAmount" : "1231",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-08",
+    "isCreator" : false,
+    "lastBetTime" : "2018-03-07",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 2,
+    "options" : {
+      "-L78qCV_nabbv5qlO_vt" : {
+        "name" : "1231"
+      },
+      "-L78qCVcbiKLlNi0aOei" : {
+        "name" : "1231"
+      }
+    },
+    "pot" : 0,
+    "question" : "1231",
+    "title" : "KOMMIGENDÅ",
+    "winnerSelect" : false,
+    "winningOption" : ""
+  },
+  "-L79kRynaRe-RFvvAsQz" : {
+    "active" : true,
+    "betAmount" : "123",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-07",
+    "lastBetTime" : "2018-03-06",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 3,
+    "options" : {
+      "-L79kS0IfvGO3oLJfDXi" : {
+        "name" : "1231"
+      },
+      "-L79kS0LEDF3NZ0tDJq3" : {
+        "name" : "1231"
+      },
+      "-L79kS0NGewtkia-j8jw" : {
+        "name" : "123213"
+      }
+    },
+    "pot" : 0,
+    "question" : "123",
+    "title" : "123123",
+    "winningOption" : ""
+  },
+  "-L79kbixVK2hDW5biZTu" : {
+    "active" : true,
+    "betAmount" : "1337",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-08",
+    "lastBetTime" : "2018-03-08",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 2,
+    "options" : {
+      "-L79kblZKec2xVo6ZW7D" : {
+        "name" : "4312313"
+      },
+      "-L79kblcJxIethr0VxcF" : {
+        "name" : "123213"
+      }
+    },
+    "pot" : 0,
+    "question" : "Funkar det eller inte ? ",
+    "title" : "Funkar det eller inte",
+    "winningOption" : ""
+  },
+  "-L79lC-IqWusLBbZNE7A" : {
+    "active" : true,
+    "betAmount" : "123123",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-17",
+    "lastBetTime" : "2018-03-16",
+    "numberOfBets" : 6,
+    "numberOfOptions" : 2,
+    "options" : {
+      "-L79lC7xy9NbyA7FhrjI" : {
+        "name" : "14213"
+      },
+      "-L79lC7z831FpL_y0Sak" : {
+        "name" : "123123"
+      }
+    },
+    "placedBets" : {
+      "-L7Gg0Pz8CQytYaBmVH4" : {
+        "uid" : "-L79lC7z831FpL_y0Sak"
+      },
+      "-L7Gg46ZuN3ONa4AKt9c" : {
+        "uid" : "-L79lC7xy9NbyA7FhrjI"
+      },
+      "-L7GgCQX0N3NX_PtPwev" : {
+        "uid" : "-L79lC7z831FpL_y0Sak"
+      },
+      "-L7LBYIbtHm1Nf6jXiOx" : {
+        "uid" : "-L79lC7z831FpL_y0Sak"
+      },
+      "-L7LC02sGIb_hu1bHzAe" : {
+        "uid" : "-L79lC7z831FpL_y0Sak"
+      },
+      "URJlCNui5rd9YoS3q5SHKPt0xq52" : "-L79lC7z831FpL_y0Sak"
+    },
+    "pot" : "0123123123123123123123123123123123123",
+    "question" : "oakdokawod",
+    "title" : "aefaefojkj",
+    "winningOption" : ""
+  },
+  "-L79lsL6BdeASeSEhnz6" : {
+    "active" : true,
+    "betAmount" : "123",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-06",
+    "lastBetTime" : "2018-03-05",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 2,
+    "options" : {
+      "-L79lsNopRhYLl-deuLG" : {
+        "name" : "123"
+      },
+      "-L79lsNskemc7y1wwVtO" : {
+        "name" : "1212"
+      }
+    },
+    "pot" : 0,
+    "question" : "1231",
+    "title" : "312412",
+    "winningOption" : ""
+  },
+  "-L79mUv67uCJ0WrUFe5E" : {
+    "active" : true,
+    "betAmount" : "12312",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-05",
+    "lastBetTime" : "2018-03-03",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 2,
+    "options" : {
+      "-L79mV1nZyGain1WSIBu" : {
+        "name" : "12321"
+      },
+      "-L79mV1s8Zaf9W33rl9L" : {
+        "name" : "12313"
+      }
+    },
+    "pot" : 0,
+    "question" : "aefaef",
+    "title" : "aefaef",
+    "winningOption" : ""
+  },
+  "-L7AcBLqQewPTp2OhSYR" : {
+    "active" : true,
+    "betAmount" : "12",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-10",
+    "lastBetTime" : "2018-03-09",
+    "numberOfBets" : 0,
+    "numberOfOptions" : 2,
+    "options" : {
+      "-L7AcBRn_wXAipxGxR74" : {
+        "name" : "1231"
+      },
+      "-L7AcBRoZXrhjZIK7kmy" : {
+        "name" : "1231"
+      }
+    },
+    "pot" : 0,
+    "question" : "12312",
+    "title" : "1231",
+    "winningOption" : "-L7AcBRoZXrhjZIK7kmy"
+  },
+  "-L7AcJvWb-y9T8U1yqDf" : {
+    "active" : true,
+    "betAmount" : "50000",
+    "creator" : {
+      "displayImage" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13001327_1121004377949703_2904598988423058746_n.jpg?oh=db8d066e5a03a12279b7fc99ce8127dd&oe=5B078040",
+      "name" : "Gustav Karlström",
+      "uid" : "fM5GuqGLfth5d8XHN3P0jnuSqEn1"
+    },
+    "endTime" : "2018-03-06",
+    "lastBetTime" : "2018-03-05",
+    "numberOfBets" : 13,
+    "numberOfOptions" : 4,
+    "options" : {
+      "-L7AcK0VuDk0mWAzG5bO" : {
+        "name" : "heheehhee"
+      },
+      "-L7AcK0Wi7QJzj2hW2Yo" : {
+        "name" : "hehheh"
+      },
+      "-L7AcK0Y0RqoD8_ayECb" : {
+        "name" : "ehheeheheheheh"
+      },
+      "-L7AcK0ZclAs5OLDoNxu" : {
+        "name" : "heheh"
+      }
+    },
+    "placedBets" : {
+      "URJlCNui5rd9YoS3q5SHKPt0xq52" : "-L7AcK0VuDk0mWAzG5bO",
+      "fM5GuqGLfth5d8XHN3P0jnuSqEn1" : "-L7AcK0VuDk0mWAzG5bO"
+    },
+    "pot" : 250000,
+    "question" : "heheeheheh",
+    "title" : "hehehhh",
+    "winningOption" : "-L7AcK0VuDk0mWAzG5bO"
+  }
+}

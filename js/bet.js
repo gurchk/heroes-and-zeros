@@ -341,12 +341,9 @@ class Bet {
 		for (let i in this.options) {
 			if (document.getElementById(i).checked == true) {
 				pickedOption = i;
-				document.getElementById(i).checked = false;
 			}
 		}
-		db.ref('bets/' + this.id).update({
-			winningOption: pickedOption,
-		});
+		db.ref('bets/' + this.id + "/winningOption/").set(pickedOption);
         
         distributeWinnings(this.id);
 	}
