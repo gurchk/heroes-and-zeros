@@ -642,15 +642,32 @@ button:focus {
 }
 
 .awaitingWinningOption {
-    border-image: linear-gradient(45deg, #ff5d55, rgb(221, 189, 148)) 1 round !IMPORTANT;
+    border-image: linear-gradient(45deg, #ff5d55, #ddbd94) 1 round !IMPORTANT;
+}
+
+.inactiveBet {
+    border-image: linear-gradient(45deg, #949494, #d8d8d8) 1 round !IMPORTANT;
+    opacity: 0.6;
+}
+
+.wonBet {
+    border-image: linear-gradient(45deg, #ffe555, #f9ff9f) 1 round !IMPORTANT;
+}
+
+.lostBet {
+    border-image: linear-gradient(45deg, #ff5d55, #ddbd94) 1 round !IMPORTANT;
+}
+
+.openBet {
+    border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
 }
 
 .winnerOption {
-    border-left: 3px solid yellow !IMPORTANT;
+    border-left: 5px solid yellow !IMPORTANT;
 }
 
 .alternative {
-    border-left: 3px solid rgba(0, 0, 0, 0);
+    border-left: 5px solid rgba(0, 0, 0, 0);
 }
 
 nav svg path {

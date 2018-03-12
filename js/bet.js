@@ -343,7 +343,8 @@ class Bet {
 				pickedOption = i;
 			}
 		}
-		db.ref('bets/' + this.id + "/winningOption/").set(pickedOption);
+        db.ref('bets/' + this.id + "/winningOption/").set(pickedOption);
+        db.ref('bets/' + this.id + '/active/').set(false);
         
         distributeWinnings(this.id);
 	}
