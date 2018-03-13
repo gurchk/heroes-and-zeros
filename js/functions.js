@@ -277,7 +277,10 @@ db.ref("bets/").on("child_changed", snapshot => {
         }
 
         let changed = document.querySelector("[data-id=" + key + "]");
-        changed.parentNode.removeChild(changed);
+        if(changed) {
+            changed.parentNode.removeChild(changed);
+        }
+        
         bets[key].createCard();
     }
 });
