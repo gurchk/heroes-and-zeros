@@ -34,15 +34,6 @@ function updateUI() {
 
     fetchBetsFromDB();
 
-    //if url has ?search="query"
-	if (getParameterByName("search") != null) {
-		//store the query in a variable
-		let searchQuery = getParameterByName('search');
-		//TODO: Hitta bättre lösning!
-		//delay by 1 second to wait untill fetchBetsFromDB is done.
-		setTimeout(() => filterByQuery(searchQuery), 1000);
-	};
-
     document.getElementById("openMenu").addEventListener("click", function() {
         openMenu();
     });
@@ -93,12 +84,23 @@ function updateUI() {
         closeMenuCover.classList.add("hidden");
     });
 
-    let menuCreateBet = document.getElementById("menuCreateBet");
-    menuCreateBet.addEventListener("click", () => {
-        closeMenu();
-        fadeIn(createBet);
-        fadeIn(createBetCover);
-    });
+    let menuCreateBet = document.querySelectorAll(".menuCreateBet");
+    for(let i = 0; i < menuCreateBet.length; i++) {
+        menuCreateBet[i].addEventListener("click", () => {
+            closeMenu();
+            fadeIn(createBet);
+            fadeIn(createBetCover);
+            window.scrollTo(0, 0);
+        });
+    }
+
+    let menuStatistics = document.querySelectorAll(".menuStatistics");
+    for(let i = 0; i < menuStatistics.length; i++) {
+        menuStatistics[i].addEventListener("click", () => {
+            closeMenu();
+            showStatistics();
+        });
+    }
 }
 
 function fadeOut(el){
@@ -127,14 +129,13 @@ function fadeIn(el, display){
 }
 
 window.addEventListener("load", () => {
-
     let allBetsBtn = document.getElementById("allBetsBtn");
     let createdBetsBtn = document.getElementById("createdBetsBtn");
     let placedBetsBtn = document.getElementById("placedBetsBtn");
     
     allBetsBtn.addEventListener("click", () => {
         document.getElementById("noResults").classList.add("hidden");
-        showAllBets();
+        showBets(activeBets);
         allBetsBtn.classList.add("active");
         createdBetsBtn.classList.remove("active");
         placedBetsBtn.classList.remove("active");
@@ -142,7 +143,7 @@ window.addEventListener("load", () => {
     
     createdBetsBtn.addEventListener("click", () => {
         document.getElementById("noResults").classList.add("hidden");
-        showCreatedBets();
+        showBets(createdBets);
         createdBetsBtn.classList.add("active");
         placedBetsBtn.classList.remove("active");
         allBetsBtn.classList.remove("active");
@@ -150,105 +151,136 @@ window.addEventListener("load", () => {
     
     placedBetsBtn.addEventListener("click", () => {
         document.getElementById("noResults").classList.add("hidden");
-        showPlacedBets();
+        showBets(placedBets);
         placedBetsBtn.classList.add("active");
         createdBetsBtn.classList.remove("active");
         allBetsBtn.classList.remove("active");
     });
 });
 
-function showAllBets() {
+function showBets(betsObj) {
     document.getElementsByClassName("grid")[0].innerHTML = "";
 
-    for(let bet in bets) {
-        bets[bet].createCard();
-    }
-
-    if(Object.keys(bets).length === 0) {
+    if(Object.keys(betsObj).length === 0) {
         document.getElementById("noResults").classList.remove("hidden");
     }
-}
-
-function showCreatedBets() {
-    document.getElementsByClassName("grid")[0].innerHTML = "";
-    let count = 0;
-
-    for(let bet in bets) {
-        if(bets[bet].creator.uid === user.get("uid")) {
-            bets[bet].createCard();
-            count++;
+    else {
+        for(let key in betsObj) {
+            betsObj[key].createCard();
         }
-    }
-
-    if(count === 0) {
-        document.getElementById("noResults").classList.remove("hidden");
-    }
-}
-
-function showPlacedBets() {
-    document.getElementsByClassName("grid")[0].innerHTML = "";
-    let count = 0;
-
-    for(let bet in bets) {
-        for(let id in user.get("betHistory")) {
-            if(id === bet) {
-                bets[bet].createCard();
-                bets[bet].card.style.pointerEvents = "none";
-                count++;
-            }
-        }
-    }
-
-    if(count === 0) {
-        document.getElementById("noResults").classList.remove("hidden");
     }
 }
 
 function fetchBetsFromDB() {
     document.getElementsByTagName('main')[0].innerHTML = "";
 
-    db.ref("bets/").on("child_added", snapshot => {
+    db.ref("bets/").once("value", snapshot => {
         let data = snapshot.val();
-        let key = snapshot.key;
 
-        // If the bet is inactive, AKA a winning option has been chosen, don't render it on the page. Maybe do something else with it 
-        if(data.options) {
+        for(let key in data) {
             let bet = new Bet(
                 key, 
-                data.title, 
-                data.question, 
-                data.betAmount, 
-                data.endTime, 
-                data.lastBetTime, 
-                data.creator, 
-                data.numberOfBets, 
-                data.options, 
-                data.numberOfOptions, 
-                data.winningOption,
-                data.pot
+                data[key].title, 
+                data[key].question, 
+                data[key].betAmount, 
+                data[key].endTime, 
+                data[key].lastBetTime, 
+                data[key].creator, 
+                data[key].numberOfBets, 
+                data[key].options, 
+                data[key].numberOfOptions, 
+                data[key].winningOption,
+                data[key].pot
             );
-            bet.createCard();
 
             bets[key] = bet;
 
-            // Add ripple effect to buttons
-            let btns = document.querySelectorAll('.mdc-button');
-            let fabs = document.querySelectorAll('.mdc-fab');
-            for (let i = 0, btn; btn = btns[i]; i++) {
-              mdc.ripple.MDCRipple.attachTo(btn);
+            // Add active bets to activeBets object
+            if(data[key].active) {
+                activeBets[key] = bet;
             }
-            for (let i = 0, fab; fab = fabs[i]; i++) {
-              mdc.ripple.MDCRipple.attachTo(fab);
+
+            // Add created bets to createdBets object
+            if(data[key].creator.uid === user.get("uid")) {
+                createdBets[key] = bet;
             }
+
+            // Add placed bets to placedBets object
+            for(let id in user.get("betHistory")) {
+                if(id === key) {
+                    placedBets[key] = bet;
+                }
+            }
+
+            bet.createCard();
         }
 
-        document.getElementById("allBetsCounter").innerText = "(" + Object.keys(bets).length + ")";
+        let searchQuery = getParameterByName('search');
+        //if url has ?search="query"
+        if (searchQuery != null) { 
+            filterByQuery(searchQuery);
+        };
+
+        // Add ripple effect to buttons
+        let btns = document.querySelectorAll('.mdc-button');
+        let fabs = document.querySelectorAll('.mdc-fab');
+        for (let i = 0, btn; btn = btns[i]; i++) {
+          mdc.ripple.MDCRipple.attachTo(btn);
+        }
+        for (let i = 0, fab; fab = fabs[i]; i++) {
+          mdc.ripple.MDCRipple.attachTo(fab);
+        }
+
+        document.getElementById("activeBetsCounter").innerText = "(" + Object.keys(activeBets).length + ")";
+        document.getElementById("createdBetsCounter").innerText = "(" + Object.keys(createdBets).length + ")";
+        document.getElementById("placedBetsCounter").innerText = "(" + Object.keys(placedBets).length + ")";
 
         allBetsBtn.classList.add("active");
         createdBetsBtn.classList.remove("active");
         placedBetsBtn.classList.remove("active");
     });
 }
+
+db.ref("bets/").on("child_changed", snapshot => {
+    let data = snapshot.val();
+    let key = snapshot.key;
+
+    let bet = new Bet(
+        key, 
+        data.title, 
+        data.question, 
+        data.betAmount, 
+        data.endTime, 
+        data.lastBetTime, 
+        data.creator, 
+        data.numberOfBets, 
+        data.options, 
+        data.numberOfOptions, 
+        data.winningOption,
+        data.pot
+    );
+
+    bets[key] = bet;
+
+    if(data.active && Object.keys(data.options).length === data.numberOfOptions) {
+        // Update the bet
+        activeBets[key] = bet;
+
+        if(data.creator.uid === user.get("uid")) {
+            createdBets[key] = bet;
+        }
+
+        for(let id in user.get("betHistory")) {
+            if(id === key) {
+                placedBets[key] = bet;
+            }
+        }
+
+        let changed = document.querySelector("[data-id=" + key + "]");
+        changed.parentNode.removeChild(changed);
+        bets[key].createCard();
+    }
+});
 
 function distributeWinnings(id) {
     db.ref("bets/" + id).once("value", function(snapshot) {
@@ -371,5 +403,101 @@ function filterByQuery(query) {
 		};
 		//hide all the unmatched bets
 		unmatchedBets.forEach(bet => bet.hideBet());
-	};
-};
+	}
+}
+
+function showStatistics(uid) {
+    if(uid) {
+        db.ref("users/" + uid).once("value", snapshot => {
+            let data = snapshot.val();
+            createStatisticsWindow(data);
+        });
+    }
+    else {
+        createStatisticsWindow(user);
+    }
+}
+
+function createStatisticsWindow(user) {
+    let properties = [
+        ["Wins", user.wins],
+        ["Losses", user.losses],
+        ["Coins Bet", user.totalCoinsPlaced],
+        ["Coins Won", user.totalCoinsWon],
+        ["Coins", user.coins],
+    ];
+
+    /* Cover + Modal */
+    let cover = document.createElement("div");
+    cover.classList.add("cover");
+    cover.id = "statisticsCover";
+    cover.addEventListener("click", () => {
+        modal.parentNode.removeChild(modal);
+        cover.parentNode.removeChild(cover);
+    });
+
+    let modal = document.createElement("div");
+    modal.id = "statisticsModal";
+    /* End Cover + Modal */
+
+    /* Close Button */
+    let close = document.createElement("button");
+    close.id = "closeStatistics";
+    close.innerText = "×";
+    close.addEventListener("click", () => {
+        modal.parentNode.removeChild(modal);
+        cover.parentNode.removeChild(cover);
+    });
+    modal.appendChild(close);
+    /* End Close Button */
+
+    /* Stat Header */
+    let statHeader = document.createElement("div");
+    statHeader.classList.add("statHeader");
+
+    let h2 = document.createElement("h2");
+    h2.innerText = "User Statistics";
+
+    let img = document.createElement("img");
+    img.classList.add("statAvatar");
+    img.setAttribute("alt", "Display Image");
+    img.src = user.displayImage;
+
+    let p = document.createElement("p");
+    p.classList.add("text-dark");
+    p.innerText = user.name;
+
+    statHeader.appendChild(h2);
+    statHeader.appendChild(img);
+    statHeader.appendChild(p);
+
+    modal.appendChild(statHeader);
+    /* End of Stat Header */
+
+    /* Stat Wrapper */
+    let statWrapper = document.createElement("div");
+    statWrapper.classList.add("statWrapper");
+
+    properties.forEach(prop => {
+        let stat = document.createElement("stat");
+        stat.classList.add("stat");
+
+        let h3 = document.createElement("h3");
+        h3.innerText = prop[0];
+
+        let p = document.createElement("p");
+        p.classList.add("statistic");
+        p.innerText = prop[1];
+
+        stat.appendChild(h3);
+        stat.appendChild(p);
+
+        statWrapper.appendChild(stat);
+    });
+
+    modal.appendChild(statWrapper);
+    /* End of Stat Wrapper*/
+
+    document.getElementById("contentWrapper").appendChild(cover);
+    document.getElementById("contentWrapper").appendChild(modal);   
+}
