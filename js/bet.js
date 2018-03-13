@@ -101,10 +101,10 @@ function createBet(event) {
             betAmount: betAmount.value,
             endTime: endTime.value,
             lastBetTime: lastBetTime.value,
-            creator: { 
-                uid: user.get("uid"), 
-                displayImage: user.get("displayImage"), 
-                name: user.get("name") 
+            creator: {
+                uid: user.get("uid"),
+                displayImage: user.get("displayImage"),
+                name: user.get("name")
             },
             active: true,
             numberOfBets: 0,
@@ -122,21 +122,21 @@ function createBet(event) {
                     db.ref("bets/" + betKey).once("value", snapshot => {
                         let data = snapshot.val();
                         let bet = new Bet(
-                            betKey, 
-                            data.title, 
-                            data.question, 
-                            data.betAmount, 
-                            data.endTime, 
-                            data.lastBetTime, 
-                            data.creator, 
-                            data.numberOfBets, 
-                            data.options, 
-                            data.numberOfOptions, 
+                            betKey,
+                            data.title,
+                            data.question,
+                            data.betAmount,
+                            data.endTime,
+                            data.lastBetTime,
+                            data.creator,
+                            data.numberOfBets,
+                            data.options,
+                            data.numberOfOptions,
                             data.winningOption,
                             data.pot
                         );
                         bet.createCard();
-                        bets[betKey] = bet; 
+                        bets[betKey] = bet;
                     });
                 }
             });
@@ -183,8 +183,8 @@ class Bet {
         this.card.setAttribute("data-id", this.id);
 
         let betTop = document.createElement("div");
-        betTop.classList.add("bet-top");   
-        
+        betTop.classList.add("bet-top");
+
         let avatar = document.createElement("img");
         avatar.classList.add("userImage", "avatar");
         avatar.setAttribute("src", this.creator.displayImage);
@@ -282,11 +282,11 @@ class Bet {
         if (this.userHasPlacedBet()) {
             betButton.innerText = "Bet Locked In";
         }
-        
+
 		if (user.get("uid") == this.creator.uid && setTimeNow() > new Date(this.endTime).getTime() && !this.winningOption) {
             betButton.innerHTML = "Decide Winner";
 		}
-        
+
         let betCloseTime = document.createElement("p");
         betCloseTime.classList.add("size-14", "text-light");
         betCloseTime.innerText = calcTimeLeft(this.lastBetTime);
@@ -300,7 +300,7 @@ class Bet {
         countWrapperTwo.appendChild(peopleImage);
         countWrapper.appendChild(countWrapperTwo);
         betBottom.appendChild(countWrapper);
-        
+
         buttonWrapper.appendChild(betButton);
         buttonWrapper.appendChild(shareButton);
         betBottom.appendChild(buttonWrapper);
@@ -345,7 +345,7 @@ class Bet {
 		}
         db.ref('bets/' + this.id + "/winningOption/").set(pickedOption);
         db.ref('bets/' + this.id + '/active/').set(false);
-        
+
         distributeWinnings(this.id);
 	}
     createOptionsIn(container) {
@@ -409,12 +409,12 @@ class Bet {
                     input.addEventListener("click", () => {
                         this.enableDecideWinnerButton();
                     });
-                } 
+                }
                 // If the user has placed a bet or the bet time has ended and the user is not the creator, disable the input buttons.
                 else {
                     input.disabled = true;
                 }
-            } 
+            }
             // If the user has not placed a bet and the lastBetTime has not ended, enable bet button.
             else {
                 input.addEventListener("click", () => {
@@ -484,7 +484,7 @@ class Bet {
 				pickedOption = i;
 			}
         }
-        
+
         if(!pickedOption) {
             console.log("No option picked, aborting");
             return false;

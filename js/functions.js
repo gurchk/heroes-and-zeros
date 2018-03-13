@@ -131,15 +131,15 @@ window.addEventListener("load", () => {
     let allBetsBtn = document.getElementById("allBetsBtn");
     let createdBetsBtn = document.getElementById("createdBetsBtn");
     let placedBetsBtn = document.getElementById("placedBetsBtn");
-    
+
     allBetsBtn.addEventListener("click", () => {
         document.getElementById("noResults").classList.add("hidden");
         showAllBets();
         allBetsBtn.classList.add("active");
         createdBetsBtn.classList.remove("active");
         placedBetsBtn.classList.remove("active");
-    }); 
-    
+    });
+
     createdBetsBtn.addEventListener("click", () => {
         document.getElementById("noResults").classList.add("hidden");
         showCreatedBets();
@@ -147,7 +147,7 @@ window.addEventListener("load", () => {
         placedBetsBtn.classList.remove("active");
         allBetsBtn.classList.remove("active");
     });
-    
+
     placedBetsBtn.addEventListener("click", () => {
         document.getElementById("noResults").classList.add("hidden");
         showPlacedBets();
@@ -211,19 +211,19 @@ function fetchBetsFromDB() {
         let data = snapshot.val();
         let key = snapshot.key;
 
-        // If the bet is inactive, AKA a winning option has been chosen, don't render it on the page. Maybe do something else with it 
+        // If the bet is inactive, AKA a winning option has been chosen, don't render it on the page. Maybe do something else with it
         if(data.options) {
             let bet = new Bet(
-                key, 
-                data.title, 
-                data.question, 
-                data.betAmount, 
-                data.endTime, 
-                data.lastBetTime, 
-                data.creator, 
-                data.numberOfBets, 
-                data.options, 
-                data.numberOfOptions, 
+                key,
+                data.title,
+                data.question,
+                data.betAmount,
+                data.endTime,
+                data.lastBetTime,
+                data.creator,
+                data.numberOfBets,
+                data.options,
+                data.numberOfOptions,
                 data.winningOption,
                 data.pot
             );
