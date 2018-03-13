@@ -39,8 +39,8 @@ function updateUI() {
 		//store the query in a variable
 		let searchQuery = getParameterByName('search');
 		//TODO: Hitta bättre lösning!
-		//delay by 1 second to wait untill fetchBetsFromDB is done.
-		setTimeout(() => filterByQuery(searchQuery), 1000);
+		//delay by 0.5 seconds to wait untill fetchBetsFromDB is done.
+		setTimeout(() => filterByQuery(searchQuery), 500);
 	};
 
     document.getElementById("openMenu").addEventListener("click", function() {
@@ -230,15 +230,18 @@ function fetchBetsFromDB() {
             bet.createCard();
 
             bets[key] = bet;
-
+		  	//if the search query string is not empty hide all cards
+            if (getParameterByName("search") != null) {
+            	bet.hideBet();
+			}
             // Add ripple effect to buttons
             let btns = document.querySelectorAll('.mdc-button');
             let fabs = document.querySelectorAll('.mdc-fab');
             for (let i = 0, btn; btn = btns[i]; i++) {
-              mdc.ripple.MDCRipple.attachTo(btn);
+              	mdc.ripple.MDCRipple.attachTo(btn);
             }
             for (let i = 0, fab; fab = fabs[i]; i++) {
-              mdc.ripple.MDCRipple.attachTo(fab);
+			  	mdc.ripple.MDCRipple.attachTo(fab);
             }
         }
 
@@ -361,15 +364,17 @@ function getParameterByName(name, url) {
 }
 
 function filterByQuery(query) {
-	let unmatchedBets = [];
-	//loop through the bets and check which ones will not be displayed on page
+	let matchedBets = [];
+	//loop through the bets and check which ones will be displayed on page
 	for (let bet in bets) {
 		let obj = bets[bet];
-		//if not title, question, id, uid nor creators name matches query, push bet to unmathchedBets
-		if (obj.title != query && obj.question != query && obj.id != query && obj.creator.uid != query && obj.creator.name != query) {
-			unmatchedBets.push(obj);
+	  	let lowerCaseQuery = query.toLowerCase();
+
+		//if title, question, id or creators name includes query, or if id or uid is equal to query, push bet to mathchedBets
+		if (obj.title.toLowerCase().includes(lowerCaseQuery) || obj.question.toLowerCase().includes(lowerCaseQuery) || obj.creator.name.toLowerCase().includes(lowerCaseQuery) || obj.id == query || obj.creator.uid == query) {
+			matchedBets.push(obj);
 		};
-		//hide all the unmatched bets
-		unmatchedBets.forEach(bet => bet.hideBet());
+		//show all the matched bets
+		matchedBets.forEach(bet => bet.showBet());
 	};
 };
