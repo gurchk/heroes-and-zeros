@@ -33,14 +33,12 @@ function updateUI() {
     hideLoadingScreen();
 
     fetchBetsFromDB();
+	setTimeout(()=> getNotifications(), 500);
 
     //if url has ?search="query"
 	if (getParameterByName("search") != null) {
-		//store the query in a variable
-		let searchQuery = getParameterByName('search');
-		//TODO: Hitta bättre lösning!
 		//delay by 0.5 seconds to wait untill fetchBetsFromDB is done.
-		setTimeout(() => filterByQuery(searchQuery), 500);
+		setTimeout(() => filterByQuery(getParameterByName('search')), 500);
 	};
 
     document.getElementById("openMenu").addEventListener("click", function() {
@@ -348,33 +346,3 @@ let setTimeNow = function() {
 	});
 	return timeNow;
 }
-
-// websiteadress/?search=value
-// Parse the URL parameter
-function getParameterByName(name, url) {
-	if (!url) {
-		url = window.location.href;
-	}
-	name = name.replace(/[\[\]]/g, "\\$&");
-	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-		results = regex.exec(url);
-	if (!results) return null;
-	if (!results[2]) return '';
-	return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-function filterByQuery(query) {
-	let matchedBets = [];
-	//loop through the bets and check which ones will be displayed on page
-	for (let bet in bets) {
-		let obj = bets[bet];
-	  	let lowerCaseQuery = query.toLowerCase();
-
-		//if title, question, id or creators name includes query, or if id or uid is equal to query, push bet to mathchedBets
-		if (obj.title.toLowerCase().includes(lowerCaseQuery) || obj.question.toLowerCase().includes(lowerCaseQuery) || obj.creator.name.toLowerCase().includes(lowerCaseQuery) || obj.id == query || obj.creator.uid == query) {
-			matchedBets.push(obj);
-		};
-		//show all the matched bets
-		matchedBets.forEach(bet => bet.showBet());
-	};
-};
