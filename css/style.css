@@ -366,6 +366,12 @@ a:hover {
   margin-top: 5px;
 }
 
+#optionsError {
+    color: #ff5d55;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
 .createBetForm {
   display: flex;
   flex-direction: row;

@@ -1,8 +1,8 @@
 const bets = {};
 
-const activeBets = {};
-const createdBets = {};
-const placedBets = {};
+const activeBets = [];
+const createdBets = [];
+const placedBets = [];
 
 function createBet(event) {
     let inputs = document.querySelectorAll(".createBetInput");
@@ -96,7 +96,7 @@ function createBet(event) {
             errors[errors.length-1].parentNode.removeChild(errors[errors.length-1]);
         }
 
-        //document.getElementById("optionsError").classList.add("hidden");
+        document.getElementById("optionsError").classList.add("hidden");
 
         // Add bet to database
         let data = {

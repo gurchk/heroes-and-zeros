@@ -129,14 +129,14 @@ function fadeIn(el, display){
 }
 
 window.addEventListener("load", () => {
-    let allBetsBtn = document.getElementById("allBetsBtn");
+    let activeBetsBtn = document.getElementById("activeBetsBtn");
     let createdBetsBtn = document.getElementById("createdBetsBtn");
     let placedBetsBtn = document.getElementById("placedBetsBtn");
     
-    allBetsBtn.addEventListener("click", () => {
+    activeBetsBtn.addEventListener("click", () => {
         document.getElementById("noResults").classList.add("hidden");
         showBets(activeBets);
-        allBetsBtn.classList.add("active");
+        activeBetsBtn.classList.add("active");
         createdBetsBtn.classList.remove("active");
         placedBetsBtn.classList.remove("active");
     }); 
@@ -146,7 +146,7 @@ window.addEventListener("load", () => {
         showBets(createdBets);
         createdBetsBtn.classList.add("active");
         placedBetsBtn.classList.remove("active");
-        allBetsBtn.classList.remove("active");
+        activeBetsBtn.classList.remove("active");
     });
     
     placedBetsBtn.addEventListener("click", () => {
@@ -154,20 +154,31 @@ window.addEventListener("load", () => {
         showBets(placedBets);
         placedBetsBtn.classList.add("active");
         createdBetsBtn.classList.remove("active");
-        allBetsBtn.classList.remove("active");
+        activeBetsBtn.classList.remove("active");
     });
 });
 
-function showBets(betsObj) {
+function showBets(betList) {
     document.getElementsByClassName("grid")[0].innerHTML = "";
 
-    if(Object.keys(betsObj).length === 0) {
+    if(betList.length === 0) {
         document.getElementById("noResults").classList.remove("hidden");
     }
     else {
-        for(let key in betsObj) {
-            betsObj[key].createCard();
-        }
+        // Sort arrays by endTime so that the one ending the soonest appears first.
+        /*
+        betList.sort( (a,b) => {
+            return new Date(a.endTime).getTime() - new Date(b.endTime).getTime();
+        });
+        */
+        // Or sort by lastBetTime
+        betList.sort( (a,b) => {
+            return new Date(a.lastBetTime).getTime() - new Date(b.lastBetTime).getTime();
+        });
+
+        betList.forEach( bet => {
+            bet.createCard();
+        });
     }
 }
 
@@ -197,23 +208,29 @@ function fetchBetsFromDB() {
 
             // Add active bets to activeBets object
             if(data[key].active) {
-                activeBets[key] = bet;
+                activeBets.push(bet);
             }
 
             // Add created bets to createdBets object
             if(data[key].creator.uid === user.get("uid")) {
-                createdBets[key] = bet;
+                createdBets.push(bet);
             }
 
             // Add placed bets to placedBets object
             for(let id in user.get("betHistory")) {
                 if(id === key) {
-                    placedBets[key] = bet;
+                    placedBets.push(bet);
                 }
             }
-
-            bet.createCard();
         }
+
+        document.getElementById("activeBetsCounter").innerText = "(" + activeBets.length + ")";
+        document.getElementById("createdBetsCounter").innerText = "(" + createdBets.length + ")";
+        document.getElementById("placedBetsCounter").innerText = "(" + placedBets.length + ")";
+
+        activeBetsBtn.classList.add("active");
+        createdBetsBtn.classList.remove("active");
+        placedBetsBtn.classList.remove("active");
 
         let searchQuery = getParameterByName('search');
         //if url has ?search="query"
@@ -231,13 +248,7 @@ function fetchBetsFromDB() {
           mdc.ripple.MDCRipple.attachTo(fab);
         }
 
-        document.getElementById("activeBetsCounter").innerText = "(" + Object.keys(activeBets).length + ")";
-        document.getElementById("createdBetsCounter").innerText = "(" + Object.keys(createdBets).length + ")";
-        document.getElementById("placedBetsCounter").innerText = "(" + Object.keys(placedBets).length + ")";
-
-        allBetsBtn.classList.add("active");
-        createdBetsBtn.classList.remove("active");
-        placedBetsBtn.classList.remove("active");
+        showBets(activeBets);
     });
 }
 
@@ -263,16 +274,36 @@ db.ref("bets/").on("child_changed", snapshot => {
     bets[key] = bet;
 
     if(data.active && Object.keys(data.options).length === data.numberOfOptions) {
+        let index;
+        // Find the bet in the array and replace it with the changed bet
+        index = activeBets.findIndex( obj => {
+            return obj.id === key;
+        });
+
         // Update the bet
-        activeBets[key] = bet;
+        if(index != -1) {
+            activeBets[index] = bet;
+        }
 
         if(data.creator.uid === user.get("uid")) {
-            createdBets[key] = bet;
+            index = createdBets.findIndex( obj => {
+                return obj.id === key;
+            });
+
+            if(index != -1) {
+                createdBets[index] = bet;
+            }
         }
 
         for(let id in user.get("betHistory")) {
             if(id === key) {
-                placedBets[key] = bet;
+                index = placedBets.findIndex( obj => {
+                    return obj.id === key;
+                });
+
+                if(index != -1) {
+                    placedBets[index] === bet;
+                }
             }
         }
 
@@ -280,8 +311,16 @@ db.ref("bets/").on("child_changed", snapshot => {
         if(changed) {
             changed.parentNode.removeChild(changed);
         }
-        
-        bets[key].createCard();
+
+        if(document.getElementById("activeBetsBtn").classList.contains("active")) {
+            showBets(activeBets);
+        }
+        else if(document.getElementById("createdBetsBtn").classList.contains("active")) {
+            showBets(createdBets);
+        }
+        else { 
+            showBets(placedBets);
+        }
     }
 });
 
