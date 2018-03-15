@@ -36,50 +36,35 @@ function createBet(event) {
 
     if (!title.value) {
         if (!title.nextElementSibling.className.includes("error")) {
-            title.insertAdjacentHTML(
-                "afterend",
-                "<p class='error'>*Field must have a value.</p>"
-            );
+            title.insertAdjacentHTML("afterend", "<p class='error'>*Field must have a value.</p>");
         }
         error = true;
     }
 
     if (!question.value) {
         if (!question.nextElementSibling.className.includes("error")) {
-            question.insertAdjacentHTML(
-                "afterend",
-                "<p class='error'>*Field must have a value.</p>"
-            );
+            question.insertAdjacentHTML("afterend", "<p class='error'>*Field must have a value.</p>");
         }
         error = true;
     }
 
     if (!betAmount.value) {
         if (!betAmount.nextElementSibling.className.includes("error")) {
-            betAmount.insertAdjacentHTML(
-                "afterend",
-                "<p class='error'>*Field must have a value.</p>"
-            );
+            betAmount.insertAdjacentHTML("afterend", "<p class='error'>*Field must have a value.</p>");
         }
         error = true;
     }
 
     if (!endTime.value) {
         if (!endTime.nextElementSibling.className.includes("error")) {
-            endTime.insertAdjacentHTML(
-                "afterend",
-                "<p class='error'>*Field must have a value.</p>"
-            );
+            endTime.insertAdjacentHTML("afterend", "<p class='error'>*Field must have a value.</p>");
         }
         error = true;
     }
 
     if (!lastBetTime.value) {
         if (!lastBetTime.nextElementSibling.className.includes("error")) {
-            lastBetTime.insertAdjacentHTML(
-                "afterend",
-                "<p class='error'>*Field must have a value.</p>"
-            );
+            lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*Field must have a value.</p>");
         }
         error = true;
     }
@@ -87,10 +72,7 @@ function createBet(event) {
     //CHECK THAT LAST BET TIME OCCUR BEFORE BET END TIME
     if (lastBetTime.value > endTime.value) {
         if (!lastBetTime.nextElementSibling.className.includes("error")) {
-            lastBetTime.insertAdjacentHTML(
-                "afterend",
-                "<p class='error'>*Betting must close before the bet ends.</p>"
-            );
+            lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*Betting must close before the bet ends.</p>");
         }
         error = true;
     }
@@ -109,10 +91,7 @@ function createBet(event) {
     //CHECK THAT LAST BET TIME AND BET END TIME IS AFTER TODAYS DATE
     if (lastBetTime.value < date || endTime.value < date) {
         if (!lastBetTime.nextElementSibling.className.includes("error")) {
-            lastBetTime.insertAdjacentHTML(
-                "afterend",
-                "<p class='error'>*That date has already passed.</p>"
-            );
+            lastBetTime.insertAdjacentHTML("afterend", "<p class='error'>*That date has already passed.</p>");
         }
         error = true;
     }
@@ -500,11 +479,11 @@ class Bet {
         }
     }
     showBet() {
-    	//remove the hidden class
-    	this.card.classList.remove("hidden");
+        //remove the hidden class
+        this.card.classList.remove("hidden");
     }
     hideBet() {
-    	//add the hidden class
+        //add the hidden class
         this.card.classList.add("hidden");
     }
     shareBet() {
