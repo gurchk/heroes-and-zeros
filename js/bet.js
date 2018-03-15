@@ -95,12 +95,12 @@ function createBet(event) {
     let d = new Date();
     let date;
     date = d.getFullYear();
-    d.getMonth() + 1 < 10
-        ? (date += "-0" + (d.getMonth() + 1))
-        : (date += "-" + (d.getMonth() + 1));
-    d.getDate() < 10
-        ? (date += "-0" + d.getDate())
-        : (date += "-" + d.getDate());
+    d.getMonth() + 1 < 10 ?
+        (date += "-0" + (d.getMonth() + 1)) :
+        (date += "-" + (d.getMonth() + 1));
+    d.getDate() < 10 ?
+        (date += "-0" + d.getDate()) :
+        (date += "-" + d.getDate());
 
     //CHECK THAT LAST BET TIME AND BET END TIME IS AFTER TODAYS DATE
     if (lastBetTime.value < date || endTime.value < date) {
@@ -258,8 +258,7 @@ class Bet {
         endDate.innerText = "End date: " + this.endTime;
 
         // If there's no winning option and the bet has ended, add winner selection text
-        if (
-            !this.winningOption &&
+        if (!this.winningOption &&
             setTimeNow() > new Date(this.endTime).getTime()
         ) {
             endDate.innerText = "Awaiting winner selection";
@@ -385,8 +384,8 @@ class Bet {
         };
         obj.step = () => {
             (now = Math.max(0, ms - (new Date().getTime() - startTime))),
-                (m = Math.floor(now / 60000)),
-                (s = Math.floor(now / 1000) % 60);
+            (m = Math.floor(now / 60000)),
+            (s = Math.floor(now / 1000) % 60);
             s = (s < 10 ? "0" : "") + s;
             if (now === 0) {
                 clearInterval(timer);
@@ -553,8 +552,9 @@ class Bet {
     changedChilds() {
         db.ref(`bets/${this.id}/numberOfBets`).on("value", snapshot => {
             let numberOfBets = snapshot.val();
-            numberBets.innerHTML = numberOfBets;
             let numberBets = this.card.querySelectorAll(".numBets")[0];
+            numberBets.innerHTML = numberOfBets;
+            submitIndicator(this.card.querySelectorAll(".numBets")[0]);
         });
     }
     placeBet() {
@@ -563,7 +563,6 @@ class Bet {
         for (let i in this.options) {
             if (document.getElementById(i).checked == true) {
                 pickedOption = i;
-                submitIndicator(this.card.querySelectorAll(".numBets")[0]);
             }
         }
 
