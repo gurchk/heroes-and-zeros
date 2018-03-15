@@ -1,5 +1,9 @@
 const bets = {};
 
+const activeBets = [];
+const createdBets = [];
+const placedBets = [];
+
 function createBet(event) {
     let inputs = document.querySelectorAll(".createBetInput");
     let title = inputs[0];
@@ -121,13 +125,13 @@ function createBet(event) {
             );
         }
 
-        //document.getElementById("optionsError").classList.add("hidden");
+        document.getElementById("optionsError").classList.add("hidden");
 
         // Add bet to database
         let data = {
             title: title.value,
             question: question.value,
-            betAmount: betAmount.value,
+            betAmount: Number(betAmount.value),
             endTime: endTime.value,
             lastBetTime: lastBetTime.value,
             creator: {
@@ -142,41 +146,13 @@ function createBet(event) {
             numberOfOptions: optionCount
         };
 
-        db
-            .ref("bets/")
-            .push(data)
-            .then(snap => {
-                let betKey = snap.key;
+        db.ref("bets/").push(data).then(snap => {
+            let betKey = snap.key;
 
-                db.ref("bets/" + betKey).on("child_changed", snapshot => {
-                    let data = snapshot.val();
-                    if (Object.keys(data).length === optionCount) {
-                        db.ref("bets/" + betKey).once("value", snapshot => {
-                            let data = snapshot.val();
-                            let bet = new Bet(
-                                betKey,
-                                data.title,
-                                data.question,
-                                data.betAmount,
-                                data.endTime,
-                                data.lastBetTime,
-                                data.creator,
-                                data.numberOfBets,
-                                data.options,
-                                data.numberOfOptions,
-                                data.winningOption,
-                                data.pot
-                            );
-                            bet.createCard();
-                            bets[betKey] = bet;
-                        });
-                    }
-                });
-
-                optionValues.forEach(option => {
-                    db.ref("bets/" + betKey + "/options/").push(option);
-                });
+            optionValues.forEach(option => {
+                db.ref("bets/" + betKey + "/options/").push(option);
             });
+        });
 
         // Clear inputs on submit
         inputs.forEach(function(input) {
@@ -236,8 +212,9 @@ class Bet {
         avatar.classList.add("userImage", "avatar");
         avatar.setAttribute("src", this.creator.displayImage);
         avatar.setAttribute("alt", this.creator.name);
+        avatar.style.cursor = "Pointer";
         avatar.addEventListener("click", () => {
-            console.log("Redirect to userpage, TODO");
+            showStatistics(this.creator.uid);
         });
 
         let topInfo = document.createElement("div");
@@ -249,8 +226,9 @@ class Bet {
         let createdBy = document.createElement("p");
         createdBy.classList.add("size-14", "text-light");
         createdBy.innerText = "Created by: " + this.creator.name;
+        createdBy.style.cursor = "Pointer";
         createdBy.addEventListener("click", () => {
-            console.log("Redirect to userpage, TODO");
+            showStatistics(this.creator.uid);
         });
 
         let endDate = document.createElement("p");
@@ -329,7 +307,7 @@ class Bet {
         }
 
         if (this.userHasPlacedBet()) {
-            betButton.innerText = "Bet Locked In";
+            betButton.innerText = "Bet Placed";
         }
 
         if (
@@ -605,14 +583,10 @@ class Bet {
                     user.incrementProperty("coins", -this.betAmount);
 
                     // Update user bet history
-                    db
-                        .ref(`users/${uid}/betHistory/${betId}`)
-                        .set(pickedOption);
+                    db.ref(`users/${uid}/betHistory/${betId}`).set(pickedOption);
 
                     // Add bet in database
-                    db
-                        .ref(`bets/${this.id}/placedBets/${uid}`)
-                        .set(pickedOption);
+                    db.ref(`bets/${this.id}/placedBets/${uid}`).set(pickedOption);
 
                     // Add the bet count to the bet
                     db.ref(`bets/${this.id}/numberOfBets`).transaction(cur => {
@@ -628,6 +602,7 @@ class Bet {
 
             // TODO: After a user has placed a bet, disable the inputs on the bet and perhaps also update the info on the bet (number of bets for example)
             // Same for after a user has decided the winner of a bet, disable the inputs on the bet.
+            // Also update the text on the button to say "Bet Placed".
         }
     }
 }

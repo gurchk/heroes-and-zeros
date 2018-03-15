@@ -6,7 +6,6 @@ window.onload = function() {
 
     let btnSignInWithRedirectFB = document.getElementById("btnSignInWithRedirectFB");
     let loginWrapper = document.getElementById("loginWrapper");
-    let btnSignOut = document.getElementById("btnSignOut");
     let contentWrapper = document.getElementById("contentWrapper");
     let cover = document.getElementById("cover");
     let loginModal = document.getElementById("loginModal");
@@ -82,14 +81,17 @@ window.onload = function() {
     });
 
     //Sign out
-    btnSignOut.addEventListener("click", () => {
-        firebase.auth().signOut()
-        .then( () => {
-            console.log("Sign out success!");
-        }).catch( () => {
-            console.log("Sign out failed");
+    let signOutBtns = document.querySelectorAll(".btnSignOut");
+    for(let i = 0; i < signOutBtns.length; i++) {
+        signOutBtns[i].addEventListener("click", () => {
+            firebase.auth().signOut()
+            .then( () => {
+                console.log("Sign out success!");
+            }).catch( () => {
+                console.log("Sign out failed");
+            });
         });
-    });
+    }
 
     openModalBtn.addEventListener("click", () => {
         cover.classList.toggle("hidden");

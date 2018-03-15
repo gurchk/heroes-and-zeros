@@ -36,169 +36,180 @@
 </head>
 
 <body>
-  <script>
+    <script>
     window.fbAsyncInit = function() {
-      FB.init({
+        FB.init({
         appId: '221780665034112',
         autoLogAppEvents: true,
         xfbml: true,
         version: 'v2.12'
-      });
+        });
     };
 
     (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
         return;
-      }
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
-  </script>
+    </script>
 
-  <div id="loadingScreen" class="loadingScreen">
-    <img class="loadingScreenImg" src="images/heroes.svg" alt="Heroes">
-    <div class="spinner">
-      <div class="bounce1"></div>
-      <div class="bounce2"></div>
-      <div class="bounce3"></div>
+    <div id="loadingScreen" class="loadingScreen">
+        <img class="loadingScreenImg" src="images/heroes.svg" alt="Heroes">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
     </div>
-  </div>
 
-  <div id="loginWrapper" class="loginWrapper hidden">
+    <div id="loginWrapper" class="loginWrapper hidden">
     <div class="signUpWrapper">
-      <div class="becomeAnAddict">
+        <div class="becomeAnAddict">
         <h2 class="header">Become a betting addict</h2>
         <p class="subHeader">Get a starting bonus of 5.000 Hero Qoins</p>
         <div class="addictParagraph">
-          <p>This is very addicting, you will never be able to escape. One click today might change your world, probably not to the better. but if you are one of the lucky one percent who actually manage to make an income out of this shit, gz!
-          </p>
+            <p>This is very addicting, you will never be able to escape. One click today might change your world, probably not to the better. but if you are one of the lucky one percent who actually manage to make an income out of this shit, gz!
+            </p>
         </div>
         <button class="loginBtns" id="openModalBtn">Start Betting</button>
-      </div>
-      <div class="howToPlay">
+        </div>
+        <div class="howToPlay">
         <div class="triangle-down"></div>
         <div class="item">
-          <h2 class="htpText">1</h2>
-          <p class="htpText">Sign in</p>
-          <p class="htpText">The first thing you're going to need to do is sign in. Simply click the button above and choose your prefered sign-in provider.
-          </p>
+            <h2 class="htpText">1</h2>
+            <p class="htpText">Sign in</p>
+            <p class="htpText">The first thing you're going to need to do is sign in. Simply click the button above and choose your prefered sign-in provider.
+            </p>
         </div>
         <div class="item">
-          <h2 class="htpText">2</h2>
-          <p class="htpText">Place bet</p>
-          <p class="htpText">After you have signed in, it's easy as a cake. All you have to do is find a bet you think you know the outcome to, and place a bet!
-          </p>
+            <h2 class="htpText">2</h2>
+            <p class="htpText">Place bet</p>
+            <p class="htpText">After you have signed in, it's easy as a cake. All you have to do is find a bet you think you know the outcome to, and place a bet!
+            </p>
         </div>
         <div class="item">
-          <h2 class="htpText">3</h2>
-          <p class="htpText">Get rich</p>
-          <p class="htpText">Now just wait, and then reap your rewards! It's as easy as that, 1-2-3.
-          </p>
+            <h2 class="htpText">3</h2>
+            <p class="htpText">Get rich</p>
+            <p class="htpText">Now just wait, and then reap your rewards! It's as easy as that, 1-2-3.
+            </p>
         </div>
-      </div>
+        </div>
     </div>
 
     <div id="cover" class="cover hidden"></div>
-    <div id="loginModal" class="loginModal hidden">
-      <h3>Sign in through Facebook</h3>
-      <p>Facebook is our most popular login option. Other options are available if you choose.</p>
-      <button class="loginBtns" id="btnSignInWithRedirectFB">Sign In</button>
+        <div id="loginModal" class="loginModal hidden">
+            <h3>Sign in through Facebook</h3>
+            <p>Facebook is our most popular login option. Other options are available if you choose.</p>
+            <button class="loginBtns" id="btnSignInWithRedirectFB">Sign In</button>
+        </div>
     </div>
-  </div>
 
-  <div id="createBetCover" class="createBetCover"></div>
-  <div id="closeMenuCover" class="closeMenuCover hidden"></div>
+    <div id="createBetCover" class="createBetCover"></div>
+    <div id="closeMenuCover" class="closeMenuCover hidden"></div>
 
-  <div id="contentWrapper" class="contentWrapper hidden">
-    <nav>
-      <button id="openMenu">&#9776;</button>
-      <button id="closeMenu">×</button>
-      <div id="menu">
-        <a href="index.html"><i class="fas fa-dollar-sign"></i> BETS</a>
-        <div></div>
-        <a id="menuCreateBet" href="#"><i class="fas fa-plus-circle"></i> CREATE BET</a>
-        <div></div>
-        <a id="menuProfileAndSettings" href="#"><i class="fas fa-cogs"></i> SETTINGS & STATISTICS</a>
-        <div></div>
-        <a id="btnSignOut" href="#"><i class="fas fa-sign-out-alt"></i> LOGOUT</a>
-      </div>
-    </nav>
+    <div id="contentWrapper" class="contentWrapper hidden">
 
-    <div class="userArea">
-        <div class="profile">
-            <div class="avatarWrapper">
-                <img id="avatar" class="avatar displayImage" alt="Avatar" src="avatar.png"/>
-            </div>
-            <div class="userInfo">
-                <div class="userWrapper">
-                    <p id="user" class="user text-dark">Welcome, <span id="username" class="text-light name"></span></p>
+        <div class="topbar">
+            <nav>
+                <div class="mobileMenu">
+                    <button id="openMenu">&#9776;</button>
+                    <button id="closeMenu">×</button>
+                    <div id="menu">
+                        <a class="menuCreateBet" href="#"><i class="fas fa-plus-circle"></i> CREATE BET</a>
+                        <div></div>
+                        <a class="menuStatistics" href="#"><i class="far fa-chart-bar"></i> MY STATISTICS</a>
+                        <div></div>
+                        <a class="btnSignOut" href="#"><i class="fas fa-sign-out-alt"></i> LOGOUT</a>
+                    </div>
                 </div>
-                <div class="relative-wrapper coin-wrapper">
-                    <p id="coins" class="acme text-light coins"></p>
-                    <img class="coin" src="images/coin.svg" alt="Coin Count"/>
+
+                <div class="menu">
+                    <ul>
+                        <li><a class="menuCreateBet" href="#"><i class="fas fa-plus-circle"></i> CREATE BET</a></li>
+                        <li><a class="menuStatistics" href="#"><i class="far fa-chart-bar"></i> MY STATISTICS</a></li>
+                        <li><a class="btnSignOut" href="#"><i class="fas fa-sign-out-alt"></i> LOGOUT</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="userArea">
+                <div class="profile">
+                    <div class="avatarWrapper">
+                        <img id="avatar" class="avatar displayImage" alt="Avatar" src="avatar.png"/>
+                    </div>
+                    <div class="userInfo">
+                        <div class="userWrapper">
+                            <p id="user" class="user text-dark">Welcome, <span id="username" class="text-light name"></span></p>
+                        </div>
+                        <div class="relative-wrapper coin-wrapper">
+                            <p id="coins" class="acme text-light coins"></p>
+                            <img class="coin" src="images/coin.svg" alt="Coin Count"/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div id="createBet" class="createBet">
+            <div class="createBetHeader">
+            <h2>Create a Bet</h2>
+            <button id="closeBet">×</button>
+            </div>
+            <form class="createBetForm">
+            <div class="formColumn">
+                <label for="title">Give your bet a short title</label><br>
+                <input class="createBetInput" id="title" required maxlength="25" type="text" placeholder="Ex. Election 2020"><br>
+
+                <label for="question" class="mainLabel">What is your bet question?</label><br>
+                <input class="createBetInput" id="question" required maxlength="50" type="text" placeholder="Ex. Who will win the Election in 2020?"><br>
+
+                <label for="betAmount" class="mainLabel">How many coins should players bet?</label><br>
+                <label for="betAmount" class="subLabel">Min 10, Max 50000</label>
+                <input class="createBetInput" id="betAmount" min="10" max="50000" type="number" placeholder="Ex. 50"><br>
+            </div>
+
+            <div class="formColumn">
+                <label for="endtime">When should the bet end?</label><br>
+                <input class="createBetInput" id="endtime" type="date" lang="en"><br>
+                <label for="lastBet" class="mainLabel">When should betting close?</label><br>
+                <input class="createBetInput" id="lastBet" type="date" lang="en"><br>
+            </div>
+
+            <div class="formColumn">
+                <label>What will the betting options be?</label><br>
+                <div id="inputOptionsDiv" class="inputOptionsDiv">
+                <p id="optionsError" class='hidden'>*You must add atleast 2 options.</p>
+                <input class="createBetInput inputOption" type="text" placeholder="Option">
+                <input class="createBetInput inputOption" type="text" placeholder="Option">
+                <button id="addOption" type="button" class="mdc-fab mdc-fab--mini material-icons addOption" aria-label="Favorite">
+                                <span class="mdc-fab__icon">add</span>
+                            </button>
+                </div>
+                <p id="errorBox" class="hidden">*You may only have a maximum of 20 options per bet.</p>
+            </div>
+            </form>
+            <div class="createBetBtn-wrapper">
+            <button onclick="createBet(event)" type="button" class="mdc-button createBetBtn">Create Bet</button>
+            </div>
+        </div>
+
+        <div class="bets">
+            <div class="betsHeader">
+                <button id="activeBetsBtn" class="size-24 text-light active">Active Bets <span id="activeBetsCounter" class="text-light">(0)</span></button>
+                <button id="createdBetsBtn" class="size-24 text-light">My Created Bets <span id="createdBetsCounter" class="text-light">(0)</span></button>
+                <button id="placedBetsBtn" class="size-24 text-light">My Placed Bets <span id="placedBetsCounter" class="text-light">(0)</span></button>
+            </div>
+            <div id="noResults" class='noResults hidden'>
+                <p class='size-14 text-light'>Sorry, we couldn't find any bets.</p>
+            </div>
+            <main class="grid"></main>
+        </div>
     </div>
-
-    <div id="createBet" class="createBet">
-      <div class="createBetHeader">
-        <h2>Create a Bet</h2>
-        <button id="closeBet">×</button>
-      </div>
-      <form class="createBetForm">
-        <div class="formColumn">
-          <label for="title">Give your bet a short title</label><br>
-          <input class="createBetInput" id="title" required maxlength="25" type="text" placeholder="Ex. Election 2020"><br>
-
-          <label for="question" class="mainLabel">What is your bet question?</label><br>
-          <input class="createBetInput" id="question" required maxlength="50" type="text" placeholder="Ex. Who will win the Election in 2020?"><br>
-
-          <label for="betAmount" class="mainLabel">How many coins should players bet?</label><br>
-          <label for="betAmount" class="subLabel">Min 10, Max 50000</label>
-          <input class="createBetInput" id="betAmount" min="10" max="50000" type="number" placeholder="Ex. 50"><br>
-        </div>
-
-        <div class="formColumn">
-          <label for="endtime">When is the bet end date?</label><br>
-          <input class="createBetInput" id="endtime" type="date" lang="en"><br>
-          <label for="lastBet" class="mainLabel">When can users no longer place a bet?</label><br>
-          <input class="createBetInput" id="lastBet" type="date" lang="en"><br>
-        </div>
-
-        <div class="formColumn">
-          <label>What will the betting options be?</label><br>
-          <div id="inputOptionsDiv" class="inputOptionsDiv">
-            <p id="optionsError" class='error hidden'>*You must add atleast 2 options.</p>
-            <input class="createBetInput inputOption" type="text" placeholder="Option">
-            <input class="createBetInput inputOption" type="text" placeholder="Option">
-            <button id="addOption" type="button" class="mdc-fab mdc-fab--mini material-icons addOption" aria-label="Favorite">
-                            <span class="mdc-fab__icon">add</span>
-                        </button>
-          </div>
-          <p id="errorBox" class="hidden">*You may only have a maximum of 20 options per bet.</p>
-        </div>
-      </form>
-      <div class="createBetBtn-wrapper">
-        <button onclick="createBet(event)" type="button" class="mdc-button createBetBtn">Create Bet</button>
-      </div>
-    </div>
-
-    <div class="bets">
-        <div class="betsHeader">
-            <button id="allBetsBtn" class="size-24 text-light active">All Bets <span id="allBetsCounter" class="text-light">(0)</span></button>
-            <button id="createdBetsBtn" class="size-24 text-light">My Created Bets</button>
-            <button id="placedBetsBtn" class="size-24 text-light">My Placed Bets</button>
-        </div>
-        <div id="noResults" class='noResults hidden'>
-            <p class='size-14 text-light'>Sorry, we couldn't find any bets.</p>
-        </div>
-        <main class="grid"></main>
-    </div>
-  </div>
 </body>
 
 </html>
