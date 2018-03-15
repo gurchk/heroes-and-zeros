@@ -187,19 +187,21 @@ class Bet {
 
         let deleteBet = document.createElement("button");
         if (this.creator.uid == user.uid && new Date(this.lastBetTime).getTime() > setTimeNow()) {
-            deleteBet.classList.add("mdc-button")
+            deleteBet.classList.add("mdc-button");
             deleteBet.innerText = "✖";
             let tempThis = this.id;
-            deleteBet.addEventListener("click", function () {
-                window.scrollTo(0, 0)
+            let that = this;
+
+            deleteBet.addEventListener("click", function() {
+                window.scrollTo(0, 0);
                 fadeIn(document.getElementsByClassName("removeBet")[0]);
                 fadeIn(createBetCover);
 
-                document.getElementById("yesRemoveBet").addEventListener("click", function () {
-                    this.removeBet(tempThis);
+                document.getElementById("yesRemoveBet").addEventListener("click", function() {
+                    that.removeBet(tempThis);
                 });
 
-                document.getElementById("noRemoveBet").addEventListener("click", function () {
+                document.getElementById("noRemoveBet").addEventListener("click", function() {
                     fadeOut(createBetCover);
                     fadeOut(document.getElementsByClassName("removeBet")[0]);
                 });
@@ -242,12 +244,10 @@ class Bet {
         topInfo.appendChild(betTitle);
         topInfo.appendChild(createdBy);
 
-
-
-
         if (this.creator.uid == user.uid && new Date(this.lastBetTime).getTime() > setTimeNow()) {
             betTop.appendChild(deleteBet);
         }
+
         betTop.appendChild(avatar);
         betTop.appendChild(topInfo);
         betTop.appendChild(endDate);
@@ -298,19 +298,15 @@ class Bet {
 
         let shareButton = document.createElement("button");
         shareButton.classList.add("mdc-button", "mdc-ripple-upgraded");
-        shareButton.innerHTML = `Share`;
+        shareButton.innerHTML = "Share <i class='fab fa-facebook-square'></i>";
 
-        let facebookIcon = document.createElement("i");
-        facebookIcon.classList.add("fa", "fa-facebok-square")
-        shareButton.appendChild(facebookIcon);
-
-        let tempThis = this.id;
+        let tempId = this.id;
         shareButton.addEventListener("click", () => {
             FB.ui({
                 method: 'share',
                 mobile_iframe: true,
-                href: `https://gurchk.github.io/heroes-and-zeros//?search=“${tempThis}”`,
-            }, function (response) {});
+                href: `https://gurchk.github.io/heroes-and-zeros//?search=“${tempId}”`,
+            }, function(response) {});
         });
 
         // If last bet time has ended, show betting is closed
@@ -458,7 +454,7 @@ class Bet {
         return container;
     }
     enableBetButton() {
-        let betButton = this.card.querySelectorAll("button")[1];
+        let betButton = this.card.querySelectorAll(".voteBtn")[0];
         betButton.innerText = "Place Bet";
 
         betButton.disabled = false;
@@ -470,7 +466,7 @@ class Bet {
         }
     }
     enableDecideWinnerButton() {
-        let betButton = this.card.querySelectorAll("button")[0];
+        let betButton = this.card.querySelectorAll(".voteBtn")[0];
         betButton.innerText = "Decide Winner";
         betButton.disabled = false;
         if (this.enableSelectWinnerButton != true) {
@@ -508,6 +504,9 @@ class Bet {
     changedChilds() {
         db.ref(`bets/${this.id}/numberOfBets`).on("value", snapshot => {
             let numberOfBets = snapshot.val();
+            if (numberOfBets !== this.numberOfBets) {
+                return null;
+            }
             let numberBets = this.card.querySelectorAll(".numBets")[0];
             numberBets.innerHTML = numberOfBets;
             submitIndicator(this.card.querySelectorAll(".numBets")[0]);
@@ -531,94 +530,76 @@ class Bet {
             let uid = user.get("uid");
             let betId = this.id;
 
-            db.ref(`bets/${betId}/placedBets`).once("value", snapshot => {
-                let placedBets = snapshot.val();
-                let userBet = false;
-                if (placedBets != null) {
-                    for (user in placedBets) {
-                        if (user === user.get("uid")) {
-                            userBet = true;
-                        }
+            if (this.userHasPlacedBet()) {
+                consle.log("User cant bet again");
+            } else {
+                let betButton = this.card.querySelectorAll('.voteBtn')[0];
+                betButton.innerText = "Bet Placed";
+                betButton.disabled = true;
+                // Puts on dynamic classes to indicate what changes
+                submitIndicator(this.card.querySelectorAll(".numBets")[0]);
+                for (let i in this.options) {
+                    if (document.getElementById(i).checked == true) {
+                        submitIndicator(document.getElementById(i).nextElementSibling);
                     }
                 }
-                if (userBet) {
-                    consle.log("User cant bet again");
-                } else {
-                    // Puts on dynamic classes to indicate what changes
-                    submitIndicator(this.card.querySelectorAll(".numBets")[0]);
-                    for (let i in this.options) {
-                        if (document.getElementById(i).checked == true) {
-                            submitIndicator(
-                                document.getElementById(i).nextElementSibling
-                            );
-                        }
-                    }
-                    //submitIndicator();
-                    // Update users total coins placed count
-                    user.incrementProperty("totalCoinsPlaced", this.betAmount);
+                //submitIndicator();
+                // Update users total coins placed count
+                user.incrementProperty("totalCoinsPlaced", this.betAmount);
 
-                    // Remove coins from user
-                    user.incrementProperty("coins", -this.betAmount);
+                // Remove coins from user
+                user.incrementProperty("coins", -this.betAmount);
 
-                    // Update user bet history
-                    db.ref(`users/${uid}/betHistory/${betId}`).set(pickedOption);
+                // Update user bet history
+                db.ref(`users/${uid}/betHistory/${betId}`).set(pickedOption);
 
-                    // Add bet in database
-                    db.ref(`bets/${this.id}/placedBets/${uid}`).set(pickedOption);
+                // Add bet in database
+                db.ref(`bets/${this.id}/placedBets/${uid}`).set(pickedOption);
 
-                    // Add the bet count to the bet
-                    db.ref(`bets/${this.id}/numberOfBets`).transaction(cur => {
-                        return cur + 1;
-                    });
+                // Add the bet count to the bet
+                db.ref(`bets/${this.id}/numberOfBets`).transaction(cur => {
+                    return cur + 1;
+                });
 
-                    // Add coins to the pot
-                    db.ref(`bets/${this.id}/pot`).transaction(cur => {
-                        return cur + this.betAmount;
-                    });
-                }
-            });
-
-            // TODO: After a user has placed a bet, disable the inputs on the bet and perhaps also update the info on the bet (number of bets for example)
-            // Same for after a user has decided the winner of a bet, disable the inputs on the bet.
-            // Also update the text on the button to say "Bet Placed".
+                // Add coins to the pot
+                db.ref(`bets/${this.id}/pot`).transaction(cur => {
+                    return cur + this.betAmount;
+                });
+            }
         }
+
+        // TODO: After a user has placed a bet, disable the inputs on the bet and perhaps also update the info on the bet (number of bets for example)
+        // Same for after a user has decided the winner of a bet, disable the inputs on the bet.
+        // Also update the text on the button to say "Bet Placed".
     }
     removeBet(id) {
 
         //fetch bet from DB again, if another user has placed bet since page loaded.
-
-        db.ref(`bets/${id}/`).once("value", function (snapshot) {
+        db.ref(`bets/${id}/`).once("value", function(snapshot) {
             let data = snapshot.val()
-
 
             //check if users has placed bets
             if (data.placedBets) {
-
                 //if they have refound the coins
                 for (let i in data.placedBets) {
-                    db.ref(`users/${i}/coins`).once("value", function (current) {
+                    db.ref(`users/${i}/coins`).once("value", function(current) {
                         let coins = current.val()
                         coins += data.betAmount;
 
-                        db.ref(`users/${i}/coins`).set(coins).then(() => {
-
-
-                        })
+                        db.ref(`users/${i}/coins`).set(coins);
                     });
                 }
                 //after coins removed delete the bet
-                db.ref(`bets/${id}`).remove(function () {
+                db.ref(`bets/${id}`).remove(function() {
                     fadeOut(createBetCover)
                     fadeOut(document.getElementsByClassName("removeBet")[0])
                 });
-
             } else {
-
-                db.ref(`bets/${id}`).remove(function () {
+                db.ref(`bets/${id}`).remove(function() {
                     fadeOut(createBetCover)
                     fadeOut(document.getElementsByClassName("removeBet")[0])
                 });
             }
-        })
+        });
     }
 }

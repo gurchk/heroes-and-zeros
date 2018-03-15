@@ -316,21 +316,6 @@ db.ref("bets/").on("child_changed", snapshot => {
                 }
             }
         }
-
-        let changed = document.querySelector("[data-id=" + key + "]");
-        if(changed) {
-            changed.parentNode.removeChild(changed);
-        }
-
-        if(document.getElementById("activeBetsBtn").classList.contains("active")) {
-            showBets(activeBets);
-        }
-        else if(document.getElementById("createdBetsBtn").classList.contains("active")) {
-            showBets(createdBets);
-        }
-        else {
-            showBets(placedBets);
-        }
     }
 });
 
