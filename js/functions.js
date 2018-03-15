@@ -37,7 +37,7 @@ function updateUI() {
     document.getElementById("openMenu").addEventListener("click", function() {
         openMenu();
     });
-    document.getElementById("closeMenu").addEventListener("click", function() {
+    document.getElementById("closeMenu").addEventListener("click", function () {
         closeMenu();
     });
 
@@ -63,18 +63,19 @@ function updateUI() {
     let createBet = document.getElementById("createBet");
     let closeBet = document.getElementById('closeBet');
 
-    closeBet.addEventListener("click", function() {
+    closeBet.addEventListener("click", function () {
         fadeOut(createBet);
         fadeOut(createBetCover);
     });
 
-    createBetCover.addEventListener("click", function() {
+    createBetCover.addEventListener("click", function () {
         fadeOut(createBet, "block");
+        fadeOut(document.getElementsByClassName("removeBet")[0], "block")
         fadeOut(createBetCover);
     });
 
     let closeMenuCover = document.getElementById("closeMenuCover");
-    closeMenuCover.addEventListener("click", function() {
+    closeMenuCover.addEventListener("click", function () {
         document.getElementById("closeMenu").style.zIndex = "-1";
         document.getElementById("closeMenu").style.display = "none";
         document.getElementById("openMenu").style.zIndex = "2001";
@@ -103,28 +104,28 @@ function updateUI() {
     }
 }
 
-function fadeOut(el){
+function fadeOut(el) {
     el.style.opacity = 1;
 
     (function fade() {
-    if ((el.style.opacity -= .1) < 0) {
-        el.style.display = "none";
-    } else {
-        requestAnimationFrame(fade);
-    }
+        if ((el.style.opacity -= .1) < 0) {
+            el.style.display = "none";
+        } else {
+            requestAnimationFrame(fade);
+        }
     })();
 }
 
-function fadeIn(el, display){
+function fadeIn(el, display) {
     el.style.opacity = 0;
     el.style.display = display || "block";
 
     (function fade() {
-    var val = parseFloat(el.style.opacity);
-    if (!((val += .1) > 1)) {
-        el.style.opacity = val;
-        requestAnimationFrame(fade);
-    }
+        var val = parseFloat(el.style.opacity);
+        if (!((val += .1) > 1)) {
+            el.style.opacity = val;
+            requestAnimationFrame(fade);
+        }
     })();
 }
 
@@ -134,6 +135,7 @@ window.addEventListener("load", () => {
     let placedBetsBtn = document.getElementById("placedBetsBtn");
 
     activeBetsBtn.addEventListener("click", () => {
+
         document.getElementById("noResults").classList.add("hidden");
         showBets(activeBets);
         activeBetsBtn.classList.add("active");
@@ -179,6 +181,7 @@ function showBets(betList) {
         betList.forEach( bet => {
             bet.createCard();
         });
+
     }
 }
 
@@ -332,7 +335,7 @@ db.ref("bets/").on("child_changed", snapshot => {
 });
 
 function distributeWinnings(id) {
-    db.ref("bets/" + id).once("value", function(snapshot) {
+    db.ref("bets/" + id).once("value", function (snapshot) {
         let bet = snapshot.val();
         let winners = [];
         let losers = [];
@@ -353,7 +356,7 @@ function distributeWinnings(id) {
             });
         });
 
-        let calcWinnings = bet.pot/winners.length;
+        let calcWinnings = bet.pot / winners.length;
 
         winners.forEach(winner => {
             db.ref(`users/${winner}/games`).transaction(cur => {
@@ -370,16 +373,16 @@ function distributeWinnings(id) {
             });
         });
     });
-  }
+}
 
 function loginFinished() {
     /* CreateBet Check for amount of options */
     let inputOptionsDiv = document.getElementById("inputOptionsDiv");
     let addOption = document.getElementById("addOption");
     // Add click on add more options
-    addOption.addEventListener("click", function() {
+    addOption.addEventListener("click", function () {
         // Check current amount of options
-        if(document.querySelectorAll(".inputOption").length < 20) {
+        if (document.querySelectorAll(".inputOption").length < 20) {
             let newOption = document.createElement("input");
             newOption.classList.add("createBetInput");
             newOption.classList.add("inputOption");
@@ -393,38 +396,38 @@ function loginFinished() {
     });
 }
 
-let calcTimeLeft = function(lastBetTime) {
-	let d = new Date();
-	let date;
-	date = d.getFullYear();
-	(d.getMonth() + 1) < 10 ? date += "-0" + (d.getMonth() + 1) : date += "-" + (d.getMonth() + 1);
-	d.getDate() < 10 ? date += "-0" + d.getDate() : date += "-" + d.getDate();
+let calcTimeLeft = function (lastBetTime) {
+    let d = new Date();
+    let date;
+    date = d.getFullYear();
+    (d.getMonth() + 1) < 10 ? date += "-0" + (d.getMonth() + 1) : date += "-" + (d.getMonth() + 1);
+    d.getDate() < 10 ? date += "-0" + d.getDate() : date += "-" + d.getDate();
 
     let timeLeft = (new Date(lastBetTime).getTime() / 1000) - (new Date(date).getTime() / 1000)
 
-	if (timeLeft < 259200) {
-		if (timeLeft < 172800) {
-			if (timeLeft < 86400) {
-				if (timeLeft <= 0) {
-					return "Betting Closed";
-				}
-				return "Betting closes in less than 1 day";
-			}
-			return "Betting closes in less than 2 days";
-		}
-		return "Betting closes in less than 3 days";
-	} else {
-		return "Betting closes at " + lastBetTime;
-	}
+    if (timeLeft < 259200) {
+        if (timeLeft < 172800) {
+            if (timeLeft < 86400) {
+                if (timeLeft <= 0) {
+                    return "Betting Closed";
+                }
+                return "Betting closes in less than 1 day";
+            }
+            return "Betting closes in less than 2 days";
+        }
+        return "Betting closes in less than 3 days";
+    } else {
+        return "Betting closes at " + lastBetTime;
+    }
 }
 
-let setTimeNow = function() {
-	let timeNow;
-	db.ref(`users/${user.get("uid")}/currentTime`).set(firebase.database.ServerValue.TIMESTAMP);
-	db.ref(`users/${user.get("uid")}/currentTime`).once("value", function(snapshot) {
-		timeNow = snapshot.val();
-	});
-	return timeNow;
+let setTimeNow = function () {
+    let timeNow;
+    db.ref(`users/${user.get("uid")}/currentTime`).set(firebase.database.ServerValue.TIMESTAMP);
+    db.ref(`users/${user.get("uid")}/currentTime`).once("value", function (snapshot) {
+        timeNow = snapshot.val();
+    });
+    return timeNow;
 }
 
 function submitIndicator(element) {

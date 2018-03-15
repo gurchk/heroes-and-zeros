@@ -72,26 +72,26 @@
 }
 
 .grid {
-  position: relative;
-  display: grid;
-  width: 80%;
-  grid-gap: 37px;
-  margin: 0 auto;
-  grid-template-columns: repeat(4, 1fr);
-  margin-bottom: 5em;
+    position: relative;
+    display: grid;
+    width: 80%;
+    grid-gap: 37px;
+    margin: 0 auto;
+    grid-template-columns: repeat(4, 1fr);
+    margin-bottom: 5em;
 }
 
 /* Specific classes */
 
 .bet {
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
-  width: 344px;
-  justify-self: center;
-  display: inline-block;
-  border: 0;
-  background: white;
-  border-top: 10px solid;
-  border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+    width: 344px;
+    justify-self: center;
+    display: inline-block;
+    border: 0;
+    background: white;
+    border-top: 10px solid;
+    border-image: linear-gradient(45deg, #aedd94, #94ddb9) 1 round;
 }
 
 .alternative {
@@ -126,11 +126,11 @@ input[class=radioOption] {
 }
 
 input[class=radioOption]:checked ~ .alternative {
-  /*border-top: solid 2px #FF5D55;
+    /*border-top: solid 2px #FF5D55;
   border-bottom: solid 2px #FF5D55;*/
 
   /*box-shadow: 0px 0px 0px 2px rgb(154, 221, 177) inset;*/
-  border-left: 5px solid rgb(154, 221, 177) !important
+  border-left: 5px solid rgb(154, 221, 177) !important;
 }
 
 .bet-top {
@@ -153,12 +153,22 @@ input[class=radioOption]:checked ~ .alternative {
     left: 70px;
 }
 
+.bet-top > .mdc-button {
+    background: -webkit-linear-gradient(#eee, #333);
+    -webkit-background-clip: text;
+    font-size: 16px;
+    position: absolute;
+    right: 0px;
+    margin: 5px;
+}
+
 .bet-top > p {
     /* End date ... */
     position: absolute;
     bottom: 4px;
     right: 4px;
 }
+
 .bet-top > span {
     display: block;
     text-align: right;
@@ -211,12 +221,12 @@ input[class=radioOption]:checked ~ .alternative {
     left: 4px;
 }
 
-.bet-bottom>.inf>h1 {
-  /* Bet title */
-  position: relative;
-  max-width: 270px;
-  font-weight: 500;
-  overflow-wrap: break-word;
+.bet-bottom > .inf > h1 {
+    /* Bet title */
+    position: relative;
+    max-width: 270px;
+    font-weight: 500;
+    overflow-wrap: break-word;
 
 }
 
@@ -259,22 +269,22 @@ input[class=radioOption]:checked ~ .alternative {
 
 
 @media screen and (max-width: 1840px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 @media screen and (max-width: 1381px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media screen and (max-width: 904px) {
-  .grid {
-    width: 100%;
-    grid-template-columns: 1fr;
-  }
+    .grid {
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
 }
 
 /*Hej*/
