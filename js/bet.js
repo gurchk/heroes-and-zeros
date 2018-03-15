@@ -500,16 +500,12 @@ class Bet {
         }
     }
     showBet() {
-        //remove the hidden class
-        document
-            .querySelector("[data-id=" + this.id + "]")
-            .classList.remove("hidden");
+    	//remove the hidden class
+    	this.card.classList.remove("hidden");
     }
     hideBet() {
-        //add the hidden class
-        document
-            .querySelector("[data-id=" + this.id + "]")
-            .classList.add("hidden");
+    	//add the hidden class
+        this.card.classList.add("hidden");
     }
     shareBet() {
         // Integrate with Facebook API or another API to share the bet.

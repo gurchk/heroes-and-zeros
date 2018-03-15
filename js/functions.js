@@ -222,6 +222,11 @@ function fetchBetsFromDB() {
                     placedBets.push(bet);
                 }
             }
+
+            //if the search query string is not empty hide all cards
+            if (getParameterByName("search") != null) {
+                bet.hideBet();
+            }
         }
 
         document.getElementById("activeBetsCounter").innerText = "(" + activeBets.length + ")";
@@ -236,7 +241,9 @@ function fetchBetsFromDB() {
         //if url has ?search="query"
         if (searchQuery != null) {
             filterByQuery(searchQuery);
-        };
+        }
+
+        getNotifications();
 
         // Add ripple effect to buttons
         let btns = document.querySelectorAll('.mdc-button');
@@ -419,38 +426,12 @@ let setTimeNow = function() {
 	});
 	return timeNow;
 }
+
 function submitIndicator(element) {
     element.classList.add("tempIndicator");
     setTimeout(function (){
         element.classList.remove("tempIndicator");
     }, 1500)
-}
-// websiteadress/?search=value
-// Parse the URL parameter
-function getParameterByName(name, url) {
-	if (!url) {
-		url = window.location.href;
-	}
-	name = name.replace(/[\[\]]/g, "\\$&");
-	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-		results = regex.exec(url);
-	if (!results) return null;
-	if (!results[2]) return '';
-	return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-function filterByQuery(query) {
-	let unmatchedBets = [];
-	//loop through the bets and check which ones will not be displayed on page
-	for (let bet in bets) {
-		let obj = bets[bet];
-		//if not title, question, id, uid nor creators name matches query, push bet to unmathchedBets
-		if (obj.title != query && obj.question != query && obj.id != query && obj.creator.uid != query && obj.creator.name != query) {
-			unmatchedBets.push(obj);
-		};
-		//hide all the unmatched bets
-		unmatchedBets.forEach(bet => bet.hideBet());
-	}
 }
 
 function showStatistics(uid) {

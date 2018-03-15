@@ -348,6 +348,10 @@ a:hover {
   top: 3.5px;
 }
 
+#notifications {
+	padding-left: 3px;
+}
+
 #errorBox {
   color: #ff5d55;
   font-size: 13px;
