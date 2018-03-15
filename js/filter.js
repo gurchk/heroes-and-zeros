@@ -67,9 +67,16 @@ function getNotifications() {
 			notifArr.push(obj);
 		}
 	}
+	//create notification icon if notifications was found
 	if (notifArr.length > 0) {
 		let notifications = document.getElementById("notifications");
-		notifications.innerText = "(" + notifArr.length + ")";
+		let notifIcon = document.createElement("i");
+		notifications.innerHTML = "";
+		notifIcon.classList.add("material-icons");
+		notifIcon.style.color = "#FF5D55";
+		notifIcon.innerText = "notifications_active";
+		notifications.appendChild(notifIcon);
+		notifications.innerHTML += notifArr.length;
 		notifications.style.cursor = "pointer";
 		notifications.style.color = "#FF5D55";
 		notifications.addEventListener("click", () => {
