@@ -120,11 +120,6 @@
     z-index: 2;
 }
 
-/*funkar ej med labels då html strukturen är ändrad*/
-
-.alternative:nth-child(even) {
-    background-color: #d6d6d6;
-}
 
 input[class=radioOption] {
     display: none;
@@ -134,7 +129,8 @@ input[class=radioOption]:checked ~ .alternative {
   /*border-top: solid 2px #FF5D55;
   border-bottom: solid 2px #FF5D55;*/
 
-  box-shadow: 0px 0px 0px 2px rgb(154, 221, 177) inset;
+  /*box-shadow: 0px 0px 0px 2px rgb(154, 221, 177) inset;*/
+  border-left: 5px solid rgb(154, 221, 177) !important
 }
 
 .bet-top {
@@ -142,6 +138,12 @@ input[class=radioOption]:checked ~ .alternative {
     width: 100%;
     background-color: #f9f9f9;
     position: relative;
+}
+.tempIndicator {
+    background-color: rgb(154, 221, 177) !important;
+    box-shadow: 0 0 3px 2px rgb(154, 221, 177) !important;
+    border-radius: 4px !important;
+    transition: 0.5s !important;
 }
 
 .bet-top > .inf {
@@ -255,13 +257,7 @@ input[class=radioOption]:checked ~ .alternative {
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
-.evenOption {
-    background: #D6D6D6 !important;
-}
 
-.oddOption {
-    background: #EBEBEB !important;
-}
 
 @media screen and (max-width: 1840px) {
   .grid {
@@ -304,4 +300,12 @@ input[class=radioOption]:checked ~ .alternative {
 
 .bet-bottom .buts {
     padding-bottom: 5px;
+}
+
+.evenOption {
+    background: #D6D6D6;
+}
+
+.oddOption {
+    background: #EBEBEB;
 }

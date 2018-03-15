@@ -576,6 +576,14 @@ class Bet {
                 if (userBet) {
                     consle.log("User cant bet again");
                 } else {
+                    // Puts on dynamic classes to indicate what changes
+                    submitIndicator(this.card.querySelectorAll(".numBets")[0]);
+                    for (let i in this.options) {
+                        if (document.getElementById(i).checked == true) {
+                            submitIndicator(document.getElementById(i).nextElementSibling);
+                        }
+                    }
+                    //submitIndicator();
                     // Update users total coins placed count
                     user.incrementProperty("totalCoinsPlaced", this.betAmount);
 

@@ -345,7 +345,12 @@ let setTimeNow = function() {
 	});
 	return timeNow;
 }
-
+function submitIndicator(element) {
+    element.classList.add("tempIndicator");
+    setTimeout(function (){
+        element.classList.remove("tempIndicator");
+    }, 1500)
+}
 // websiteadress/?search=value
 // Parse the URL parameter
 function getParameterByName(name, url) {
