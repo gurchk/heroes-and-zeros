@@ -95,12 +95,12 @@ function createBet(event) {
     let d = new Date();
     let date;
     date = d.getFullYear();
-    d.getMonth() + 1 < 10 ?
-        (date += "-0" + (d.getMonth() + 1)) :
-        (date += "-" + (d.getMonth() + 1));
-    d.getDate() < 10 ?
-        (date += "-0" + d.getDate()) :
-        (date += "-" + d.getDate());
+    d.getMonth() + 1 < 10
+        ? (date += "-0" + (d.getMonth() + 1))
+        : (date += "-" + (d.getMonth() + 1));
+    d.getDate() < 10
+        ? (date += "-0" + d.getDate())
+        : (date += "-" + d.getDate());
 
     //CHECK THAT LAST BET TIME AND BET END TIME IS AFTER TODAYS DATE
     if (lastBetTime.value < date || endTime.value < date) {
@@ -142,38 +142,41 @@ function createBet(event) {
             numberOfOptions: optionCount
         };
 
-        db.ref("bets/").push(data).then(snap => {
-            let betKey = snap.key;
+        db
+            .ref("bets/")
+            .push(data)
+            .then(snap => {
+                let betKey = snap.key;
 
-            db.ref("bets/" + betKey).on("child_changed", snapshot => {
-                let data = snapshot.val();
-                if (Object.keys(data).length === optionCount) {
-                    db.ref("bets/" + betKey).once("value", snapshot => {
-                        let data = snapshot.val();
-                        let bet = new Bet(
-                            betKey,
-                            data.title,
-                            data.question,
-                            data.betAmount,
-                            data.endTime,
-                            data.lastBetTime,
-                            data.creator,
-                            data.numberOfBets,
-                            data.options,
-                            data.numberOfOptions,
-                            data.winningOption,
-                            data.pot
-                        );
-                        bet.createCard();
-                        bets[betKey] = bet;
-                    });
-                }
-            });
+                db.ref("bets/" + betKey).on("child_changed", snapshot => {
+                    let data = snapshot.val();
+                    if (Object.keys(data).length === optionCount) {
+                        db.ref("bets/" + betKey).once("value", snapshot => {
+                            let data = snapshot.val();
+                            let bet = new Bet(
+                                betKey,
+                                data.title,
+                                data.question,
+                                data.betAmount,
+                                data.endTime,
+                                data.lastBetTime,
+                                data.creator,
+                                data.numberOfBets,
+                                data.options,
+                                data.numberOfOptions,
+                                data.winningOption,
+                                data.pot
+                            );
+                            bet.createCard();
+                            bets[betKey] = bet;
+                        });
+                    }
+                });
 
-            optionValues.forEach(option => {
-                db.ref("bets/" + betKey + "/options/").push(option);
+                optionValues.forEach(option => {
+                    db.ref("bets/" + betKey + "/options/").push(option);
+                });
             });
-        });
 
         // Clear inputs on submit
         inputs.forEach(function(input) {
@@ -255,7 +258,8 @@ class Bet {
         endDate.innerText = "End date: " + this.endTime;
 
         // If there's no winning option and the bet has ended, add winner selection text
-        if (!this.winningOption &&
+        if (
+            !this.winningOption &&
             setTimeNow() > new Date(this.endTime).getTime()
         ) {
             endDate.innerText = "Awaiting winner selection";
@@ -329,7 +333,11 @@ class Bet {
             betButton.innerText = "Bet Locked In";
         }
 
-        if (user.get("uid") == this.creator.uid && setTimeNow() > new Date(this.endTime).getTime() && !this.winningOption) {
+        if (
+            user.get("uid") == this.creator.uid &&
+            setTimeNow() > new Date(this.endTime).getTime() &&
+            !this.winningOption
+        ) {
             betButton.innerHTML = "Decide Winner";
         }
 
@@ -377,8 +385,8 @@ class Bet {
         };
         obj.step = () => {
             (now = Math.max(0, ms - (new Date().getTime() - startTime))),
-            (m = Math.floor(now / 60000)),
-            (s = Math.floor(now / 1000) % 60);
+                (m = Math.floor(now / 60000)),
+                (s = Math.floor(now / 1000) % 60);
             s = (s < 10 ? "0" : "") + s;
             if (now === 0) {
                 clearInterval(timer);
@@ -397,8 +405,8 @@ class Bet {
                 pickedOption = i;
             }
         }
-        db.ref('bets/' + this.id + "/winningOption/").set(pickedOption);
-        db.ref('bets/' + this.id + '/active/').set(false);
+        db.ref("bets/" + this.id + "/winningOption/").set(pickedOption);
+        db.ref("bets/" + this.id + "/active/").set(false);
 
         distributeWinnings(this.id);
     }
@@ -516,11 +524,15 @@ class Bet {
     }
     showBet() {
         //remove the hidden class
-        document.querySelector("[data-id=" + this.id + "]").classList.remove("hidden");
+        document
+            .querySelector("[data-id=" + this.id + "]")
+            .classList.remove("hidden");
     }
     hideBet() {
         //add the hidden class
-        document.querySelector("[data-id=" + this.id + "]").classList.add("hidden");
+        document
+            .querySelector("[data-id=" + this.id + "]")
+            .classList.add("hidden");
     }
     shareBet() {
         // Integrate with Facebook API or another API to share the bet.
@@ -539,11 +551,11 @@ class Bet {
         return userHasBet;
     }
     changedChilds() {
-        db.ref(`bets/${this.id}/numberOfBets`).on('value', snapshot => {
+        db.ref(`bets/${this.id}/numberOfBets`).on("value", snapshot => {
             let numberOfBets = snapshot.val();
-            let numberBets = this.card.querySelectorAll(".numBets")[0];
             numberBets.innerHTML = numberOfBets;
-        })
+            let numberBets = this.card.querySelectorAll(".numBets")[0];
+        });
     }
     placeBet() {
         let pickedOption;
@@ -551,6 +563,7 @@ class Bet {
         for (let i in this.options) {
             if (document.getElementById(i).checked == true) {
                 pickedOption = i;
+                submitIndicator(this.card.querySelectorAll(".numBets")[0]);
             }
         }
 
@@ -580,7 +593,9 @@ class Bet {
                     submitIndicator(this.card.querySelectorAll(".numBets")[0]);
                     for (let i in this.options) {
                         if (document.getElementById(i).checked == true) {
-                            submitIndicator(document.getElementById(i).nextElementSibling);
+                            submitIndicator(
+                                document.getElementById(i).nextElementSibling
+                            );
                         }
                     }
                     //submitIndicator();
@@ -591,11 +606,13 @@ class Bet {
                     user.incrementProperty("coins", -this.betAmount);
 
                     // Update user bet history
-                    db.ref(`users/${uid}/betHistory/${betId}`)
+                    db
+                        .ref(`users/${uid}/betHistory/${betId}`)
                         .set(pickedOption);
 
                     // Add bet in database
-                    db.ref(`bets/${this.id}/placedBets/${uid}`)
+                    db
+                        .ref(`bets/${this.id}/placedBets/${uid}`)
                         .set(pickedOption);
 
                     // Add the bet count to the bet
