@@ -738,7 +738,7 @@ nav svg path {
     top: 33px;
     right: 10%;
 }
- 
+
 .menu ul li {
     display: inline-block;
 }
@@ -746,7 +746,7 @@ nav svg path {
 .menu ul li a svg path {
     fill: #3b3b3b;
     transition: all 0.2s linear;
-} 
+}
 
 .menu a {
     letter-spacing: 1px;
