@@ -129,13 +129,13 @@ function fadeIn(el, display) {
     })();
 }
 
-function removeActiveClassFromBtns {
+function removeActiveClassFromBtns() {
 	document.getElementById("activeBetsBtn").classList.remove("active");
 	document.getElementById("createdBetsBtn").classList.remove("active");
  	document.getElementById("placedBetsBtn").classList.remove("active");
 }
 
-function hideNoResults {
+function hideNoResults() {
 	document.getElementById("noResults").classList.add("hidden");
 }
 
@@ -183,7 +183,6 @@ function showBets(betList) {
         betList.sort( (a,b) => {
             return new Date(a.lastBetTime).getTime() - new Date(b.lastBetTime).getTime();
         });
-		console.log(betList);
         betList.forEach( bet => {
             bet.createCard();
         });
