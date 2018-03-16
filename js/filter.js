@@ -25,8 +25,8 @@ function filterByQuery(query) {
 			matchedBets.push(obj);
 		};
 	};
-  	console.log(matchedBets);
-	showBets(matchedBets);
+  	showBets(matchedBets);
+	removeActiveClassFromBtns();
 };
 
 function getNotifications() {
