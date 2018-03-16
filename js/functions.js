@@ -129,34 +129,40 @@ function fadeIn(el, display) {
     })();
 }
 
+function removeActiveClassFromBtns {
+	document.getElementById("activeBetsBtn").classList.remove("active");
+	document.getElementById("createdBetsBtn").classList.remove("active");
+ 	document.getElementById("placedBetsBtn").classList.remove("active");
+}
+
+function hideNoResults {
+	document.getElementById("noResults").classList.add("hidden");
+}
+
 window.addEventListener("load", () => {
     let activeBetsBtn = document.getElementById("activeBetsBtn");
     let createdBetsBtn = document.getElementById("createdBetsBtn");
     let placedBetsBtn = document.getElementById("placedBetsBtn");
 
     activeBetsBtn.addEventListener("click", () => {
-
-        document.getElementById("noResults").classList.add("hidden");
+        hideNoResults();
+		removeActiveClassFromBtns();
         showBets(activeBets);
         activeBetsBtn.classList.add("active");
-        createdBetsBtn.classList.remove("active");
-        placedBetsBtn.classList.remove("active");
     });
 
     createdBetsBtn.addEventListener("click", () => {
-        document.getElementById("noResults").classList.add("hidden");
+		hideNoResults();
+		removeActiveClassFromBtns();
         showBets(createdBets);
         createdBetsBtn.classList.add("active");
-        placedBetsBtn.classList.remove("active");
-        activeBetsBtn.classList.remove("active");
     });
 
     placedBetsBtn.addEventListener("click", () => {
-        document.getElementById("noResults").classList.add("hidden");
+        hideNoResults();
+		removeActiveClassFromBtns();
         showBets(placedBets);
         placedBetsBtn.classList.add("active");
-        createdBetsBtn.classList.remove("active");
-        activeBetsBtn.classList.remove("active");
     });
 });
 
@@ -164,7 +170,7 @@ function showBets(betList) {
     document.getElementsByClassName("grid")[0].innerHTML = "";
 
     if(betList.length === 0) {
-        document.getElementById("noResults").classList.remove("hidden");
+        hideNoResults();
     }
     else {
         // Sort arrays by endTime so that the one ending the soonest appears first.
@@ -177,7 +183,7 @@ function showBets(betList) {
         betList.sort( (a,b) => {
             return new Date(a.lastBetTime).getTime() - new Date(b.lastBetTime).getTime();
         });
-
+		console.log(betList);
         betList.forEach( bet => {
             bet.createCard();
         });
@@ -225,11 +231,6 @@ function fetchBetsFromDB() {
                     placedBets.push(bet);
                 }
             }
-
-            //if the search query string is not empty hide all cards
-            if (getParameterByName("search") != null) {
-                bet.hideBet();
-            }
         }
 
         document.getElementById("activeBetsCounter").innerText = "(" + activeBets.length + ")";
@@ -239,12 +240,6 @@ function fetchBetsFromDB() {
         activeBetsBtn.classList.add("active");
         createdBetsBtn.classList.remove("active");
         placedBetsBtn.classList.remove("active");
-
-        let searchQuery = getParameterByName('search');
-        //if url has ?search="query"
-        if (searchQuery != null) {
-            filterByQuery(searchQuery);
-        }
 
         getNotifications();
 
@@ -257,8 +252,15 @@ function fetchBetsFromDB() {
         for (let i = 0, fab; fab = fabs[i]; i++) {
           mdc.ripple.MDCRipple.attachTo(fab);
         }
-
-        showBets(activeBets);
+	 	
+		//show active bets if searchQuery == null
+		let searchQuery = getParameterByName('search');
+        //if url has ?search="query"
+        if (searchQuery != null) {
+            filterByQuery(searchQuery);
+        } else {
+        	showBets(activeBets);
+		}
     });
 }
 

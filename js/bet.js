@@ -361,6 +361,7 @@ class Bet {
         db.ref("bets/" + this.id + "/active/").set(false);
 
         distributeWinnings(this.id);
+	  	getNotifications()
     }
     createOptionsIn(container) {
         let numberOfOptions = 1;
@@ -478,11 +479,13 @@ class Bet {
     }
     showBet() {
         //remove the hidden class
-        this.card.classList.remove("hidden");
+        document.querySelector("[data-id=" + this.id + "]").classList.remove("hidden");
     }
     hideBet() {
         //add the hidden class
-        this.card.classList.add("hidden");
+				console.log(this.id);
+				console.log(document.querySelector("[data-id=" + this.id + "]"));
+        document.querySelector("[data-id=" + this.id + "]").classList.add("hidden");
     }
     shareBet() {
         // Integrate with Facebook API or another API to share the bet.

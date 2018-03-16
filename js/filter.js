@@ -15,47 +15,18 @@ function getParameterByName(name, url) {
 //search all bets with query. Query does not have to be exact if searching for title, question, or name.
 function filterByQuery(query) {
 	let matchedBets = [];
+  	console.log(query);
 	//loop through the bet
 	for (let bet in bets) {
 		let obj = bets[bet];
-		//hide previous 
-		obj.hideBet();
-	  	let lowerCaseQuery = query.toLowerCase();
+		let lowerCaseQuery = query.toLowerCase();
 		//if title, question, id or creators name includes query, or if id or uid is equal to query, push bet to mathchedBets
 		if (obj.title.toLowerCase().includes(lowerCaseQuery) || obj.question.toLowerCase().includes(lowerCaseQuery) || obj.creator.name.toLowerCase().includes(lowerCaseQuery) || obj.id == query || obj.creator.uid == query) {
 			matchedBets.push(obj);
 		};
 	};
-	showBetsInArr(matchedBets);
-};
-
-//search for all bet id´s or uid´s in array
-function filterByArr(arr) {
-	let matchedBets = [];
-	//Loop through all bets
-	for (let bet in bets) {
-		let obj = bets[bet];
-		//hide all previous bets
-		obj.hideBet();
-		//loop through the array and check which bets will be displayed on page
-		arr.forEach(bet => {
-			//if id or uid is equal to bet, push bet to mathchedBets
-			if (bet.id == obj.id || bet.creator.uid == obj.creator.uid) {
-				matchedBets.push(bet);
-			};
-		}); 
-	};
-	showBetsInArr(matchedBets);
-};
-
-function showBetsInArr(arr) {
-	if (arr.length == 0) {
-		//show noResults
-		document.getElementById("noResults").classList.remove("hidden");
-	} else {
-		//show all the matched bets
-		arr.forEach(bet => bet.showBet());
-	}
+  	console.log(matchedBets);
+	showBets(matchedBets);
 };
 
 function getNotifications() {
@@ -67,9 +38,9 @@ function getNotifications() {
 			notifArr.push(obj);
 		}
 	}
-	//create notification icon if notifications was found
+  	let notifications = document.getElementById("notifications");
+	//create and display notifications with active icon if notifications was found
 	if (notifArr.length > 0) {
-		let notifications = document.getElementById("notifications");
 		let notifIcon = document.createElement("i");
 		notifications.innerHTML = "";
 		notifIcon.classList.add("material-icons");
@@ -80,7 +51,16 @@ function getNotifications() {
 		notifications.style.cursor = "pointer";
 		notifications.style.color = "#FF5D55";
 		notifications.addEventListener("click", () => {
-			filterByArr(notifArr);
+			showBets(notifArr);
+			hideNoResults();
+		  	removeActiveClassFromBtns();
 		});
+	  //else display inactive icon
+	} else {
+	  let notifIcon = document.createElement("i");
+	  notifications.innerHTML = "";
+	  notifIcon.classList.add("material-icons");
+	  notifIcon.innerText = "notifications";
+	  notifications.appendChild(notifIcon);
 	}
 };
