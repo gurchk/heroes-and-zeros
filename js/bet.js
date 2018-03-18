@@ -139,7 +139,6 @@ function createBet(event) {
         // Hide the create bet window
         fadeOut(document.getElementById("createBet"), "block");
         fadeOut(document.getElementById("createBetCover"));
-        fetchBetsFromDB();
     }
 }
 
@@ -181,6 +180,21 @@ class Bet {
         this.card = document.createElement("div");
         this.card.classList.add("bet");
         this.card.setAttribute("data-id", this.id);
+
+        // Normal bet, don't add class
+
+        // Placed bet, keep the green class
+        if(this.userHasPlacedBet) {
+            this.card.classList.add("placedBet");
+        }
+        // Won bet, add class with yellow/gold
+        if(this.winningOption == user.betHistory[this.id]) {
+            this.card.classList.add("wonBet");
+        }
+        // Lost bet, add class with red
+        if(user.betHistory[this.id] && this.winningOption.length > 0 && this.winningOption != user.betHistory[this.id]) {
+            this.card.classList.add("lostBet");
+        }
 
         let betTop = document.createElement("div");
         betTop.classList.add("bet-top");
@@ -576,7 +590,6 @@ class Bet {
         // Also update the text on the button to say "Bet Placed".
     }
     removeBet(id) {
-
         //fetch bet from DB again, if another user has placed bet since page loaded.
         db.ref(`bets/${id}/`).once("value", function(snapshot) {
             let data = snapshot.val()

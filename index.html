@@ -145,12 +145,15 @@
                     </div>
                     <div class="userInfo">
                         <div class="userWrapper">
-                            <p id="user" class="user text-dark">Welcome, <span id="username" class="text-light name"></span><span id="notifications" class="acme text-light"><i class="material-icons">notifications</i></span></p>
+                            <p id="user" class="user text-dark">Welcome, <span id="username" class="text-light name"></span></p>
                         </div>
                         <div class="relative-wrapper coin-wrapper">
                             <p id="coins" class="acme text-light coins"></p>
                             <img class="coin" src="images/coin.svg" alt="Coin Count"/>
                         </div>
+                    </div>
+                    <div class="notificationsWrapper">
+                        <p id="notifications" class="acme text-light"><i class="material-icons">notifications</i></p>
                     </div>
                 </div>
             </div>
@@ -204,11 +207,11 @@
                 <div class="createBetHeader">
                     <h3>Remove bet</h3>
                 </div>
-                <p>If you remove this bet it will become unavailable for all users. Users will be payed back the Hero Coins they have placed on this bet.</p>
-                <h4>Are you sure you want to remove it?</h4>
+                <p>Removing a bet is irreversible, all placed bets will be reimbursed.</p>
+                <h4>Are you sure you want to remove your bet?</h4>
                 <div>
-                    <button class="mdc-button" id="yesRemoveBet">yes</button>
-                    <button class="mdc-button" id="noRemoveBet">no</button>
+                    <button class="mdc-button removeBetBtn" id="yesRemoveBet">yes</button>
+                    <button class="mdc-button keepBetBtn" id="noRemoveBet">no</button>
                 </div>
             </div>
         </div>

@@ -284,7 +284,7 @@ db.ref("bets/").on("child_changed", snapshot => {
 
     bets[key] = bet;
 
-    if(data.active && Object.keys(data.options).length === data.numberOfOptions) {
+    if(data.active && Object.keys(data.options).length == data.numberOfOptions) {
         let index;
         // Find the bet in the array and replace it with the changed bet
         index = activeBets.findIndex( obj => {
@@ -295,6 +295,9 @@ db.ref("bets/").on("child_changed", snapshot => {
         if(index != -1) {
             activeBets[index] = bet;
         }
+        else {
+            activeBets.push(bet);
+        }
 
         if(data.creator.uid === user.get("uid")) {
             index = createdBets.findIndex( obj => {
@@ -303,6 +306,9 @@ db.ref("bets/").on("child_changed", snapshot => {
 
             if(index != -1) {
                 createdBets[index] = bet;
+            }
+            else {
+                createdBets.push(bet);
             }
         }
 
@@ -313,10 +319,16 @@ db.ref("bets/").on("child_changed", snapshot => {
                 });
 
                 if(index != -1) {
-                    placedBets[index] === bet;
+                    placedBets[index] = bet;
+                }
+                else {
+                    placedBets.push(bet);
                 }
             }
         }
+
+        removeActiveClassFromBtns();
+        showBets(activeBets);
     }
 });
 
@@ -420,7 +432,7 @@ function submitIndicator(element) {
     element.classList.add("tempIndicator");
     setTimeout(function (){
         element.classList.remove("tempIndicator");
-    }, 1500)
+    }, 1500);
 }
 
 function showStatistics(uid) {
