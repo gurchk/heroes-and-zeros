@@ -33,7 +33,7 @@
     position: relative;
 }
 
-.coin-wrapper > * {
+.coin-wrapper>* {
     padding: 0 2px;
     display: inline-block !important;
 }
@@ -45,8 +45,6 @@
     top: 12px;
 }
 
-
-
 .mdc-fab__icon {
     color: #3b3b3b;
     font-family: 'Material Icons' !important;
@@ -55,7 +53,6 @@
 .material-icons {
     color: #3b3b3b;
 }
-
 
 .mdc-button {
     text-transform: uppercase;
@@ -103,14 +100,14 @@
     cursor: pointer;
 }
 
-.alternative > span {
+.alternative>span {
     /* Alternative number */
     position: absolute;
     left: 13px;
     top: 13px;
 }
 
-.alternative > p {
+.alternative>p {
     top: 19px;
     left: 69px;
     width: 50%;
@@ -120,17 +117,15 @@
     z-index: 2;
 }
 
-
 input[class=radioOption] {
     display: none;
 }
 
-input[class=radioOption]:checked ~ .alternative {
+input[class=radioOption]:checked~.alternative {
     /*border-top: solid 2px #FF5D55;
   border-bottom: solid 2px #FF5D55;*/
-
-  /*box-shadow: 0px 0px 0px 2px rgb(154, 221, 177) inset;*/
-  border-left: 5px solid rgb(154, 221, 177) !important;
+    /*box-shadow: 0px 0px 0px 2px rgb(154, 221, 177) inset;*/
+    border-left: 5px solid rgb(154, 221, 177) !important;
 }
 
 .bet-top {
@@ -139,6 +134,7 @@ input[class=radioOption]:checked ~ .alternative {
     background-color: #f9f9f9;
     position: relative;
 }
+
 .tempIndicator {
     background-color: rgb(154, 221, 177) !important;
     box-shadow: 0 0 3px 2px rgb(154, 221, 177) !important;
@@ -146,14 +142,14 @@ input[class=radioOption]:checked ~ .alternative {
     transition: 0.5s !important;
 }
 
-.bet-top > .inf {
+.bet-top>.inf {
     /* Title and created by ... */
     position: absolute;
     top: 22px;
     left: 70px;
 }
 
-.bet-top > .mdc-button {
+.bet-top>.mdc-button {
     background: -webkit-linear-gradient(#eee, #333);
     -webkit-background-clip: text;
     font-size: 16px;
@@ -162,14 +158,14 @@ input[class=radioOption]:checked ~ .alternative {
     margin: 5px;
 }
 
-.bet-top > p {
+.bet-top>p {
     /* End date ... */
     position: absolute;
     bottom: 4px;
     right: 4px;
 }
 
-.bet-top > span {
+.bet-top>span {
     display: block;
     text-align: right;
     color: #FF5D55;
@@ -180,10 +176,12 @@ input[class=radioOption]:checked ~ .alternative {
     height: 220px;
     width: 100%;
     position: relative;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
-.bet-top > span {
+
+
+​ .bet-top>span {
     display: block;
     text-align: right;
     color: #FF5D55;
@@ -214,36 +212,35 @@ input[class=radioOption]:checked ~ .alternative {
     right: 0;
 }
 
-.bet-bottom > p {
+.bet-bottom>p {
     /* Betting closes in ... */
     position: absolute;
     bottom: 0px;
     left: 4px;
 }
 
-.bet-bottom > .inf > h1 {
+.bet-bottom>.inf>h1 {
     /* Bet title */
     position: relative;
     max-width: 270px;
     font-weight: 500;
     overflow-wrap: break-word;
-
 }
 
-.bet-bottom > .inf > div * {
+.bet-bottom>.inf>div * {
     /* Coin and icon */
     display: inline-block;
     padding: 0 2px;
 }
 
-.bet-bottom > .inf > div i {
+.bet-bottom>.inf>div i {
     /* HQ icon in bet */
     position: absolute;
     top: -1px;
     color: #ff5d55;
 }
 
-.bet-bottom > .buts {
+.bet-bottom>.buts {
     position: absolute;
     bottom: 12px;
     right: 4px;
@@ -266,8 +263,6 @@ input[class=radioOption]:checked ~ .alternative {
     box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
-
-
 @media screen and (max-width: 1840px) {
     .grid {
         grid-template-columns: repeat(3, 1fr);
@@ -289,7 +284,7 @@ input[class=radioOption]:checked ~ .alternative {
 
 /*Hej*/
 
-.bet-top > p {
+.bet-top>p {
     padding-right: 5px;
 }
 
@@ -302,7 +297,7 @@ input[class=radioOption]:checked ~ .alternative {
     padding-top: 5px;
 }
 
-.bet-bottom > p {
+.bet-bottom>p {
     padding-left: 5px;
     padding-bottom: 5px;
 }
