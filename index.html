@@ -145,7 +145,7 @@
                     </div>
                     <div class="userInfo">
                         <div class="userWrapper">
-                            <p id="user" class="user text-dark">Welcome, <span id="username" class="text-light name"></span></p>
+                            <p id="user" class="user text-dark"><span id="username" class="text-light name"></span></p>
                         </div>
                         <div class="relative-wrapper coin-wrapper">
                             <p id="coins" class="acme text-light coins"></p>
@@ -221,6 +221,24 @@
                 <button id="activeBetsBtn" class="size-24 text-light active">Active Bets <span id="activeBetsCounter" class="text-light">(0)</span></button>
                 <button id="createdBetsBtn" class="size-24 text-light">My Created Bets <span id="createdBetsCounter" class="text-light">(0)</span></button>
                 <button id="placedBetsBtn" class="size-24 text-light">My Placed Bets <span id="placedBetsCounter" class="text-light">(0)</span></button>
+            </div>
+            <div class="legend">
+                <div class="legendItem">
+                    <div class="legendColor legendDefault"></div>
+                    <p>Default color</p>
+                </div>
+                <div class="legendItem">
+                    <div class="legendColor legendWon"></div>
+                    <p>Won bet</p>
+                </div>
+                <div class="legendItem">
+                    <div class="legendColor legendLost"></div>
+                    <p>Lost bet</p>
+                </div>
+                <div class="legendItem">
+                    <div class="legendColor legendAwaitingWinner"></div>
+                    <p>Awaiting winner</p>
+                </div>
             </div>
             <div id="noResults" class='noResults hidden'>
                 <p class='size-14 text-light'>Sorry, we couldn't find any bets.</p>

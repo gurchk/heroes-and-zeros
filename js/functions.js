@@ -332,6 +332,38 @@ db.ref("bets/").on("child_changed", snapshot => {
     }
 });
 
+db.ref("bets/").on("child_removed", snapshot => {
+    let data = snapshot.val();
+    let key = snapshot.key;
+
+    let removedBet = document.querySelector("[data-id=" + key + "]");
+    removedBet.parentNode.removeChild(removedBet);
+    
+    for(let i = 0; i < activeBets.length; i++) {
+        if(activeBets[i] == bets[key]) {
+            console.log("Removing from Active Bets");
+            activeBets.splice(i, 1);
+        }
+    }
+    
+    for(let i = 0; i < createdBets.length; i++) {
+        if(createdBets[i] == bets[key]) {
+            console.log("Removing from Created Bets");
+            createdBets.splice(i, 1);
+        }
+    }
+
+    for(let i = 0; i < placedBets.length; i++) {
+        if(placedBets[i] == bets[key]) {
+            console.log("Removing from Placed Bets");
+            placedBets.splice(i, 1);
+        }
+    }
+
+    console.log("Removing bet from object");
+    bets[key] = undefined;
+});
+
 function distributeWinnings(id) {
     db.ref("bets/" + id).once("value", function (snapshot) {
         let bet = snapshot.val();

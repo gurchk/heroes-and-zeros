@@ -61,8 +61,12 @@ window.onload = function() {
             });
         } else {
             //User is signed out.
-            loginWrapper.classList.remove("hidden");
             contentWrapper.classList.add("hidden");
+
+            setTimeout(() => {
+                loginWrapper.classList.remove("hidden");
+            }, 500);
+
             showLoadingScreen();
         }
     });

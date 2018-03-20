@@ -559,7 +559,7 @@ body::-webkit-scrollbar {
 .betsHeader {
     width: 76%;
     margin-left: 12%;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
 .betsHeader button {
@@ -606,7 +606,6 @@ button:focus {
 .lostBet {
     border-image: linear-gradient(45deg, #ff3127, #dd9794) 1 round !IMPORTANT;
 }
-
 
 .winnerOption {
     /*border-left: 5px solid yellow !IMPORTANT;*/
@@ -814,4 +813,42 @@ nav svg path {
 
 .removeBetBtn {
     background: linear-gradient(45deg, #ff5555, #dda394);
+}
+
+.legend {
+    width: 76%;
+    margin-left: 12%;
+    margin-bottom: 1em;
+}
+
+.legendItem {
+    display: inline-block;
+    margin-top: 0.5em;
+    margin-right: 1.5em;
+}
+
+.legend > div > p {
+    display: inline;
+}
+
+.legendColor {
+    width: 100px;
+    height: 13px;
+    display: inline-block;
+}
+
+.legendWon {
+    background: linear-gradient(45deg, #ffe555, #f9ff9f);
+}
+
+.legendLost  {
+    background: linear-gradient(45deg, #ff3127, #dd9794);
+}
+
+.legendDefault {
+    background: linear-gradient(45deg, #aedd94, #94ddb9);
+}
+
+.legendAwaitingWinner {
+    background: linear-gradient(45deg, #5aa233, #44c484);
 }
