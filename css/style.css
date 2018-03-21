@@ -852,3 +852,17 @@ nav svg path {
 .legendAwaitingWinner {
     background: linear-gradient(45deg, #5aa233, #44c484);
 }
+
+@media screen and (max-width: 400px) {
+	.profile {
+   		margin-left: 0;
+	}
+  
+	.notificationsWrapper {
+		margin-left: 0;
+	}
+  
+  	.bet {
+		width: 100% !important;
+  	}
+}
