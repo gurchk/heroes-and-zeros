@@ -562,3 +562,12 @@ function createStatisticsWindow(user) {
     document.getElementById("contentWrapper").appendChild(cover);
     document.getElementById("contentWrapper").appendChild(modal);
 }
+
+let shortenURL = function (longURL) {
+    
+    //return "http://www.google.com"
+    fetch("https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyBz7UQUvmJ5-hOkFXS3GzVGsnSq8klzdag", {method: "POST", body: JSON.stringify({"longUrl": longURL})}).then(resp=>{
+        console.log(resp);
+        return resp.id;  
+    })
+}
