@@ -3,12 +3,15 @@ let startTime = Date.now();
 
 window.onload = function() {
     let facebookProvider = new firebase.auth.FacebookAuthProvider();
-
+	let googleProvider = new firebase.auth.GoogleAuthProvider();
     let btnSignInWithRedirectFB = document.getElementById("btnSignInWithRedirectFB");
+	let btnSignInWithRedirectGoogle = document.getElementById("btnSignInWithRedirectGoogle");
     let loginWrapper = document.getElementById("loginWrapper");
     let contentWrapper = document.getElementById("contentWrapper");
     let cover = document.getElementById("cover");
     let loginModal = document.getElementById("loginModal");
+	let loginHeader = document.getElementById("loginHeader");
+	let loginText = document.getElementById("loginText");
     let openModalBtn = document.getElementById("openModalBtn");
     let btnCastVote = document.getElementById("btnCastVote");
 
@@ -29,15 +32,16 @@ window.onload = function() {
                         wins: 0,
                         losses: 0,
                         totalCoinsPlaced: 0,
-                        totalCoinsWon: 0
+                        totalCoinsWon: 0,
+						betHistory: ""
                     });
 
                     // Create a new user object
-                    user = new User(authUser.uid, authUser.photoURL, authUser.email, authUser.displayName, 5000, 0, 0, 0, 0, 0);
+                    user = new User(authUser.uid, authUser.photoURL, authUser.email, authUser.displayName, 5000, 0, 0, 0, 0, 0, "");
                     user.subscribeToUpdates();
 
                    // Send message in our Slack channel
-                   let msg = "*" + user.displayName + " (uid: " + user.uid + ")* has just logged in for the first time!";
+                   let msg = "*" + authUser.displayName + " (uid: " + authUser.uid + ")* has just logged in for the first time!";
                    fetch("https://hooks.slack.com/services/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", { method: "POST", body: JSON.stringify({"text": msg}) });
 
                    //User is signed in. Hide login page and show the rest of the page.
@@ -71,19 +75,30 @@ window.onload = function() {
         }
     });
 
-    /*firebase.auth().getRedirectResult()
+    firebase.auth().getRedirectResult()
     .then(result => {
         if (result.credential) {
             console.log("Sign in success!");
         }
     }).catch(err => {
         console.log("Sign in failed, error: ", err.message);
-    });*/
+		if (err.code == "auth/account-exists-with-different-credential") {
+			cover.classList.toggle("hidden");
+        	loginModal.classList.toggle("hidden");
+			loginHeader.innerHTML = "Error";
+			loginHeader.style.color = "#ff5d55";
+			loginText.innerHTML = "Sorry, you can only sign in using the same authenthication provider you used when you registered."
+		}
+    });
 
     btnSignInWithRedirectFB.addEventListener("click", () => {
         firebase.auth().signInWithRedirect(facebookProvider);
     });
 
+	btnSignInWithRedirectGoogle.addEventListener("click", () => {
+        firebase.auth().signInWithRedirect(googleProvider);
+    });
+	
     //Sign out
     let signOutBtns = document.querySelectorAll(".btnSignOut");
     for(let i = 0; i < signOutBtns.length; i++) {
