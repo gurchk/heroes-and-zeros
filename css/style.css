@@ -509,6 +509,10 @@ a:hover {
     #menu {
         width: 100%;
     }
+    .loginModal {
+        left: 20%;
+        transform: translate(-12%, -50%);
+    }
 }
 
 #menu a {

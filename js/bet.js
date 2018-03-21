@@ -600,5 +600,4 @@ class Bet {
 			}
 		});
 	}
->>>>>>> Had to remove dynamic green colors
 }
