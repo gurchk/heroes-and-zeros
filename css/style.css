@@ -821,7 +821,6 @@ nav svg path {
 .removeBetBtn {
     background: linear-gradient(45deg, #ff5555, #dda394);
 }
-<<<<<<< HEAD
 
 .legend {
     width: 76%;
@@ -865,14 +864,12 @@ nav svg path {
 	.profile {
    		margin-left: 0;
 	}
-  
+
 	.notificationsWrapper {
 		margin-left: 0;
 	}
-  
+
   	.bet {
 		width: 100% !important;
   	}
 }
-=======
->>>>>>> New scrollbar and overflow fix
