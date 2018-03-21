@@ -318,3 +318,62 @@ input[class=radioOption]:checked ~ .alternative {
 .oddOption {
     background: #EBEBEB;
 }
+
+
+.shareWrapper {
+    transform: scaleX(0);
+    transition: transform .1s;
+}
+
+.shareWrapper > input{
+    position: absolute;
+    transform: scaleY(0);
+}
+
+.triangle {
+    position: absolute;
+    color: #99DDA7;
+    top: 35px;
+    left: 150px;
+    z-index: 2011;
+    font-size: 16px;
+    z-index: 2012;
+    transition-delay: .2s;
+    transition: top .5s;
+}
+
+
+
+.copyLink {
+    background: linear-gradient(45deg, #aedd94, #94ddb9);
+    position: absolute;
+    width: 100px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 2010;
+    left: 110px;
+    top: 40px;
+    border: none;
+    border-radius: 0px 7px 7px 0px;
+    font-family: "roboto", sans-serif;
+    box-shadow: 0px 2px 2px grey;
+    transition: opacity 1s;
+}
+
+.shareToFacebook {
+    background: linear-gradient(45deg, #94ddb9, #aedd94);
+    color: #fafafa;
+    position: absolute;
+    z-index: 2011;
+    border: none;
+    border-right: 2px solid #fafafa;
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
+    top: 40px;
+    left: 70px;
+    border-radius: 7px 0px 0px 7px;
+    box-shadow: 0px 2px 1px grey;
+    transition: opacity 1s;
+}

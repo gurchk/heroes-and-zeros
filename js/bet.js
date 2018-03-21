@@ -312,15 +312,67 @@ class Bet {
 
         let shareButton = document.createElement("button");
         shareButton.classList.add("mdc-button", "mdc-ripple-upgraded");
-        shareButton.innerHTML = "Share <i class='fab fa-facebook-square'></i>";
+        shareButton.innerText = "Share";
 
+        let shareWrapper = document.createElement("div");
+        shareWrapper.classList.add("shareWrapper");
+        
+        let triangle = document.createElement("p");
+        let shareToFacebook = document.createElement("button");
+        let copyLink = document.createElement("button");
+        
+        triangle.innerText = "▲"
+        shareToFacebook.innerHTML = "<i class='fab fa-facebook-square' style='white'></i>";
+        copyLink.innerText = "COPY LINK";
+        
+        triangle.classList.add("triangle")
+        shareToFacebook.classList.add("shareToFacebook");
+        copyLink.classList.add("copyLink");
+        
+        
         let tempId = this.id;
-        shareButton.addEventListener("click", () => {
-            FB.ui({
+        shareToFacebook.addEventListener("click", () => {
+                  FB.ui({
                 method: 'share',
                 mobile_iframe: true,
-                href: `https://gurchk.github.io/heroes-and-zeros//?search=“${tempId}”`,
+                href: `https://gurchk.github.io/heroes-and-zeros//?search=${tempId}`,
             }, function(response) {});
+            
+        });
+        
+        copyLink.addEventListener("click", () => {
+            
+            let url = shortenURL(`https://gurchk.github.io/heroes-and-zeros//?search=“${tempId}”`);
+            
+            let textLink = document.createElement("input");
+            textLink.value = url;
+            shareWrapper.appendChild(textLink);        
+            textLink.select();
+            document.execCommand('copy');
+            
+            copyLink.innerText = "COPIED";
+            
+            window.setTimeout(function(){
+                
+                    shareWrapper.style.transform = "scaleX(0)";
+                    triangle.style.top = "35px";
+                    copyLink.innerText = "COPY LINK";   
+            }, 1500)
+            
+        });
+        
+        
+        shareButton.addEventListener("click", () => {
+            window.setTimeout(function(){
+            
+                if(shareWrapper.style.transform == "scaleX(1)"){
+                    shareWrapper.style.transform = "scaleX(0)";
+                    triangle.style.top = "35px";
+                }else{
+                    shareWrapper.style.transform = "scaleX(1)";
+                    triangle.style.top = "25px";
+                }  
+            }, 50)
         });
 
         // If last bet time has ended, show betting is closed
@@ -349,9 +401,14 @@ class Bet {
         countWrapperTwo.appendChild(peopleImage);
         countWrapper.appendChild(countWrapperTwo);
         betBottom.appendChild(countWrapper);
-
+        
+        shareWrapper.appendChild(triangle);
+        shareWrapper.appendChild(shareToFacebook);
+        shareWrapper.appendChild(copyLink);
+        buttonWrapper.appendChild(shareWrapper);
         buttonWrapper.appendChild(betButton);
         buttonWrapper.appendChild(shareButton);
+      
         betBottom.appendChild(buttonWrapper);
         betBottom.appendChild(betCloseTime);
 
