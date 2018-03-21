@@ -251,7 +251,7 @@ function fetchBetsFromDB() {
         for (let i = 0, fab; fab = fabs[i]; i++) {
           mdc.ripple.MDCRipple.attachTo(fab);
         }
-	 	
+
 		//show active bets if searchQuery == null
 		let searchQuery = getParameterByName('search');
         //if url has ?search="query"
@@ -260,6 +260,7 @@ function fetchBetsFromDB() {
         } else {
         	showBets(activeBets);
 		}
+
     });
 }
 
