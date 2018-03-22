@@ -138,6 +138,7 @@ input[class=radioOption]:checked ~ .alternative {
     width: 100%;
     background-color: #f9f9f9;
     position: relative;
+	text-transform: capitalize;
 }
 .tempIndicator {
     background-color: rgb(154, 221, 177) !important;
