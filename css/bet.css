@@ -149,8 +149,9 @@ input[class=radioOption]:checked ~ .alternative {
 .bet-top > .inf {
     /* Title and created by ... */
     position: absolute;
-    top: 22px;
+    top: 32px;
     left: 70px;
+    font-weight: bold;
 }
 
 .bet-top > .mdc-button {

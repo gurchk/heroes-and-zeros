@@ -237,26 +237,7 @@ class Bet {
         betTitle.classList.add("size-14", "text-dark");
         betTitle.innerText = this.title;
 
-        let createdBy = document.createElement("p");
-        createdBy.classList.add("size-14", "text-light");
-        createdBy.innerText = "Created by: " + this.creator.name;
-        createdBy.style.cursor = "Pointer";
-        createdBy.addEventListener("click", () => {
-            showStatistics(this.creator.uid);
-        });
-
-        let endDate = document.createElement("p");
-        endDate.classList.add("size-14", "text-light");
-        endDate.innerText = "End date: " + this.endTime;
-
-        // If there's no winning option and the bet has ended, add winner selection text
-        if (!this.winningOption && setTimeNow() > new Date(this.endTime).getTime()) {
-            endDate.innerText = "Awaiting winner selection";
-            endDate.style.color = "#ff5d55";
-        }
-
         topInfo.appendChild(betTitle);
-        topInfo.appendChild(createdBy);
 
         if (this.creator.uid == user.uid && new Date(this.lastBetTime).getTime() > setTimeNow()) {
             betTop.appendChild(deleteBet);
@@ -264,7 +245,6 @@ class Bet {
 
         betTop.appendChild(avatar);
         betTop.appendChild(topInfo);
-        betTop.appendChild(endDate);
 
         let betMiddle = document.createElement("div");
         betMiddle.classList.add("bet-middle");
@@ -339,6 +319,15 @@ class Bet {
         let betCloseTime = document.createElement("p");
         betCloseTime.classList.add("size-14", "text-light");
         betCloseTime.innerText = calcTimeLeft(this.lastBetTime);
+
+        if(betCloseTime.innerText = "Betting Closed");
+        betCloseTime.innerText = "End date: " + this.endTime;
+
+        // If there's no winning option and the bet has ended, add winner selection text
+        if (!this.winningOption && setTimeNow() > new Date(this.endTime).getTime()) {
+            betCloseTime.innerText = "Awaiting winner selection";
+            betCloseTime.style.color = "#ff5d55";
+        }
 
         bottomInfo.appendChild(questionText);
         betAmountWrapper.appendChild(count);

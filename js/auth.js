@@ -29,11 +29,12 @@ window.onload = function() {
                         wins: 0,
                         losses: 0,
                         totalCoinsPlaced: 0,
-                        totalCoinsWon: 0
+                        totalCoinsWon: 0,
+                        betHistory: ""
                     });
 
                     // Create a new user object
-                    user = new User(authUser.uid, authUser.photoURL, authUser.email, authUser.displayName, 5000, 0, 0, 0, 0, 0);
+                    user = new User(authUser.uid, authUser.photoURL, authUser.email, authUser.displayName, 5000, 0, 0, 0, 0, 0, "");
                     user.subscribeToUpdates();
 
                    // Send message in our Slack channel
