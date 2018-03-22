@@ -340,29 +340,38 @@ class Bet {
             
         });
         
+        let url;
         copyLink.addEventListener("click", () => {
             
-            let url = shortenURL(`https://gurchk.github.io/heroes-and-zeros//?search=“${tempId}”`);
-            
-            let textLink = document.createElement("input");
-            textLink.value = url;
-            shareWrapper.appendChild(textLink);        
-            textLink.select();
-            document.execCommand('copy');
-            
-            copyLink.innerText = "COPIED";
-            
-            window.setTimeout(function(){
+            url.then(function(res){
                 
-                    shareWrapper.style.transform = "scaleX(0)";
-                    triangle.style.top = "35px";
-                    copyLink.innerText = "COPY LINK";   
-            }, 1500)
+                let textLink = document.createElement("input");
+                textLink.value = res;
+                shareWrapper.appendChild(textLink); 
+                
+                textLink.select();
+                document.execCommand("copy");
+
+                copyLink.innerText = "COPIED";
+
+                window.setTimeout(function(){
+                        
+                        shareWrapper.style.transform = "scaleX(0)";
+                        triangle.style.top = "35px";
+                        copyLink.innerText = "COPY LINK";   
+                }, 1500)
+
+            }).catch(error => {
+                console.log(error)
+            })
+            
             
         });
         
         
         shareButton.addEventListener("click", () => {
+            
+            url = shortenURL(`https://gurchk.github.io/heroes-and-zeros//?search=${tempId}`);
             window.setTimeout(function(){
             
                 if(shareWrapper.style.transform == "scaleX(1)"){

@@ -533,9 +533,15 @@ function createStatisticsWindow(user) {
 
 let shortenURL = function (longURL) {
     
-    //return "http://www.google.com"
-    fetch("https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyBz7UQUvmJ5-hOkFXS3GzVGsnSq8klzdag", {method: "POST", body: JSON.stringify({"longUrl": longURL})}).then(resp=>{
-        console.log(resp);
-        return resp.id;  
-    })
+    
+   var apiUrl = `https://api-ssl.bitly.com/v3/shorten?access_token=75169101babb9e811d49d8ca94e03274382472b5&longUrl=${longURL}`;
+        return fetch(apiUrl)
+        .then(res => res.json())
+        .then(function(res){
+            let shortURL = res.data.url
+            return shortURL;
+        }).catch(error => {
+            console.log(error);
+        });
+    
 }
