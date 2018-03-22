@@ -33,6 +33,7 @@ function updateUI() {
     hideLoadingScreen();
 
     fetchBetsFromDB();
+	addDatePicker();
 
     document.getElementById("openMenu").addEventListener("click", function() {
         openMenu();
@@ -463,6 +464,15 @@ let setTimeNow = function () {
     });
     return timeNow;
 }
+
+function addDatePicker() {
+	$("#lastBet").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
+	$("#endtime").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
+};
 
 function submitIndicator(element) {
     element.classList.add("tempIndicator");

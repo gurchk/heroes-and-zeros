@@ -22,7 +22,11 @@
     <link href="node_modules/@material/button/dist/mdc.button.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
-
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
     <script src="js/functions.js"></script>
     <script src="js/bet.js"></script>
     <script src="js/auth.js"></script>
@@ -34,6 +38,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+	
 </head>
 
 <body>
@@ -179,10 +184,10 @@
             </div>
 
             <div class="formColumn">
+				<label for="lastBet" class="mainLabel">When should betting close?</label><br>
+                <input class="createBetInput" id="lastBet" lang="en"><br>
                 <label for="endtime">When should the bet end?</label><br>
-                <input class="createBetInput" id="endtime" type="date" lang="en"><br>
-                <label for="lastBet" class="mainLabel">When should betting close?</label><br>
-                <input class="createBetInput" id="lastBet" type="date" lang="en"><br>
+                <input class="createBetInput" id="endtime" lang="en"><br>
             </div>
 
             <div class="formColumn">
