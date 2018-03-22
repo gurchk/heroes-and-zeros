@@ -142,9 +142,7 @@ function createBet(event) {
 	}
 }
 
-class Bet { <<
-	<<
-	<< < HEAD
+class Bet {
 	constructor(
 		id,
 		title,
@@ -419,7 +417,7 @@ class Bet { <<
 
 		// Append the bet card to the grid.
 		this.grid.appendChild(this.card);
-		this.changedChilds();
+
 	}
 	decideWinner() {
 		let pickedOption;
@@ -576,17 +574,7 @@ class Bet { <<
 		});
 		return userHasBet;
 	}
-	changedChilds() {
-		db.ref(`bets/${this.id}/numberOfBets`).on("value", snapshot => {
-			let numberOfBets = snapshot.val();
-			if (numberOfBets !== this.numberOfBets) {
-				return null;
-			}
-			let numberBets = this.card.querySelectorAll(".numBets")[0];
-			numberBets.innerHTML = numberOfBets;
-			submitIndicator(this.card.querySelectorAll(".numBets")[0]);
-		});
-	}
+
 	placeBet() {
 		let pickedOption;
 
@@ -611,14 +599,7 @@ class Bet { <<
 				let betButton = this.card.querySelectorAll('.voteBtn')[0];
 				betButton.innerText = "Bet Placed";
 				betButton.disabled = true;
-				// Puts on dynamic classes to indicate what changes
-				submitIndicator(this.card.querySelectorAll(".numBets")[0]);
-				for (let i in this.options) {
-					if (document.getElementById(i).checked == true) {
-						submitIndicator(document.getElementById(i).nextElementSibling);
-					}
-				}
-				//submitIndicator();
+
 				// Update users total coins placed count
 				user.incrementProperty("totalCoinsPlaced", this.betAmount);
 
