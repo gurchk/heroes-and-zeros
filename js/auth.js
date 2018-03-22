@@ -33,7 +33,7 @@ window.onload = function() {
                         losses: 0,
                         totalCoinsPlaced: 0,
                         totalCoinsWon: 0,
-						betHistory: ""
+                        betHistory: ""
                     });
 
                     // Create a new user object
