@@ -327,6 +327,10 @@ db.ref("bets/").on("child_changed", snapshot => {
             }
         }
 
+        document.getElementById("activeBetsCounter").innerText = "(" + activeBets.length + ")";
+        document.getElementById("createdBetsCounter").innerText = "(" + createdBets.length + ")";
+        document.getElementById("placedBetsCounter").innerText = "(" + placedBets.length + ")";
+
         removeActiveClassFromBtns();
         showBets(activeBets);
     }
