@@ -381,8 +381,9 @@ class Bet {
         betCloseTime.classList.add("size-14", "text-light");
         betCloseTime.innerText = calcTimeLeft(this.lastBetTime);
 
-        if(betCloseTime.innerText = "Betting Closed");
-        betCloseTime.innerText = "End date: " + this.endTime;
+        if(betCloseTime.innerText === "Betting Closed") {
+            betCloseTime.innerText = "End date: " + this.endTime;
+        }
 
         // If there's no winning option and the bet has ended, add winner selection text
         if (!this.winningOption && setTimeNow() > new Date(this.endTime).getTime()) {
