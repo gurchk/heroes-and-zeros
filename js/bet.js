@@ -491,14 +491,19 @@ class Bet {
 			if (this.userHasPlacedBet() || setTimeNow() > new Date(this.lastBetTime).getTime()) {
 				// If the user is the bet creator and the bet has ended AND the bet has no winning option set. Enable decide Winner button.
 				if (
-					user.get("uid") == this.creator.uid &&
 					setTimeNow() > new Date(this.endTime) &&
 					!this.winningOption
 				) {
+					if(user.get("uid") == this.creator.uid) {
+						input.addEventListener("click", () => {
+							this.enableDecideWinnerButton();
+						});
+					}
+					else {
+						input.disabled = true;
+					}
 					this.card.classList.add("awaitingWinningOption");
-					input.addEventListener("click", () => {
-						this.enableDecideWinnerButton();
-					});
+					
 				}
 				// If the user has placed a bet or the bet time has ended and the user is not the creator, disable the input buttons.
 				else {
